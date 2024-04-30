@@ -4,6 +4,15 @@ author: MK Lau
 ---
 
 
+<!-- Rendering rmarkdown Notebook -->
+```{r setup, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
+
+rmarkdown::render("hi-csa-db.Rmd", 
+                  output_format = c("html_document", "pdf_document"))
+
+ ```
+
+
 # Context
 
 The City and County of Honolulu's Office of Climate Resilience has
@@ -17,30 +26,97 @@ deliverable to HC&C.
 
 # Ingest
 
-```{r setup, echo = FALSE}
+```{r deps, echo = FALSE}
 
 library(pacman)
 p_load(RColorBrewer, ggplot2, Rcrawler, knitr, googlesheets4, dplyr)
+
+db_merge <- function(x, y){
+    cn.x <- colnames(x)
+    cn.y <- colnames(y)
+    cn.xy <- cn.y[!(cn.y %in% cn.x)]
+    xy <- data.frame(array(dim = c(nrow(x), length(cn.xy))))
+    xy <- data.frame(x, xy)
+    colnames(xy) <- c(colnames(x), cn.xy)
+    xy <- xy[ ,order(colnames(xy))]
+    cn.yx <- cn.x[!(cn.x %in% cn.y)]
+    yx <- data.frame(array(dim = c(nrow(y), length(cn.yx))))
+    yx <- data.frame(y, yx)
+    colnames(yx) <- c(colnames(y), cn.yx)
+    yx <- yx[ ,order(colnames(yx))]
+    out <- rbind(xy, yx)
+    return(out)
+}
+
 
 ```
 
 ## Webcrawl 
 
 
-```{r crawl-nrcs, cahce = TRUE, eval = TRUE}
+```{r crawl-nrcs, cache = TRUE, eval = TRUE}
 
-if ("nrcs-usda-gov-030004.Rdata" %in% dir("./data/")){
-    load("data/nrcs-usda-gov-030004.Rdata")
-}else{
-    Rcrawler(Website = "https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/climate/climate-smart-mitigation-activities",
-             no_cores = 4, no_conn = 4, 
-             NetworkData = TRUE,
-             ExtractXpathPat = "//*/a/@href",
-             ManyPerPattern = TRUE, MaxDepth = 2, 
-             )
-}
+Rcrawler(Website = "https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/climate/climate-smart-mitigation-activities",
+         no_cores = 4, no_conn = 4, 
+         NetworkData = TRUE,
+         ExtractXpathPat = "//*/a/@href",
+         ManyPerPattern = TRUE, MaxDepth = 3, 
+         )
+nrc.wc <- INDEX
 
-nrc.url <- INDEX[INDEX[, "Level"] == 2, "Url"]
+```
+
+```{r crawl-attra, cache = TRUE, eval = TRUE}
+
+Rcrawler(Website = "https://attra.ncat.org/climate-solutions/",
+         no_cores = 4, no_conn = 4, 
+         NetworkData = TRUE,
+         ExtractXpathPat = "//*/a/@href",
+         ManyPerPattern = TRUE, MaxDepth = 2, 
+         )
+attra.wc <- INDEX
+
+```
+
+```{r crawl-nifa, eval = TRUE, echo = TRUE}
+
+Rcrawler(Website = "https://www.nifa.usda.gov/grants",
+         no_cores = 4, no_conn = 4, 
+         NetworkData = TRUE,
+         ExtractXpathPat = "//*/a/@href",
+         ManyPerPattern = TRUE, MaxDepth = 2, 
+         )
+nifa.wc <- INDEX
+
+```
+
+
+
+```{r crawl-ams, eval = TRUE, echo = TRUE}
+
+Rcrawler(Website = "https://www.ams.usda.gov/services/grants",
+         no_cores = 4, no_conn = 4, 
+         NetworkData = TRUE,
+         ExtractXpathPat = "//*/a/@href",
+         ManyPerPattern = TRUE, MaxDepth = 2, 
+         )
+ams.wc <- INDEX
+
+```
+
+
+## Other data to integrate
+
+- https://www.fsa.usda.gov/programs-and-services/farm-loan-programs/
+- https://www.fns.usda.gov/fm/grant-opportunities
+- https://www.rd.usda.gov/
+
+
+```{r nrcs-cw, eval = TRUE, echo = TRUE}
+
+
+nrc.wc[nrc.wc[, "Level"] == 2, "Url"]
+nrc.url <- 
 nrc.url <- nrc.url[grepl("natural-resource-concerns/", nrc.url)]
 nrc.cat <- strsplit(nrc.url, "natural-resource-concerns/")
 nrc.url <- nrc.url[lapply(nrc.cat, length) == 2]
@@ -59,9 +135,12 @@ nrc.tab <- cbind(do.call(rbind, nrc.cat), nrc.url)
 colnames(nrc.tab) <- c("Category", 
                        paste0("Sub-Category ", seq(1, ncol(nrc.tab)-2)),
                        "Resource")
-save(nrc.tab, file = "./data/nrc_tab.Rdata")
 
 ```
+
+
+
+
 
 ## Manual
 
@@ -122,39 +201,34 @@ colnames(nrc.tab)[colnames(nrc.tab) == "Sub-Category 1"] <- "Sub-Category"
 
 ```{r merge-dbs}
 
-db_merge <- function(x, y){
-    cn.x <- colnames(x)
-    cn.y <- colnames(y)
-    cn.xy <- cn.y[!(cn.y %in% cn.x)]
-    xy <- data.frame(array(dim = c(nrow(x), length(cn.xy))))
-    xy <- data.frame(x, xy)
-    colnames(xy) <- c(colnames(x), cn.xy)
-    xy <- xy[ ,order(colnames(xy))]
-    cn.yx <- cn.x[!(cn.x %in% cn.y)]
-    yx <- data.frame(array(dim = c(nrow(y), length(cn.yx))))
-    yx <- data.frame(y, yx)
-    colnames(yx) <- c(colnames(y), cn.yx)
-    yx <- yx[ ,order(colnames(yx))]
-    out <- rbind(xy, yx)
-    return(out)
-}
-
-db.csa <- db_merge(db.og, nrc.tab)
 
 ```
+
+```{r db-merge, eval = TRUE, echo = TRUE}
+
+hicsa.db <- db_merge(db.og, nrc.tab)
+
+```
+
 
 
 # Preview
 
-```{r csa-table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
-
-kable(nrc.tab)
-
-```
 
 ```{r mit-table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
 
-kable(csa.mit.tab)
+kable(head(hicsa.db))
+
+```
+
+
+
+# Saving Database
+
+
+```{r nrcs-save, eval = TRUE, echo = TRUE}
+
+saveRDS(hicsa.db, file = "./data/hi-csa-db.rds")
 
 ```
 
@@ -164,12 +238,3 @@ kable(csa.mit.tab)
 
 
 
-
-
-<!-- Rendering rmarkdown Notebook -->
-```{r render-notbook, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
-
-rmarkdown::render("hi-csa-db.Rmd", 
-                  output_format = c("html_document", "pdf_document"))
-
-```
