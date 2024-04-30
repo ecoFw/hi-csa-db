@@ -1,0 +1,175 @@
+---
+title: Literature Review - Climate Smart Ag Links to Ecosystem Services
+author: MK Lau
+---
+
+
+# Context
+
+The City and County of Honolulu's Office of Climate Resilience has
+contracted OACA to produce a Climate Smart Agriculture database
+intended to inform food system professionals and policy makers on the
+potential ecosystem service impacts of CSA activities. The consultant
+(MK Lau) has been sub-contracted by OACA to complete the deliverables
+listed below in partial fulfillment of the larger contracted
+deliverable to HC&C.
+
+
+# Ingest
+
+```{r setup, echo = FALSE}
+
+library(pacman)
+p_load(RColorBrewer, ggplot2, Rcrawler, knitr, googlesheets4, dplyr)
+
+```
+
+## Webcrawl 
+
+
+```{r crawl-nrcs, cahce = TRUE, eval = TRUE}
+
+if ("nrcs-usda-gov-030004.Rdata" %in% dir("./data/")){
+    load("data/nrcs-usda-gov-030004.Rdata")
+}else{
+    Rcrawler(Website = "https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/climate/climate-smart-mitigation-activities",
+             no_cores = 4, no_conn = 4, 
+             NetworkData = TRUE,
+             ExtractXpathPat = "//*/a/@href",
+             ManyPerPattern = TRUE, MaxDepth = 2, 
+             )
+}
+
+nrc.url <- INDEX[INDEX[, "Level"] == 2, "Url"]
+nrc.url <- nrc.url[grepl("natural-resource-concerns/", nrc.url)]
+nrc.cat <- strsplit(nrc.url, "natural-resource-concerns/")
+nrc.url <- nrc.url[lapply(nrc.cat, length) == 2]
+nrc.cat <- nrc.cat[lapply(nrc.cat, length) == 2]
+nrc.cat <- lapply(nrc.cat, function(x) x[2])
+nrc.cat <- lapply(nrc.cat, strsplit, split = "\\/")
+nrc.cat <- lapply(nrc.cat, unlist)
+
+for (i in seq_len(length(nrc.cat))){
+    if (length(nrc.cat[[i]]) < max(unlist(lapply(nrc.cat, length)))){
+        nrc.cat[[i]] <- c(nrc.cat[[i]], rep("", times = max(unlist(lapply(nrc.cat, length))) - length(nrc.cat[[i]])))
+    }else{}
+}
+
+nrc.tab <- cbind(do.call(rbind, nrc.cat), nrc.url)
+colnames(nrc.tab) <- c("Category", 
+                       paste0("Sub-Category ", seq(1, ncol(nrc.tab)-2)),
+                       "Resource")
+save(nrc.tab, file = "./data/nrc_tab.Rdata")
+
+```
+
+## Manual
+
+Data from [NRCS](https://www.nrcs.usda.gov/sites/default/files/2023-10/NRCS-CSAF-Mitigation-Activities-List.pdf)
+were extracted manually using [tabula](https://tabula.technology/ "tabula").
+
+```{r nrcs-pdf-tables, }
+
+csa.mit.tab <- read.csv("data/tabula-NRCS-CSAF-Mitigation-Activities.csv", header = FALSE)
+csa.mit.head <- csa.mit.tab[grepl("Mitigation Categories", csa.mit.tab[, 1]), ]
+csa.mit.head <- gsub("\\[.*?\\]", "", csa.mit.head)
+csa.mit.head <- gsub("  ", " ", csa.mit.head)
+colnames(csa.mit.tab) <- csa.mit.head
+csa.mit.tab <- apply(csa.mit.tab, 2, gsub, pattern = "\\[.*?\\]", replace = "")
+csa.mit.tab <- apply(csa.mit.tab, 2, gsub, pattern = "  ", replace = " ")
+
+## Removing narrative crosswalk
+csa.cwk <- csa.mit.tab[seq(grep("Waste Storage Structure", csa.mit.tab[, 2]), nrow(csa.mit.tab)), ]
+colnames(csa.cwk)[4] <- "Narrative"
+csa.mit.tab <-csa.mit.tab[-seq(grep("Waste Storage Structure", csa.mit.tab[, 2]), nrow(csa.mit.tab)), ]
+
+## Generate urls for codes
+get.codes <- function(x){
+    x <- paste0(x, collapse = " ")
+    x <- unlist(strsplit(x, split = " "))
+    x <- x[grep("E[0-9][0-9][0-9][a-z,A-Z]", x)]
+    return(x)
+}
+
+csa.mit.codes <- unlist(lapply(apply(csa.mit.tab, 1, get.codes), function(x) x[1]))
+csa.mit.tab[, "Code"] <- csa.mit.codes
+csa.mit.tab[!(grepl("E", csa.mit.tab[, "Code"])), "Code"] <- ""
+csa.mit.url <- paste0("https://www.nrcs.usda.gov/sites/default/files/2022-11/", 
+                      csa.mit.tab[, "Code"],
+                      "_July_2022.pdf")
+csa.mit.url <- gsub(" ", "-", csa.mit.url)
+csa.mit.url[csa.mit.tab[, "Code"] == ""] <- ""
+csa.mit.tab <- data.frame(csa.mit.tab, "URL" = csa.mit.url)
+
+```
+
+```{r old-db, eval = TRUE, echo = TRUE}
+
+db.og <- as.data.frame(read_sheet("https://docs.google.com/spreadsheets/d/1AMlsLPDnwt01eEsBLdRe1hvhNSa3ofndcWX0gJ9xbUo/", sheet = "Original"))
+db.jh <- as.data.frame(read_sheet("https://docs.google.com/spreadsheets/d/1AMlsLPDnwt01eEsBLdRe1hvhNSa3ofndcWX0gJ9xbUo/", sheet = "Jackson's Version"))
+
+db.mg <- db_merge(db.og, db.jh) %>% 
+    distinct
+
+colnames(db.og)[colnames(db.og) == "Resources (Links)"] <- "Resource"
+colnames(nrc.tab)[colnames(nrc.tab) == "Sub-Category 1"] <- "Sub-Category"
+
+```
+
+
+
+## Merge Data Streams
+
+```{r merge-dbs}
+
+db_merge <- function(x, y){
+    cn.x <- colnames(x)
+    cn.y <- colnames(y)
+    cn.xy <- cn.y[!(cn.y %in% cn.x)]
+    xy <- data.frame(array(dim = c(nrow(x), length(cn.xy))))
+    xy <- data.frame(x, xy)
+    colnames(xy) <- c(colnames(x), cn.xy)
+    xy <- xy[ ,order(colnames(xy))]
+    cn.yx <- cn.x[!(cn.x %in% cn.y)]
+    yx <- data.frame(array(dim = c(nrow(y), length(cn.yx))))
+    yx <- data.frame(y, yx)
+    colnames(yx) <- c(colnames(y), cn.yx)
+    yx <- yx[ ,order(colnames(yx))]
+    out <- rbind(xy, yx)
+    return(out)
+}
+
+db.csa <- db_merge(db.og, nrc.tab)
+
+```
+
+
+# Preview
+
+```{r csa-table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+
+kable(nrc.tab)
+
+```
+
+```{r mit-table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+
+kable(csa.mit.tab)
+
+```
+
+
+
+
+
+
+
+
+
+<!-- Rendering rmarkdown Notebook -->
+```{r render-notbook, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
+
+rmarkdown::render("hi-csa-db.Rmd", 
+                  output_format = c("html_document", "pdf_document"))
+
+```
