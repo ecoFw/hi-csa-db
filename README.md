@@ -36,5 +36,5 @@ deliverable to HC&C.
 
 # Information
 
-- Please submit feature requests and bugs to [[issues]]. 
+- Please submit feature requests and bugs to [issues](issues/ "issues")
 - For more information, contact Dr. Matthew Kekoa Lau [mklau3@hawaii.edu](mklau3@hawaii.edu "mklau3@hawaii.edu").
