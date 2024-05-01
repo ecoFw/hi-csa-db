@@ -12,7 +12,7 @@ library(tictoc)
 
 tic()
 rmarkdown::render("hi-csa-db.Rmd", 
-                  output_format = c("html_document"))
+                  output_format = c("html_document", "pdf_document"))
 toc()
 
 ```
