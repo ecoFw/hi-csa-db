@@ -1,0 +1,623 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	ProTracts Public Home Page
+</title><meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /><link href="CSS/ct_styles_v2.0.css" type="text/css" rel="Stylesheet" /><link href="CSS/NRCS.css" rel="Stylesheet" type="text/css" /><link href="CSS/PPHP.css" rel="Stylesheet" type="text/css" />
+    <script src="JavaScript/Cookie.js" language="javascript" type="text/javascript"></script>
+    <script src="JavaScript/Default.js" language="javascript" type="text/javascript"></script>
+    <script src="JavaScript/Utils.js" language="javascript" type="text/javascript"></script>
+</head>
+<body>
+    <div id="divGlass">
+        <div id="divModal">
+            <map id="mapWindowFrame" name="mapWindowFrame">
+                <area alt="area" id="areaClose" coords="2,6,22,26" href="javascript:hideMessage();" shape="rect" />
+            </map>
+            <table id="tblMessage" width="600" height="480" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td colspan="2">
+                        <img src="images/WindowFrameTopLeft.gif" alt="" width="8" height="30" /></td>
+                    <td>
+                        <img src="images/WindowFrameTopMiddle.gif" alt="" width="588" height="30" /></td>
+                    <td id="tdClose" colspan="2">
+                        <img border="0" src="images/WindowFrameTopRight.gif" alt="" usemap="#mapWindowFrame" width="29" height="30" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="images/WindowFrameLeft.gif" alt="" width="4" height="418" /></td>
+                    <td id="tdContent" width="592" height="396" colspan="3">
+                        <div id="divContent"></div>
+                    </td>
+                    <td>
+                        <img src="images/WindowFrameRight.gif" alt="" width="4" height="418" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="images/WindowFrameLeft.gif" alt="" width="4" height="50" /></td>
+                    <td id="tdButtons" colspan="3">
+                        <button id="btnShowHideAll" state="show" onclick="btnShowHideAll_onclick()">Show All</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="btnPrint" onclick="btnPrint_onclick()">Print</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button onclick="hideMessage();">Close</button></td>
+                    <td>
+                        <img src="images/WindowFrameRight.gif" alt="" width="4" height="50" /></td>
+                </tr>
+                <tr>
+                    <td>;
+                        <img src="images/WindowFrameBottomLeft.gif" alt="" width="4" height="4" /></td>
+                    <td>
+                        <img src="images/WindowFrameBottomMiddle.gif" alt="" width="4" height="4" /></td>
+                    <td>
+                        <img src="images/WindowFrameBottomMiddle.gif" alt="" width="588" height="4" /></td>
+                    <td>
+                        <img src="images/WindowFrameBottomMiddle.gif" alt="" width="25" height="4" /></td>
+                    <td>
+                        <img src="images/WindowFrameBottomRight.gif" alt="" width="4" height="4" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <form name="form1" method="post" action="./" id="form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTM0OTkzMDc3Mw9kFgICAw9kFgoCAw9kFggCAQ8PZA8QFgFmFgEWAh4OUGFyYW1ldGVyVmFsdWVkFgECA2RkAgMPD2QPEBYBZhYBFgIfAGQWAQIDZGQCBQ8WAh4LXyFJdGVtQ291bnQCBhYMZg9kFgpmDxUCJDVlMTFiMDk0LTE0NTEtNDRmZi1hNjc4LTYwYTllMzhkMWFkOSZDb25zZXJ2YXRpb24gUHJhY3RpY2UgUGh5c2ljYWwgRWZmZWN0c2QCAQ8VASQ1ZTExYjA5NC0xNDUxLTQ0ZmYtYTY3OC02MGE5ZTM4ZDFhZDlkAgIPFQEkNWUxMWIwOTQtMTQ1MS00NGZmLWE2NzgtNjBhOWUzOGQxYWQ5ZAIDDxUBJDVlMTFiMDk0LTE0NTEtNDRmZi1hNjc4LTYwYTllMzhkMWFkOWQCBA8VAiQ1ZTExYjA5NC0xNDUxLTQ0ZmYtYTY3OC02MGE5ZTM4ZDFhZDknaHR0cHM6Ly9jcHBlLnNjLmVnb3YudXNkYS5nb3YvY3BwZS5hc3B4ZAIBD2QWCmYPFQIkMjg2MGIzMDktMDliNi00Nzg4LWE0OTUtMzYzMmQ3Nzc0ZTAxHkVRSVAgUGF5bWVudCBMaW1pdGF0aW9uIExvb2t1cGQCAQ8VASQyODYwYjMwOS0wOWI2LTQ3ODgtYTQ5NS0zNjMyZDc3NzRlMDFkAgIPFQEkMjg2MGIzMDktMDliNi00Nzg4LWE0OTUtMzYzMmQ3Nzc0ZTAxZAIDDxUBJDI4NjBiMzA5LTA5YjYtNDc4OC1hNDk1LTM2MzJkNzc3NGUwMWQCBA8VAiQyODYwYjMwOS0wOWI2LTQ3ODgtYTQ5NS0zNjMyZDc3NzRlMDFJaHR0cHM6Ly9wcm90cmFjdHNmdW5kbWdyLnNjLmVnb3YudXNkYS5nb3YvRnVuZE1nci9FZGl0Q29udHJhY3RTcGxpdHMuYXNweGQCAg9kFgpmDxUCJGY3M2I3YzJmLTYwZjQtNDEyYi1hNTdjLTgyZGY4NDdjNTRjNx1QcmFjdGljZSBBdmVyYWdlIEFubnVhbCBDb3N0c2QCAQ8VASRmNzNiN2MyZi02MGY0LTQxMmItYTU3Yy04MmRmODQ3YzU0YzdkAgIPFQEkZjczYjdjMmYtNjBmNC00MTJiLWE1N2MtODJkZjg0N2M1NGM3ZAIDDxUBJGY3M2I3YzJmLTYwZjQtNDEyYi1hNTdjLTgyZGY4NDdjNTRjN2QCBA8VAiRmNzNiN2MyZi02MGY0LTQxMmItYTU3Yy04MmRmODQ3YzU0Yzc7aHR0cHM6Ly9wcmFjYXZnY29zdC5zYy5lZ292LnVzZGEuZ292L1ByYWNBdmdDb3N0c1ZpZXcuYXNweC9kAgMPZBYKZg8VAiQxZTM3NzA2YS0xNTIwLTRlNzQtYTE3Ny0xMTgzOTE2NmUzNjgGU0NJTVMgZAIBDxUBJDFlMzc3MDZhLTE1MjAtNGU3NC1hMTc3LTExODM5MTY2ZTM2OGQCAg8VASQxZTM3NzA2YS0xNTIwLTRlNzQtYTE3Ny0xMTgzOTE2NmUzNjhkAgMPFQEkMWUzNzcwNmEtMTUyMC00ZTc0LWExNzctMTE4MzkxNjZlMzY4ZAIEDxUCJDFlMzc3MDZhLTE1MjAtNGU3NC1hMTc3LTExODM5MTY2ZTM2OEFodHRwczovL2ludHJhbmV0LWRvdG5ldC5mc2EudXNkYS5nb3YvU0NJTVNFYXV0aC9TY2ltc0VhdXRoLmFzcHggIGQCBA9kFgpmDxUCJGY4NWM0MDY0LTc4NjEtNDQyYS05ZTM4LWE4YWZmMjIyNmY5NgpTdWJzaWRpYXJ5ZAIBDxUBJGY4NWM0MDY0LTc4NjEtNDQyYS05ZTM4LWE4YWZmMjIyNmY5NmQCAg8VASRmODVjNDA2NC03ODYxLTQ0MmEtOWUzOC1hOGFmZjIyMjZmOTZkAgMPFQEkZjg1YzQwNjQtNzg2MS00NDJhLTllMzgtYThhZmYyMjI2Zjk2ZAIEDxUCJGY4NWM0MDY0LTc4NjEtNDQyYS05ZTM4LWE4YWZmMjIyNmY5NjtodHRwczovL2ludHJhbmV0LWFwcHMuZnNhLnVzZGEuZ292L1N1YnNpZGlhcnkvU3Vic2lkaWFyeS5kb2QCBQ9kFgpmDxUCJDI0NmVjYzdkLTU5YjktNDU3Ny04ZTJmLWNmMjMxOGFmZjljOAhTbWFyVGVjaGQCAQ8VASQyNDZlY2M3ZC01OWI5LTQ1NzctOGUyZi1jZjIzMThhZmY5YzhkAgIPFQEkMjQ2ZWNjN2QtNTliOS00NTc3LThlMmYtY2YyMzE4YWZmOWM4ZAIDDxUBJDI0NmVjYzdkLTU5YjktNDU3Ny04ZTJmLWNmMjMxOGFmZjljOGQCBA8VAiQyNDZlY2M3ZC01OWI5LTQ1NzctOGUyZi1jZjIzMThhZmY5YzghaHR0cDovL3NtYXJ0ZWNoLnNjLmVnb3YudXNkYS5nb3YvZAIHDxYCHwECAhYEZg9kFgpmDxUCJDU1ZWI0Mzk3LWZmNTAtNDJkZC1hNzJhLTU5ZjNhNjc1ZTRlZipOYXRpb25hbCBCdWxsZXRpbnMgYW5kIENpcmN1bGFycyBhbmQgRm9ybXNkAgEPFQEkNTVlYjQzOTctZmY1MC00MmRkLWE3MmEtNTlmM2E2NzVlNGVmZAICDxUBJDU1ZWI0Mzk3LWZmNTAtNDJkZC1hNzJhLTU5ZjNhNjc1ZTRlZmQCAw8VASQ1NWViNDM5Ny1mZjUwLTQyZGQtYTcyYS01OWYzYTY3NWU0ZWZkAgQPFQIkNTVlYjQzOTctZmY1MC00MmRkLWE3MmEtNTlmM2E2NzVlNGVmJDU1ZWI0Mzk3LWZmNTAtNDJkZC1hNzJhLTU5ZjNhNjc1ZTRlZmQCAQ9kFgpmDxUCJGFkMDI3ZTQ4LTNkNjgtNDNkNS04NjcyLThlYjMyMmIzOWQ5YQdNYW51YWxzZAIBDxUBJGFkMDI3ZTQ4LTNkNjgtNDNkNS04NjcyLThlYjMyMmIzOWQ5YWQCAg8VASRhZDAyN2U0OC0zZDY4LTQzZDUtODY3Mi04ZWIzMjJiMzlkOWFkAgMPFQEkYWQwMjdlNDgtM2Q2OC00M2Q1LTg2NzItOGViMzIyYjM5ZDlhZAIEDxUCJGFkMDI3ZTQ4LTNkNjgtNDNkNS04NjcyLThlYjMyMmIzOWQ5YSRhZDAyN2U0OC0zZDY4LTQzZDUtODY3Mi04ZWIzMjJiMzlkOWFkAgUPFgIeCWlubmVyaHRtbAUXTGFzdCBNb2RpZmllZDogNi82LzIwMjJkAgcPZBYEZg8PZA8QFgFmFgEWAh8AZBYBAgNkZAICDxYCHwECARYCZg9kFgICAQ8WAh8BAgYWDAIBD2QWAgIBDxYEHgRocmVmBTlodHRwczovL3Byb3RyYWN0cy5zYy5lZ292LnVzZGEuZ292L3Byb3RyYWN0cy9kZWZhdWx0LmFzcHgeBnRhcmdldAUGX2JsYW5rFgJmDxUBDVVzZSBQcm9UcmFjdHNkAgIPZBYCAgEPFgQfAwU/aHR0cHM6Ly9wcm90cmFjdHNmdW5kbWdyLnNjLmVnb3YudXNkYS5nb3YvRnVuZE1nci9WaWV3RGF0YS5hc3B4HwQFBl9ibGFuaxYCZg8VARBVc2UgRnVuZCBNYW5hZ2VyZAIDD2QWAgIBDxYEHwMFLGh0dHBzOi8vZG1zLnNjLmVnb3YudXNkYS5nb3YvRE1TL1NwbGFzaC5hc3B4HwQFBl9ibGFuaxYCZg8VASBBY2Nlc3MgRG9jdW1lbnQgTWFuYWdlbWVudCAoRE1TKWQCBA9kFgICAQ8WBB8DBThodHRwczovL3Byb3RyYWluLnNjLmVnb3YudXNkYS5nb3YvcHJvdHJhY3RzL0RlZmF1bHQuYXNweB8EBQZfYmxhbmsWAmYPFQEbVXNlIFByb1RyYWN0cyBUcmFpbmluZyBTaXRlZAIFD2QWAgIBDxYCHwMFP2phdmFzY3JpcHQ6c2hvd01lc3NhZ2UoJzczN2JjNzgwLTBjMmUtNDcwNi1hMjUzLTVmMzg3YmU4MDhiYycpOxYCZg8VARlSZXF1ZXN0IGEgUHJvVHJhY3RzIExvZ2luZAIGD2QWAgIBDxYEHwMFIyBodHRwczovL2ZhdHJhY2tlci5zYy5lZ292LnVzZGEuZ292HwQFBl9ibGFuaxYCZg8VAQpGQSBUcmFja2VyZAIJD2QWBGYPD2QPEBYBZhYBFgIfAGQWAQIDZGQCAg8WAh8BAgEWAmYPZBYCAgEPFgIfAQIIFhACAQ9kFgICAQ8WAh8DBUBqYXZhc2NyaXB0OnNob3dJdGVtTGlzdCgnYzVjMjcxM2EtM2Q1NS00YjYwLThmYzEtYjMzODAyMzllMzMzJyk7FgJmDxUBHkRNUyAmIEZNSSBDaGFuZ2VzIHRvIFByb1RyYWN0c2QCAg9kFgICAQ8WAh8DBUBqYXZhc2NyaXB0OnNob3dJdGVtTGlzdCgnMGRhMTE0NzUtNjg3OS00MDUxLWE3Y2EtZGViNTJkZTdmNzk1Jyk7FgJmDxUBHVByb1RyYWN0cyAtIEZNTUkgSW5mb3JtYXRpb246ZAIDD2QWAgIBDxYCHwMFQGphdmFzY3JpcHQ6c2hvd0l0ZW1MaXN0KCc2ZGUwMjIwMi00YmViLTQyZDUtOGU1MC0wNzNjOTBhOThlYmQnKTsWAmYPFQEnUHJvVHJhY3RzICYgUHJvZ3JhbXMgVHJhaW5pbmcgTWF0ZXJpYWxzZAIED2QWAgIBDxYCHwMFQGphdmFzY3JpcHQ6c2hvd0l0ZW1MaXN0KCc2Njc4MmVkMi0yYmQxLTRlYzctYmQyMy1kNjY1ZmIxMzZhYjEnKTsWAmYPFQE6VXBkYXRlZCA4LzIxOiAgUHJvVHJhY3RzIDIwMTQgRmFybSBCaWxsIFRyYWluaW5nIE1hdGVyaWFsc2QCBQ9kFgICAQ8WAh8DBUBqYXZhc2NyaXB0OnNob3dJdGVtTGlzdCgnZDBmNDUxOTItZTZlNy00ODc0LTlhMjgtMmMwNTI2N2E1ZjY4Jyk7FgJmDxUBF0VsaWdpYmlsaXR5IFJlZmVyZW5jZXMgZAIGD2QWAgIBDxYCHwMFQGphdmFzY3JpcHQ6c2hvd0l0ZW1MaXN0KCczMmRkZWRmMC00YWVlLTRkZjUtYjkyMy04MTExZGVhNWUwNjgnKTsWAmYPFQEXQUVSVCBUcmFpbmluZyBNYXRlcmlhbHNkAgcPZBYCAgEPFgIfAwVAamF2YXNjcmlwdDpzaG93SXRlbUxpc3QoJ2I4MzBhMzZhLWYzZjMtNDk2NS05YmM5LTI2MDZmMThhOWE1NicpOxYCZg8VAS5BcmNoaXZlIG9mIENTUCBDQUVUIGFuZCBDTVQgVHJhaW5pbmcgTWF0ZXJpYWxzZAIID2QWAgIBDxYCHwMFQGphdmFzY3JpcHQ6c2hvd0l0ZW1MaXN0KCczZGI5YzY4ZS1kY2M1LTRmNmMtYmNjYS1iYzhjNDE0MDAwZmUnKTsWAmYPFQErUHJvVHJhY3RzIDIwMTggRmFybSBCaWxsIFRyYWluaW5nIE1hdGVyaWFsc2QCCw9kFgRmDw9kDxAWAWYWARYCHwBkFgECA2RkAgIPFgIfAQIBFgJmD2QWAgIBDxYCHwECBBYIAgEPZBYCAgEPFgIfAwU/amF2YXNjcmlwdDpzaG93TWVzc2FnZSgnYzViZTZjYjEtNjgzZC00Mjg5LWIzYWMtN2Q5NWM2NWIxZmRmJyk7FgJmDxUBGUZNTUkgU3RhdHVzIDogTm92ZW1iZXIgMTdkAgIPZBYCAgEPFgIfAwU/amF2YXNjcmlwdDpzaG93TWVzc2FnZSgnNjhhMjA5YTctY2FiMS00ZmU1LTg0ZjItMDc1M2UzNzg4ODYyJyk7FgJmDxUBJFVwZGF0ZWQgOC8yNjogQ3VycmVudCBTdXBwb3J0IElzc3Vlc2QCAw9kFgICAQ8WAh8DBUBqYXZhc2NyaXB0OnNob3dJdGVtTGlzdCgnMTM4ZjJmNTEtNzBkOS00YmQ5LWFiMjEtZDM4MmRhYTQ1ZDdjJyk7FgJmDxUBDVJlbGVhc2UgTm90ZXNkAgQPZBYCAgEPFgIfAwU8amF2YXNjcmlwdDpzaG93RmlsZSgnZWRlMzlkNmUtZGMxOC00MGU0LTlkOGQtNTJkZTFmYTBkYjhjJyk7FgJmDxUBL1VwZGF0ZWQgOC8yMDEzOiBIZWxwRGVzayBTdXBwb3J0IExvZyBNYW5hZ2VtZW50ZGQhjLptaF0eG2PbM6n3SvMWyllnXfLNMKHscupEjqo+9Q==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=krbVwWoNSW47U4Wt7OS9s0AZJVd4ljftZO-X8ZreRX8q5utSpxq-GFPvgmrZ919o6zmcxQ8P8xUtTwU3SxM-Z3Db8ZMKDn657Pr-2f7KgC81&amp;t=638459644569584809" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=dKu-LJmS7ChXCzolSwPS5xJXmEGgYfiRERTKT9bm7lbZeJeWhRyRVwECr3P8LZSjEK6773yd6_hum9fssUNhbnGK_6vx9Y-2jq22wIuaFrVM5lCQy1V9_avX8NmMvfcEn1MPniEmtW6pBbPTGv7lF3WJMIXPS4saNzSUj0CDXUM1&amp;t=74258c30" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=6GZj7ZHgsvDguIaTLbsI_b44TBRjplhXPM4PehVr70bL7dWwi_hhbjLip7LtyXUPM_mZoiKbqYJFV110I4sXLEFyGn2Yg8Zu7sg6FroztPwYG-yWLE9CK2BLVOpb4Wkm15tB4jAtxRzD-uZY8Jm72NCUUtfY0i_ZuSDRFq8evqvDtfrdGUsr6kfgX6209TgF0&amp;t=74258c30" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+var PageMethods = function() {
+PageMethods.initializeBase(this);
+this._timeout = 0;
+this._userContext = null;
+this._succeeded = null;
+this._failed = null;
+}
+PageMethods.prototype = {
+_get_path:function() {
+ var p = this.get_path();
+ if (p) return p;
+ else return PageMethods._staticInstance.get_path();},
+GetItemText:function(itemID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetItemText',false,{itemID:itemID},succeededCallback,failedCallback,userContext); },
+getLastModifiedDate:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'getLastModifiedDate',false,{},succeededCallback,failedCallback,userContext); },
+GetItemHTML:function(itemID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetItemHTML',false,{itemID:itemID},succeededCallback,failedCallback,userContext); },
+getItemListByParentItemID:function(ItemID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'getItemListByParentItemID',false,{ItemID:ItemID},succeededCallback,failedCallback,userContext); },
+getItemListByUILocationID:function(UILocationID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'getItemListByUILocationID',false,{UILocationID:UILocationID},succeededCallback,failedCallback,userContext); },
+getContent:function(contentPageName,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'getContent',false,{contentPageName:contentPageName},succeededCallback,failedCallback,userContext); }}
+PageMethods.registerClass('PageMethods',Sys.Net.WebServiceProxy);
+PageMethods._staticInstance = new PageMethods();
+PageMethods.set_path = function(value) { PageMethods._staticInstance.set_path(value); }
+PageMethods.get_path = function() { return PageMethods._staticInstance.get_path(); }
+PageMethods.set_timeout = function(value) { PageMethods._staticInstance.set_timeout(value); }
+PageMethods.get_timeout = function() { return PageMethods._staticInstance.get_timeout(); }
+PageMethods.set_defaultUserContext = function(value) { PageMethods._staticInstance.set_defaultUserContext(value); }
+PageMethods.get_defaultUserContext = function() { return PageMethods._staticInstance.get_defaultUserContext(); }
+PageMethods.set_defaultSucceededCallback = function(value) { PageMethods._staticInstance.set_defaultSucceededCallback(value); }
+PageMethods.get_defaultSucceededCallback = function() { return PageMethods._staticInstance.get_defaultSucceededCallback(); }
+PageMethods.set_defaultFailedCallback = function(value) { PageMethods._staticInstance.set_defaultFailedCallback(value); }
+PageMethods.get_defaultFailedCallback = function() { return PageMethods._staticInstance.get_defaultFailedCallback(); }
+PageMethods.set_enableJsonp = function(value) { PageMethods._staticInstance.set_enableJsonp(value); }
+PageMethods.get_enableJsonp = function() { return PageMethods._staticInstance.get_enableJsonp(); }
+PageMethods.set_jsonpCallbackParameter = function(value) { PageMethods._staticInstance.set_jsonpCallbackParameter(value); }
+PageMethods.get_jsonpCallbackParameter = function() { return PageMethods._staticInstance.get_jsonpCallbackParameter(); }
+PageMethods.set_path("default.aspx");
+PageMethods.GetItemText= function(itemID,onSuccess,onFailed,userContext) {PageMethods._staticInstance.GetItemText(itemID,onSuccess,onFailed,userContext); }
+PageMethods.getLastModifiedDate= function(onSuccess,onFailed,userContext) {PageMethods._staticInstance.getLastModifiedDate(onSuccess,onFailed,userContext); }
+PageMethods.GetItemHTML= function(itemID,onSuccess,onFailed,userContext) {PageMethods._staticInstance.GetItemHTML(itemID,onSuccess,onFailed,userContext); }
+PageMethods.getItemListByParentItemID= function(ItemID,onSuccess,onFailed,userContext) {PageMethods._staticInstance.getItemListByParentItemID(ItemID,onSuccess,onFailed,userContext); }
+PageMethods.getItemListByUILocationID= function(UILocationID,onSuccess,onFailed,userContext) {PageMethods._staticInstance.getItemListByUILocationID(UILocationID,onSuccess,onFailed,userContext); }
+PageMethods.getContent= function(contentPageName,onSuccess,onFailed,userContext) {PageMethods._staticInstance.getContent(contentPageName,onSuccess,onFailed,userContext); }
+//]]>
+</script>
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334" />
+</div>
+        <table id="tblMain" width="764" border="0" cellpadding="0" cellspacing="0" align="center">
+            <tr id="trPageHeader" valign="bottom">
+                <td colspan="3">
+                    
+<map name=mapPageHeader>
+	<area id="areaUSDA" alt="USDA Home Page" coords="10,11,67,53" href="http://www.usda.gov" shape="rect" title="USDA Home Page" />
+	<area id="areaUSDANRCS" alt="USDA NRCS Home Page" coords="77,17,348,43" href="http://www.nrcs.usda.gov" shape="rect" title="USDA NRCS Home Page" />
+	<area id="areaProTracts" alt="USDA NRCS ProTracts Home Page" coords="515,11,763,77" href="http://www.nrcs.usda.gov" shape="rect" title="USDA NRCS ProTracts Home Page" />
+</map>
+<table id=tblPageHeader border="0" cellspacing="0" cellpadding="0" >
+	<tr>
+		<td colspan=10><img src="images/ProTractsMasthead.jpg" usemap="#mapPageHeader" /></td>
+	</tr>
+	<tr>
+		<td><img src="images/top_nav_left_spacer.gif" width=458 height=21 /></td>
+		<td><img src="images/spacer.gif" /></td>
+		<td>
+				<img id=imgHome 
+				 src="images/top_nav_home.gif"
+				 imgType=menuButton
+				 clicked=0
+				 content="Home"
+				 normalSrc='images/top_nav_home.gif'
+	 			 hoverSrc='images/top_nav_home_over.gif'
+	 			 onclick="img_onclick()"
+				 onmouseover="img_onmouseover()"
+				 onmouseout="img_onmouseout()" />
+			</td>
+		<td><img src="images/top_nav_spacer.gif" /></td>
+		<td>
+			<img id=imgAboutProTracts
+				 src="images/top_nav_about.gif"
+				 imgType=menuButton
+				 clicked=0
+				 content="AboutProTracts"
+				 normalSrc='images/top_nav_about.gif'
+	 			 hoverSrc='images/top_nav_about_over.gif'
+	 			 onclick="img_onclick()"
+				 onmouseover="img_onmouseover()"
+				 onmouseout="img_onmouseout()" />
+		</td>
+		<td><img src="images/top_nav_spacer.gif" /></td>
+		<td>
+				<img id=imgHelp
+				 src="images/top_nav_help.gif"
+				 imgType=menuButton
+				 clicked=0
+				 content="Help"
+				 normalSrc='images/top_nav_help.gif'
+	 			 hoverSrc='images/top_nav_help_over.gif'
+	 			 onclick="img_onclick()"
+				 onmouseover="img_onmouseover()"
+				 onmouseout="img_onmouseout()" />
+			</td>
+		<td><img src="images/top_nav_spacer.gif" /></td>
+		<td>
+				<img id=imgContactUs
+				 src="images/top_nav_contact.gif"
+				 imgType=menuButton
+				 clicked=0
+				 content="ContactUs"
+				 normalSrc='images/top_nav_contact.gif'
+	 			 hoverSrc='images/top_nav_contact_over.gif'
+	 			 onclick="img_onclick()"
+				 onmouseover="img_onmouseover()"
+				 onmouseout="img_onmouseout()" />
+			</td>
+		<td><img src="images/spacer.gif" /></td>
+	</tr>
+</table>
+                </td>
+            </tr>
+            <tr id="trPageBody" valign="top" class="WhiteBackgroundColor">
+                <td id="tdBodyLeft" style="padding-left: 6px; padding-top: 5px;" width="171" align="left">
+                    
+<script>
+</script>
+
+
+<img src="images/lnh_links_cut.gif" /><img src='images\leftnav\5e11b094-1451-44ff-a678-60a9e38d1ad9.bmp' 
+				   alt="Conservation Practice Physical Effects"
+				   visited=false
+				   imgType=leftNav
+				    normalSrc='images\leftnav\5e11b094-1451-44ff-a678-60a9e38d1ad9.bmp'
+				   hoverSrc='images\leftnav\5e11b094-1451-44ff-a678-60a9e38d1ad9_hover.bmp'
+				   visitedSrc='images\leftnav\5e11b094-1451-44ff-a678-60a9e38d1ad9_visited.bmp'
+				   visitedHoverSrc='images\leftnav\5e11b094-1451-44ff-a678-60a9e38d1ad9_visited_hover.bmp'
+				   targetURL=https://cppe.sc.egov.usda.gov/cppe.aspx
+				   onclick="img_onclick()"
+				   onmouseover="img_onmouseover()"
+				   onmouseout="img_onmouseout()" /><img src='images\leftnav\2860b309-09b6-4788-a495-3632d7774e01.bmp' 
+				   alt="EQIP Payment Limitation Lookup"
+				   visited=false
+				   imgType=leftNav
+				    normalSrc='images\leftnav\2860b309-09b6-4788-a495-3632d7774e01.bmp'
+				   hoverSrc='images\leftnav\2860b309-09b6-4788-a495-3632d7774e01_hover.bmp'
+				   visitedSrc='images\leftnav\2860b309-09b6-4788-a495-3632d7774e01_visited.bmp'
+				   visitedHoverSrc='images\leftnav\2860b309-09b6-4788-a495-3632d7774e01_visited_hover.bmp'
+				   targetURL=https://protractsfundmgr.sc.egov.usda.gov/FundMgr/EditContractSplits.aspx
+				   onclick="img_onclick()"
+				   onmouseover="img_onmouseover()"
+				   onmouseout="img_onmouseout()" /><img src='images\leftnav\f73b7c2f-60f4-412b-a57c-82df847c54c7.bmp' 
+				   alt="Practice Average Annual Costs"
+				   visited=false
+				   imgType=leftNav
+				    normalSrc='images\leftnav\f73b7c2f-60f4-412b-a57c-82df847c54c7.bmp'
+				   hoverSrc='images\leftnav\f73b7c2f-60f4-412b-a57c-82df847c54c7_hover.bmp'
+				   visitedSrc='images\leftnav\f73b7c2f-60f4-412b-a57c-82df847c54c7_visited.bmp'
+				   visitedHoverSrc='images\leftnav\f73b7c2f-60f4-412b-a57c-82df847c54c7_visited_hover.bmp'
+				   targetURL=https://pracavgcost.sc.egov.usda.gov/PracAvgCostsView.aspx/
+				   onclick="img_onclick()"
+				   onmouseover="img_onmouseover()"
+				   onmouseout="img_onmouseout()" /><img src='images\leftnav\1e37706a-1520-4e74-a177-11839166e368.bmp' 
+				   alt="SCIMS "
+				   visited=false
+				   imgType=leftNav
+				    normalSrc='images\leftnav\1e37706a-1520-4e74-a177-11839166e368.bmp'
+				   hoverSrc='images\leftnav\1e37706a-1520-4e74-a177-11839166e368_hover.bmp'
+				   visitedSrc='images\leftnav\1e37706a-1520-4e74-a177-11839166e368_visited.bmp'
+				   visitedHoverSrc='images\leftnav\1e37706a-1520-4e74-a177-11839166e368_visited_hover.bmp'
+				   targetURL=https://intranet-dotnet.fsa.usda.gov/SCIMSEauth/ScimsEauth.aspx  
+				   onclick="img_onclick()"
+				   onmouseover="img_onmouseover()"
+				   onmouseout="img_onmouseout()" /><img src='images\leftnav\f85c4064-7861-442a-9e38-a8aff2226f96.bmp' 
+				   alt="Subsidiary"
+				   visited=false
+				   imgType=leftNav
+				    normalSrc='images\leftnav\f85c4064-7861-442a-9e38-a8aff2226f96.bmp'
+				   hoverSrc='images\leftnav\f85c4064-7861-442a-9e38-a8aff2226f96_hover.bmp'
+				   visitedSrc='images\leftnav\f85c4064-7861-442a-9e38-a8aff2226f96_visited.bmp'
+				   visitedHoverSrc='images\leftnav\f85c4064-7861-442a-9e38-a8aff2226f96_visited_hover.bmp'
+				   targetURL=https://intranet-apps.fsa.usda.gov/Subsidiary/Subsidiary.do
+				   onclick="img_onclick()"
+				   onmouseover="img_onmouseover()"
+				   onmouseout="img_onmouseout()" /><img src='images\leftnav\246ecc7d-59b9-4577-8e2f-cf2318aff9c8.bmp' 
+				   alt="SmarTech"
+				   visited=false
+				   imgType=leftNav
+				    normalSrc='images\leftnav\246ecc7d-59b9-4577-8e2f-cf2318aff9c8.bmp'
+				   hoverSrc='images\leftnav\246ecc7d-59b9-4577-8e2f-cf2318aff9c8_hover.bmp'
+				   visitedSrc='images\leftnav\246ecc7d-59b9-4577-8e2f-cf2318aff9c8_visited.bmp'
+				   visitedHoverSrc='images\leftnav\246ecc7d-59b9-4577-8e2f-cf2318aff9c8_visited_hover.bmp'
+				   targetURL=http://smartech.sc.egov.usda.gov/
+				   onclick="img_onclick()"
+				   onmouseover="img_onmouseover()"
+				   onmouseout="img_onmouseout()" /><img src="images/ln_section_policy.gif" /><img src='images\leftnav\55eb4397-ff50-42dd-a72a-59f3a675e4ef.bmp' 
+				   alt="National Bulletins and Circulars and Forms"
+				   visited=false
+				   imgType=leftNav
+				    normalSrc='images\leftnav\55eb4397-ff50-42dd-a72a-59f3a675e4ef.bmp'
+				   hoverSrc='images\leftnav\55eb4397-ff50-42dd-a72a-59f3a675e4ef_hover.bmp'
+				   visitedSrc='images\leftnav\55eb4397-ff50-42dd-a72a-59f3a675e4ef_visited.bmp'
+				   visitedHoverSrc='images\leftnav\55eb4397-ff50-42dd-a72a-59f3a675e4ef_visited_hover.bmp'
+				   itemID=55eb4397-ff50-42dd-a72a-59f3a675e4ef
+				   onclick="imgPolicy_onclick()"
+				   onmouseover="img_onmouseover()"
+				   onmouseout="img_onmouseout()" /><img src='images\leftnav\ad027e48-3d68-43d5-8672-8eb322b39d9a.bmp' 
+				   alt="Manuals"
+				   visited=false
+				   imgType=leftNav
+				    normalSrc='images\leftnav\ad027e48-3d68-43d5-8672-8eb322b39d9a.bmp'
+				   hoverSrc='images\leftnav\ad027e48-3d68-43d5-8672-8eb322b39d9a_hover.bmp'
+				   visitedSrc='images\leftnav\ad027e48-3d68-43d5-8672-8eb322b39d9a_visited.bmp'
+				   visitedHoverSrc='images\leftnav\ad027e48-3d68-43d5-8672-8eb322b39d9a_visited_hover.bmp'
+				   itemID=ad027e48-3d68-43d5-8672-8eb322b39d9a
+				   onclick="imgPolicy_onclick()"
+				   onmouseover="img_onmouseover()"
+				   onmouseout="img_onmouseout()" /><img src="images/nav_footer.png" />
+
+                </td>
+                <td id="tdBodyRight" style="padding-left: 5px; padding-top: .5em; padding-bottom: .5em;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr valign="top" class="WhiteBackgroundColor">
+                            <td style="padding-left: 3px; padding-right: 3px; padding-top: 5px;" align="left" width="387">
+                                <div id="divBreadcrumb">
+                                    You are here:
+										<!--<div id=divHome><span id=spHome>Home</span></div><div id=divHomeLink><span id=spHomeLink class=breadcrumbLink onclick="breadcrumb_onclick()" content=Home>Home</span></div><div id=divAboutProTracts><span id=spAboutProTracts>&nbsp;/ About ProTracts</span></div><div id=divAboutProTractsLink>&nbsp;/&nbsp;<span id=spAboutProTractsLink class=breadcrumbLink onclick="breadcrumb_onclick()" content=AboutProTracts>About ProTracts</span></div><div id=divContactUs><span id=spContactUs>&nbsp;/ Contact Us</span></div><div id=divContactUsLink>&nbsp;/&nbsp;<span id=spContactUsLink class=breadcrumbLink onclick="breadcrumb_onclick()" content=ContactUs>Contact Us</span></div><div id=divHelp><span id=spHelp>&nbsp;/ Help</span></div><div id=divHelpLink>&nbsp;/&nbsp;<span id=spHelpLink class=breadcrumbLink onclick="breadcrumb_onclick()" content=Help>Help</span></div></div><br />-->
+                                    <span id="spHome">Home</span><span id="spHomeLink"><a id="aHomeLink" class="breadcrumbLink" onclick="javascript:breadcrumb_onclick()" imgtype="breadcrumb" content="Home">Home</a></span><span id="spAboutProTracts">&nbsp;/ About ProTracts</span><span id="spAboutProTractsLink">&nbsp;/&nbsp;<a id="aAboutProTractsLink" class="breadcrumbLink" onclick="javascript:breadcrumb_onclick()" imgtype="breadcrumb" content="AboutProTracts">About ProTracts</a></span><span id="spContactUs">&nbsp;/ Contact Us</span><span id="spContactUsLink">&nbsp;/&nbsp;<a id="aContactUsLink" class="breadcrumbLink" onclick="javascript:breadcrumb_onclick()" imgtype="breadcrumb" content="ContactUs">Contact Us</a></span><span id="spHelp">&nbsp;/ Help</span><span id="spHelpLink">&nbsp;/&nbsp;<a id="aHelpLink" class="breadcrumbLink" onclick="javascript:breadcrumb_onclick()" imgtype="breadcrumb" content="Help">Help</a></span><br />
+                                    <br />
+                                </div>
+                                <div id="divPageContent"></div>
+                                <div id="divLastModified" class="usda_paragraph_text">Last Modified: 6/6/2022</div>
+                            </td>
+                            <td width="188" style="padding-right: 6px; padding-top: 5px;">
+                                
+
+		<table id=tblIWantTo width="188" border="0" cellspacing="0" cellpadding="0" >
+			
+					<tr>
+						<td colspan="6"><img src="images/head_iwantto.gif" width="188" height="23" alt="I Want To..." /></td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="https://protracts.sc.egov.usda.gov/protracts/default.aspx" id="ucIWantTo_rptrIWantToTable_ctl00_rptrIWantTo_ctl01_aLink" class="BodyTextBlueSmall" target="_blank"><strong>Use ProTracts</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="https://protractsfundmgr.sc.egov.usda.gov/FundMgr/ViewData.aspx" id="ucIWantTo_rptrIWantToTable_ctl00_rptrIWantTo_ctl02_aLink" class="BodyTextBlueSmall" target="_blank"><strong>Use Fund Manager</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="https://dms.sc.egov.usda.gov/DMS/Splash.aspx" id="ucIWantTo_rptrIWantToTable_ctl00_rptrIWantTo_ctl03_aLink" class="BodyTextBlueSmall" target="_blank"><strong>Access Document Management (DMS)</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="https://protrain.sc.egov.usda.gov/protracts/Default.aspx" id="ucIWantTo_rptrIWantToTable_ctl00_rptrIWantTo_ctl04_aLink" class="BodyTextBlueSmall" target="_blank"><strong>Use ProTracts Training Site</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showMessage('737bc780-0c2e-4706-a253-5f387be808bc');" id="ucIWantTo_rptrIWantToTable_ctl00_rptrIWantTo_ctl05_aLink" class="BodyTextBlueSmall"><strong>Request a ProTracts Login</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href=" https://fatracker.sc.egov.usda.gov" id="ucIWantTo_rptrIWantToTable_ctl00_rptrIWantTo_ctl06_aLink" class="BodyTextBlueSmall" target="_blank"><strong>FA Tracker</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr id="ucIWantTo_rptrIWantToTable_ctl00_rptrIWantTo_ctl07_trMore" valign="top" style="vertical-align: middle; display: none " height="20">
+	<td width="4" style="background-image:url(&#39;images/vrule_left.gif&#39;); background-repeat: repeat-y;">&nbsp;</td>
+	<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+	<td class="cRightNav"></td>
+	<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+	<td id="ucIWantTo_rptrIWantToTable_ctl00_rptrIWantTo_ctl07_tdMoreLink" class="cRightNav MoreLink" UILocationID="3" onclick="tdMoreLink_onclick()" width="182"></td>
+	<td width="6" style="background-image:url(&#39;images/vrule_right.gif&#39;); background-repeat: repeat-y;">&nbsp;</td>
+</tr>
+
+					<tr>
+						<td colspan="6"><img src="images/square_footer.gif" width="188" height="17" alt=" " /></td>
+					</tr>
+				
+		</table>
+	
+
+                                
+
+		<table id="tblAnnouncements" width="188" border="0" cellspacing="0" cellpadding="0" >
+			
+					<tr>
+						<td colspan="6"><img src="images/rn_reference_materials_square.gif" width="188" height="23" alt="Reference Materials" /></td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width="4" style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class="cRightNav"><img src="images/menu_button.gif" alt=" " /></td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showItemList('c5c2713a-3d55-4b60-8fc1-b3380239e333');" id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl01_aLink" class="BodyTextBlueSmall"><strong>DMS & FMI Changes to ProTracts</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width="4" style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class="cRightNav"><img src="images/menu_button.gif" alt=" " /></td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showItemList('0da11475-6879-4051-a7ca-deb52de7f795');" id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl02_aLink" class="BodyTextBlueSmall"><strong>ProTracts - FMMI Information:</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width="4" style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class="cRightNav"><img src="images/menu_button.gif" alt=" " /></td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showItemList('6de02202-4beb-42d5-8e50-073c90a98ebd');" id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl03_aLink" class="BodyTextBlueSmall"><strong>ProTracts & Programs Training Materials</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width="4" style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class="cRightNav"><img src="images/menu_button.gif" alt=" " /></td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showItemList('66782ed2-2bd1-4ec7-bd23-d665fb136ab1');" id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl04_aLink" class="BodyTextBlueSmall"><strong>Updated 8/21:  ProTracts 2014 Farm Bill Training Materials</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width="4" style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class="cRightNav"><img src="images/menu_button.gif" alt=" " /></td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showItemList('d0f45192-e6e7-4874-9a28-2c05267a5f68');" id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl05_aLink" class="BodyTextBlueSmall"><strong>Eligibility References </strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width="4" style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class="cRightNav"><img src="images/menu_button.gif" alt=" " /></td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showItemList('32ddedf0-4aee-4df5-b923-8111dea5e068');" id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl06_aLink" class="BodyTextBlueSmall"><strong>AERT Training Materials</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width="4" style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class="cRightNav"><img src="images/menu_button.gif" alt=" " /></td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showItemList('b830a36a-f3f3-4965-9bc9-2606f18a9a56');" id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl07_aLink" class="BodyTextBlueSmall"><strong>Archive of CSP CAET and CMT Training Materials</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width="4" style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class="cRightNav"><img src="images/menu_button.gif" alt=" " /></td>
+						<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showItemList('3db9c68e-dcc5-4f6c-bcca-bc8c414000fe');" id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl08_aLink" class="BodyTextBlueSmall"><strong>ProTracts 2018 Farm Bill Training Materials</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl09_trMore" valign="top" style="vertical-align: middle; display: none " height="20">
+	<td width="4" style="background-image:url(&#39;images/vrule_left.gif&#39;); background-repeat: repeat-y;">&nbsp;</td>
+	<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+	<td class="cRightNav"></td>
+	<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+	<td id="ucAnnouncements_rptrAnnouncementsTable_ctl00_rptrAnnouncements_ctl09_tdMoreLink" class="cRightNav MoreLink" UILocationID="4" onclick="tdMoreLink_onclick()" width="182"></td>
+	<td width="6" style="background-image:url(&#39;images/vrule_right.gif&#39;); background-repeat: repeat-y;">&nbsp;</td>
+</tr>
+
+					<tr>
+						<td colspan="6"><img src="images/square_footer.gif" width="188" height="17" alt=" " /></td>
+					</tr>
+				
+		</table>
+	
+                                
+
+		<table id=tblReleaseInformation width="188" border="0" cellspacing="0" cellpadding="0" >
+			
+					<tr>
+						<td colspan="6"><img src="images/rn_head_ReleaseInfo.gif" width="188" height="23" alt="Release Information" /></td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showMessage('c5be6cb1-683d-4289-b3ac-7d95c65b1fdf');" id="ucReleaseInformation_rptrReleaseInformationTable_ctl00_rptrReleaseInformation_ctl01_aLink" class="BodyTextBlueSmall"><strong>FMMI Status : November 17</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showMessage('68a209a7-cab1-4fe5-84f2-0753e3788862');" id="ucReleaseInformation_rptrReleaseInformationTable_ctl00_rptrReleaseInformation_ctl02_aLink" class="BodyTextBlueSmall"><strong>Updated 8/26: Current Support Issues</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showItemList('138f2f51-70d9-4bd9-ab21-d382daa45d7c');" id="ucReleaseInformation_rptrReleaseInformationTable_ctl00_rptrReleaseInformation_ctl03_aLink" class="BodyTextBlueSmall"><strong>Release Notes</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr valign="top" style="vertical-align: middle; " height=20 >
+						<td width='4' style="background-image:url('images/vrule_left.gif'); background-repeat: repeat-y;">&nbsp;</td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+						<td class='cRightNav'><img src='images/menu_button.gif' alt=' ' /></td>
+						<td class='cRightNav'><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+						<td class="cRightNav" width="182"><a href="javascript:showFile('ede39d6e-dc18-40e4-9d8d-52de1fa0db8c');" id="ucReleaseInformation_rptrReleaseInformationTable_ctl00_rptrReleaseInformation_ctl04_aLink" class="BodyTextBlueSmall"><strong>Updated 8/2013: HelpDesk Support Log Management</strong></a></td>
+						<td width="6" style="background-image:url('images/vrule_right.gif'); background-repeat: repeat-y;">&nbsp;</td>
+					</tr>
+				
+					<tr id="ucReleaseInformation_rptrReleaseInformationTable_ctl00_rptrReleaseInformation_ctl05_trMore" valign="top" style="vertical-align: middle; display: none " height="20">
+	<td width="4" style="background-image:url(&#39;images/vrule_left.gif&#39;); background-repeat: repeat-y;">&nbsp;</td>
+	<td class="cRightNav"><img src="images/spacer.gif" width="8" height="8" alt=" " /></td>
+	<td class="cRightNav"></td>
+	<td class="cRightNav"><img src="images/spacer.gif" width="5" height="1" alt=" " /></td>
+	<td id="ucReleaseInformation_rptrReleaseInformationTable_ctl00_rptrReleaseInformation_ctl05_tdMoreLink" class="cRightNav MoreLink" UILocationID="5" onclick="tdMoreLink_onclick()" width="182"></td>
+	<td width="6" style="background-image:url(&#39;images/vrule_right.gif&#39;); background-repeat: repeat-y;">&nbsp;</td>
+</tr>
+
+					<tr>
+						<td colspan="6"><img src="images/cut_footer.gif" width="188" height="17" alt=" " /></td>
+					</tr>
+				
+		</table>
+	
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr id="trPageFooter" valign="top">
+                <td colspan="3">
+                    
+<table width="767" align="center" border="0" cellpadding="0" cellspacing="0" id="tblFooter">
+  <tr>
+    <td colspan="3" bgcolor="#333366" height="1"><img src="images/spacer.gif" alt=" " title=" " height="1"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="bottom">
+      <table align="left" border="0" cellpadding="0" cellspacing="0" id="Table16">
+        <tbody>
+          <tr>
+            <td style="BORDER-LEFT: black 1px solid" align="right" bgcolor="#ffffff"><img src="images/spacer.gif" alt=" " title=" " height="8" width="0"></td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff"><img src="images/footer_corner_left.gif" alt=" " title=" " height="22" width="24"></td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+    <td align="left" valign="top" width="719">
+      <table border="0" cellpadding="0" cellspacing="0" width="719" id="Table17">
+        <tbody>
+          <tr>
+            <td class="FooterText" bgcolor="#ffffff"><img src="images/spacer.gif" alt=" " title=" " height="29" width="1"></td>
+            <td class="FooterText" align="left" bgcolor="#ffffff" valign="middle"><div class="cNoColor"><a href="http://www.nrcs.usda.gov"><span>NRCS 
+              Home</span></a> | <a href="http://www.usda.gov" target="_top">USDA.gov</a><br>
+              <a href="http://www.usda.gov/wps/portal/!ut/p/_s.7_0_A/7_0_1OB?navtype=FT&amp;navid=FOIA">FOIA</a> | 
+              <a href="http://www.usda.gov/wps/portal/!ut/p/_s.7_0_A/7_0_1OB?navtype=FT&amp;navid=ACCESSIBILITY_STATEM">Accessibility Statement</a> | 
+              <a href="http://www.usda.gov/wps/portal/!ut/p/_s.7_0_A/7_0_1OB?navtype=FT&amp;navid=PRIVACY_POLICY">Privacy Policy</a> | 
+              <a href="http://www.usda.gov/wps/portal/!ut/p/_s.7_0_A/7_0_1OB?navtype=FT&amp;navid=NON_DISCRIMINATION">Nondiscrimination Statement</a> | 
+              <a href="http://www.nrcs.usda.gov/wps/portal/nrcs/detailfull/national/about/?cid=nrcsdev11_000881">Information Quality</a> | 
+              <a href="http://www.firstgov.gov/">FirstGov</a> | 
+              <a href="http://www.whitehouse.gov/">White House</a>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+    <td align="right" valign="top"><img src="images/footer_corner_right.gif" alt=" " title=" " border="0" height="30" width="24"></td>
+  </tr>
+</table>
+<div style="width: 100%; height: 2em">&nbsp;</div>
+
+                </td>
+            </tr>
+        </table>
+        <iframe id="OpenDoc" width='1px' height='1px' frameborder='0' />
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ScriptManager1', 'form1', [], [], [], 90, '');
+//]]>
+</script>
+
+    </form>
+</body>
+</html>

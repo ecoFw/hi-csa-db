@@ -1,17 +1,21 @@
 ---
-title: Literature Review - Climate Smart Ag Links to Ecosystem Services
+title: Hawai‘i Climate Smart Agriculture Database Data Pipeline
 author: MK Lau
 ---
 
 
 <!-- Rendering rmarkdown Notebook -->
-```{r setup, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
+```{r render, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
 
+library(rmarkdown)
+library(tictoc)
+
+tic()
 rmarkdown::render("hi-csa-db.Rmd", 
-                  output_format = c("html_document", "pdf_document"))
+                  output_format = c("html_document"))
+toc()
 
- ```
-
+```
 
 # Context
 
@@ -24,12 +28,26 @@ listed below in partial fulfillment of the larger contracted
 deliverable to HC&C.
 
 
+# Database Construction
+
+- The goal is to construct a database of resources to support climate
+  smart agricultural practices, using the USDA NRCS climate smart mitigation
+  strategies as a framework. 
+- Via the data pipeline described in this document, data are ingested
+  into the database starting with hand-extracted data gathered by
+  Lucas McKinnon and Jackson Hart and then using a webcrawling to
+  gather resources from existing websites, including the NRCS, NIFA,
+  AMS, and ATTRA.
+- A structured relational database in produced and saved to the main
+  directory. 
+
 # Ingest
 
 ```{r deps, echo = FALSE}
 
 library(pacman)
-p_load(RColorBrewer, ggplot2, Rcrawler, knitr, googlesheets4, dplyr)
+p_load(RColorBrewer, ggplot2, rvest, Rcrawler, readtext, knitr, googlesheets4, dplyr,
+       igraph, tictoc)
 
 db_merge <- function(x, y){
     cn.x <- colnames(x)
@@ -53,67 +71,314 @@ db_merge <- function(x, y){
 
 ## Webcrawl 
 
+There are currently two webcrawl directories for NRCS. The first,
+"nrcs.usda.gov-292243", contains a very deep crawl with max depth
+= 4. The second, "nrcs.usda.gov-301855", is a shallower crawl with a
+max depth of 1, which is currenlty being used to compile data for the
+database. 
 
-```{r crawl-nrcs, cache = TRUE, eval = TRUE}
+```{r crawl-nrcs, cache = FALSE, eval = TRUE, results = "hide"}
 
-Rcrawler(Website = "https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/climate/climate-smart-mitigation-activities",
-         no_cores = 4, no_conn = 4, 
-         NetworkData = TRUE,
-         ExtractXpathPat = "//*/a/@href",
-         ManyPerPattern = TRUE, MaxDepth = 3, 
-         )
-nrc.wc <- INDEX
+nrcs.url <- paste0("https://www.nrcs.usda.gov/conservation-basics/", 
+                   "natural-resource-concerns/climate/climate-smart-mitigation-activities")
+
+if ("nrcs.rds" %in% dir("data")){
+
+    nrcs <- readRDS(file = "./data/nrcs.rds")
+
+}else{
+
+    Rcrawler(Website = nrcs.url,
+             no_cores = 4, no_conn = 4, 
+             NetworkData = TRUE,
+             NetwExtLinks = TRUE, 
+             ExtractXpathPat = "//*/a/@href",
+             RequestsDelay = 0,01,
+             ManyPerPattern = TRUE, MaxDepth = 1, 
+             saveOnDisk = FALSE
+             )
+    nrcs <- list()
+    nrcs[[1]] <- INDEX
+    nrcs[[2]] <- DATA
+    nrcs[[3]] <- list(NetwIndex, NetwEdges)
+    names(nrcs)[1] <- "INDEX"
+    names(nrcs)[2] <- "DATA"
+    names(nrcs)[3] <- "network"
+    names(nrcs[[3]])[1] <- "NetwIndex"
+    names(nrcs[[3]])[2] <- "NetwEdges"
+    saveRDS(nrcs, file = "data/nrcs.rds", compress = TRUE)
+
+}
+
 
 ```
 
-```{r crawl-attra, cache = TRUE, eval = TRUE}
+The following code scrapes key information from the NRCS Climate
+Mitigation Strategies webpage. It is then exported to the
+`data/hi-csa-es.db`.
 
-Rcrawler(Website = "https://attra.ncat.org/climate-solutions/",
-         no_cores = 4, no_conn = 4, 
-         NetworkData = TRUE,
-         ExtractXpathPat = "//*/a/@href",
-         ManyPerPattern = TRUE, MaxDepth = 2, 
-         )
-attra.wc <- INDEX
+
+```{r nrcs-scrape, eval = TRUE, echo = TRUE, results = "hide"}
+
+## From the 
+## 1. Get a list of mitigation categories
+## 2. Get a list of practices within each mitigation
+## 3. Get URL links to resources
+## From the remaining search,
+## 1. Get a list of other resources
+
+
+
+nrcs.csm <- read_html(nrcs.url)
+
+h2 <- nrcs.csm %>% html_elements("h2")
+h3 <- nrcs.csm %>% html_elements("h3")
+h4 <- nrcs.csm %>% html_elements("h4")
+p <- nrcs.csm %>% html_elements("p")
+a <- nrcs.csm %>% html_elements("a")
+div <- nrcs.csm %>% html_elements("div")
+
+nrcs.csm %>% html_elements("h3")
+nrcs.csm %>% html_elements("h4")
+nrcs.csm %>% html_elements("body")
+nrcs.csm %>% html_elements(".title")
+
+headers <- nrcs.csm %>% html_elements("h3, h4, p")
+
+# Load the web page
+webpage <- read_html(nrcs.url)
+
+# Extract all headers (h3, h4) and paragraphs (p)
+elements <- webpage %>% html_elements("h3, h4, p")
+
+# Initialize lists to store the associations
+result <- list()
+current_h3 <- NULL
+current_h4 <- NULL
+
+# Loop through each element and determine its tag type
+for (element in elements) {
+  # Get the text, tag name, and anchor tags within the current element
+  element_text = element %>% html_text(trim = TRUE)
+  tag_name = element %>% html_name()
+
+  # Check if it's an h3 header
+  if (tag_name == "h3") {
+    # If it's an h3, update the current context
+    current_h3 = element_text
+    result[[current_h3]] = list("h4" = list(), "p" = list())
+  } else if (tag_name == "h4" && !is.null(current_h3)) {
+    # If it's an h4, update the current context
+    current_h4 = element_text
+    result[[current_h3]]$h4[[current_h4]] = list("p" = list())
+  } else if (tag_name == "p") {
+    # If it's a paragraph, add it to the corresponding context
+    paragraph_data = list("text" = element_text, "links" = list())
+
+    # Check for any anchor tags (links) within the paragraph
+    anchors = element %>% html_elements("a")
+    
+    if (length(anchors) > 0) {
+      paragraph_data$links = lapply(anchors, function(anchor) {
+        list("text" = anchor %>% html_text(trim = TRUE), "href" = anchor %>% html_attr("href"))
+      })
+    }
+    
+    if (!is.null(current_h4) && !is.null(current_h3)) {
+      result[[current_h3]]$h4[[current_h4]]$p <- append(result[[current_h3]]$h4[[current_h4]]$p, list(paragraph_data))
+    } else if (!is.null(current_h3)) {
+      result[[current_h3]]$p <- append(result[[current_h3]]$p, list(paragraph_data))
+    }
+  }
+}
+
+
+# Define a function to convert the list into a data frame
+list_to_dataframe <- function(result) {
+  # Initialize an empty data frame
+  data <- data.frame(H3 = character(), H4 = character(), p = character(), a = character(), stringsAsFactors = FALSE)
+
+  # Iterate through the result list to build the data frame
+  for (h3_name in names(result)) {
+    h3_entry <- result[[h3_name]]
+    
+    # Extract paragraphs for h3-level
+    if ("p" %in% names(h3_entry)) {
+      for (p_item in h3_entry$p) {
+        # Check if the paragraph contains links
+        if ("links" %in% names(p_item)) {
+          for (link in p_item$links) {
+            new_row <- data.frame(
+              H3 = h3_name,
+              H4 = NA,
+              p = p_item$text,
+              a = link$href,
+              stringsAsFactors = FALSE
+            )
+            data <- bind_rows(data, new_row)
+          }
+        }
+      }
+    }
+
+    # Extract h4-level entries
+    if ("h4" %in% names(h3_entry)) {
+      for (h4_name in names(h3_entry$h4)) {
+        h4_entry <- h3_entry$h4[[h4_name]]
+        
+        # Extract paragraphs and links at h4-level
+        if ("p" %in% names(h4_entry)) {
+          for (p_item in h4_entry$p) {
+            if ("links" %in% names(p_item)) {
+              for (link in p_item$links) {
+                new_row <- data.frame(
+                  H3 = h3_name,
+                  H4 = h4_name,
+                  p = p_item$text,
+                  a = link$href,
+                  stringsAsFactors = FALSE
+                )
+                data <- bind_rows(data, new_row)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return(data)
+}
+
+## Use the function to convert the list into a data frame
+nrcs.db <- list_to_dataframe(result)
+## Add the full path for the nrcs urls
+for (i in seq_along(nrcs.db[, "a"])){
+    if (!grepl("http", nrcs.db[i, "a"])){
+        nrcs.db[i, "a"] <- paste0("https://www.nrcs.usda.gov", nrcs.db[i, "a"])
+    }else{}
+}
+
+## Prep for export
+nrcs.db[is.na(nrcs.db[, "H4"]), "H4"] <- "Other"
+colnames(nrcs.db) <- c("Mitigation", "Practice", "Description", "Resource")
 
 ```
 
-```{r crawl-nifa, eval = TRUE, echo = TRUE}
 
-Rcrawler(Website = "https://www.nifa.usda.gov/grants",
-         no_cores = 4, no_conn = 4, 
-         NetworkData = TRUE,
-         ExtractXpathPat = "//*/a/@href",
-         ManyPerPattern = TRUE, MaxDepth = 2, 
-         )
-nifa.wc <- INDEX
+```{r crawl-attra, cache = FALSE, eval = TRUE, results = "hide"}
+
+attra.url <- "https://attra.ncat.org/climate-solutions/"
+
+if ("attra.rds" %in% dir("data")){
+
+    attra <- readRDS(file = "./data/attra.rds")
+
+}else{
+
+    Rcrawler(Website = attra.url,
+             no_cores = 4, no_conn = 4, 
+             NetworkData = TRUE,
+             NetwExtLinks = TRUE, 
+             ExtractXpathPat = "//*/a/@href",
+             RequestsDelay = 0,01,
+             ManyPerPattern = TRUE, MaxDepth = 1, 
+             saveOnDisk = FALSE
+             )
+    attra <- list()
+    attra[[1]] <- INDEX
+    attra[[2]] <- DATA
+    attra[[3]] <- list(NetwIndex, NetwEdges)
+    names(attra)[1] <- "INDEX"
+    names(attra)[2] <- "DATA"
+    names(attra)[3] <- "network"
+    names(attra[[3]])[1] <- "NetwIndex"
+    names(attra[[3]])[2] <- "NetwEdges"
+    saveRDS(attra, file = "./data/attra.rds", compress = FALSE)
+}
+
+```
+
+```{r crawl-nifa, eval = TRUE, echo = TRUE, results = "hide"}
+
+nifa.url <- "https://www.nifa.usda.gov/grants"
+
+if ("nifa.rds" %in% dir("data")){
+
+    rds <- readRDS(file = "./data/nifa.rds")
+
+}else{
+
+    Rcrawler(Website = nifa.url,
+             no_cores = 4, no_conn = 4, 
+             NetworkData = TRUE,
+             NetwExtLinks = TRUE, 
+             ExtractXpathPat = "//*/a/@href",
+             RequestsDelay = 0,01,
+             ManyPerPattern = TRUE, MaxDepth = 1, 
+             saveOnDisk = FALSE
+             )
+    nifa <- list()
+    nifa[[1]] <- INDEX
+    nifa[[2]] <- DATA
+    nifa[[3]] <- list(NetwIndex, NetwEdges)
+    names(nifa)[1] <- "INDEX"
+    names(nifa)[2] <- "DATA"
+    names(nifa)[3] <- "network"
+    names(nifa[[3]])[1] <- "NetwIndex"
+    names(nifa[[3]])[2] <- "NetwEdges"
+    saveRDS(nifa, file = "./data/nifa.rds", compress = FALSE)
+}
 
 ```
 
 
 
-```{r crawl-ams, eval = TRUE, echo = TRUE}
+```{r crawl-ams, eval = TRUE, echo = TRUE, results = "hide"}
 
-Rcrawler(Website = "https://www.ams.usda.gov/services/grants",
-         no_cores = 4, no_conn = 4, 
-         NetworkData = TRUE,
-         ExtractXpathPat = "//*/a/@href",
-         ManyPerPattern = TRUE, MaxDepth = 2, 
-         )
-ams.wc <- INDEX
+ams.url <- "https://www.ams.usda.gov/services/grants"
+
+if ("ams.rds" %in% dir("data")){
+
+    ams <- readRDS(file = "./data/ams.rds")
+
+}else{
+
+    Rcrawler(Website = ams.url,
+             no_cores = 4, no_conn = 4, 
+             NetworkData = TRUE,
+             NetwExtLinks = TRUE, 
+             ExtractXpathPat = "//*/a/@href",
+             RequestsDelay = 0,01,
+             ManyPerPattern = TRUE, MaxDepth = 1, 
+             saveOnDisk = FALSE
+             )
+    ams <- list()
+    ams[[1]] <- INDEX
+    ams[[2]] <- DATA
+    ams[[3]] <- list(NetwIndex, NetwEdges)
+    names(ams)[1] <- "INDEX"
+    names(ams)[2] <- "DATA"
+    names(ams)[3] <- "network"
+    names(ams[[3]])[1] <- "NetwIndex"
+    names(ams[[3]])[2] <- "NetwEdges"
+    saveRDS(ams, file = "./data/ams.rds", compress = FALSE)
+
+}
+
 
 ```
 
 
 ## Other data to integrate
 
+- https://gofarmhawaii.org/farmer-resources-2/ 
 - https://www.fsa.usda.gov/programs-and-services/farm-loan-programs/
 - https://www.fns.usda.gov/fm/grant-opportunities
 - https://www.rd.usda.gov/
 
 
-```{r nrcs-cw, eval = TRUE, echo = TRUE}
-
+```{r nrcs-cw, eval = FALSE, echo = TRUE}
 
 nrc.wc[nrc.wc[, "Level"] == 2, "Url"]
 nrc.url <- 
@@ -147,7 +412,7 @@ colnames(nrc.tab) <- c("Category",
 Data from [NRCS](https://www.nrcs.usda.gov/sites/default/files/2023-10/NRCS-CSAF-Mitigation-Activities-List.pdf)
 were extracted manually using [tabula](https://tabula.technology/ "tabula").
 
-```{r nrcs-pdf-tables, }
+```{r nrcs-pdf-tables, eval = FALSE}
 
 csa.mit.tab <- read.csv("data/tabula-NRCS-CSAF-Mitigation-Activities.csv", header = FALSE)
 csa.mit.head <- csa.mit.tab[grepl("Mitigation Categories", csa.mit.tab[, 1]), ]
@@ -182,7 +447,7 @@ csa.mit.tab <- data.frame(csa.mit.tab, "URL" = csa.mit.url)
 
 ```
 
-```{r old-db, eval = TRUE, echo = TRUE}
+```{r old-db, eval = FALSE, echo = TRUE}
 
 db.og <- as.data.frame(read_sheet("https://docs.google.com/spreadsheets/d/1AMlsLPDnwt01eEsBLdRe1hvhNSa3ofndcWX0gJ9xbUo/", sheet = "Original"))
 db.jh <- as.data.frame(read_sheet("https://docs.google.com/spreadsheets/d/1AMlsLPDnwt01eEsBLdRe1hvhNSa3ofndcWX0gJ9xbUo/", sheet = "Jackson's Version"))
@@ -204,22 +469,12 @@ colnames(nrc.tab)[colnames(nrc.tab) == "Sub-Category 1"] <- "Sub-Category"
 
 ```
 
-```{r db-merge, eval = TRUE, echo = TRUE}
+```{r db-merge, eval = FALSE, echo = TRUE}
 
 hicsa.db <- db_merge(db.og, nrc.tab)
 
 ```
 
-
-
-# Preview
-
-
-```{r mit-table, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
-
-kable(head(hicsa.db))
-
-```
 
 
 
@@ -228,13 +483,17 @@ kable(head(hicsa.db))
 
 ```{r nrcs-save, eval = TRUE, echo = TRUE}
 
+hicsa.db <- nrcs.db
 saveRDS(hicsa.db, file = "./data/hi-csa-db.rds")
 
 ```
 
 
+# Preview
 
 
+```{r mit-table, eval = TRUE, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
 
+kable(head(hicsa.db[order(hicsa.db[, "Mitigation"]), ]), row.names = FALSE)
 
-
+```

@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Soil Data Access - Home</title>
+    <meta charset="utf-8" />
+	<!-- SDA Version: 1.0.0.8 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<link type="text/css" rel="stylesheet" href="styles/USDA.css" />
+	<script type="text/javascript" src="scripts/commonfunctions.js"></script>
+	<script type="text/javascript" src="scripts/menu.js"></script>
+	<script type="text/javascript" src="scripts/Util.js"></script>
+	<script type="text/javascript" src="scripts/modaldialog.js"></script>
+	<script type="text/javascript" src="scripts/childFSWindow.js"></script>
+
+	
+	<link rel="stylesheet" type="text/css" href="styles/StylesNN.css" />
+	
+</head>
+
+<body style="margin-left:0;margin-top:0;margin-right:0;margin-bottom:0" class="cUSDABackground">
+	<a name="top" />
+	
+
+<!-- USDAHeader START -->
+<table width="767" align="center" cellspacing="0" cellpadding="0" border="0" class="cLightBody">
+    <tr>
+        <td>
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" class="cUSDABackground">
+                <tr>
+                    <td>
+                        <div style="height: 118px; width: 766px;">
+                            <a href="#startContent">
+                                <span class="sr-only">Skip to Page Content</span>
+                            </a>
+                            <img src="/images/masthead.png" id="USDAHeader_ImgMastheadBackground" border="0" title="USDA and NRCS links" alt="Soil Data Access. Query Services for Custom Access to Soil Data." />
+                            <a href="https://www.usda.gov/wps/portal/usda/usdahome" target="_blank" rel="noopener noreferrer" style="display: block; margin-top: -97px; margin-left: 11px; width: 342px; padding-bottom: 5px;">
+                                <img src="/images/masthead-usda.png" id="USDAHeader_ImgMastheadUSDA" border="0" title="USDA link" alt="United States Department of Agriculture" />
+                            </a>
+                            <a href="https://www.nrcs.usda.gov/wps/portal/nrcs/site/national/home" target="_blank" rel="noopener noreferrer" style="display: block; margin-top: -34px; margin-left: 69px; width: 283px;">
+                                <img src="/images/masthead-nrcs.png" id="USDAHeader_ImgMastheadNRCS" border="0" title="NRCS link" alt="Natural Resources Conservation Service" />
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!-- USDAHeader END -->
+
+	
+
+<!-- USDANavTop START -->
+     <script language="javascript">
+       <!--
+       function USDANTMouseInOut(ImageControl, HiddenControl) {
+         var obja = document.getElementById(ImageControl);
+         var objb = document.getElementById(HiddenControl);
+         if (!objb) {
+            var strb = new String();
+            strb = HiddenControl;
+            objb = document.getElementById(strb.replace('\$','_'));
+         }
+         if (obja && objb) obja.src = objb.value;
+       }
+     // -->
+     </script>
+
+     <input name="USDANavTop$HdnHomeNorm" type="hidden" id="USDANavTop_HdnHomeNorm" value="/images/nav_top_home.gif" /> <input name="USDANavTop$HdnHomeOver" type="hidden" id="USDANavTop_HdnHomeOver" value="/images/nav_top_home_over.gif" />
+     <input name="USDANavTop$HdnAboutNorm" type="hidden" id="USDANavTop_HdnAboutNorm" value="/images/nav_top_about2.gif" /> <input name="USDANavTop$HdnAboutOver" type="hidden" id="USDANavTop_HdnAboutOver" value="/images/nav_top_about2_over.gif" />
+     <input name="USDANavTop$HdnHelpNorm" type="hidden" id="USDANavTop_HdnHelpNorm" value="/images/nav_top_help.gif" /> <input name="USDANavTop$HdnHelpOver" type="hidden" id="USDANavTop_HdnHelpOver" value="/images/nav_top_help_over.gif" />
+     <input name="USDANavTop$HdnContactNorm" type="hidden" id="USDANavTop_HdnContactNorm" value="/images/nav_top_contact.gif" /> <input name="USDANavTop$HdnContactOver" type="hidden" id="USDANavTop_HdnContactOver" value="/images/nav_top_contact_over.gif" />
+
+     <table width="767" align="center" cellspacing="0" cellpadding="0" border="0" class="cLightBody">
+       <tr>
+         <td>
+           <table width="767" cellspacing="0" cellpadding="0" border="0">
+             <tr>
+               <td class="WhiteBackgroundColor"><img src="/images/top_nav_left_spacer.gif" id="USDANavTop_ImgLeftSpacer" width="489" height="21" border="0" /></td>
+               <td class="WhiteBackgroundColor"><a href="/Default.aspx" id="USDANavTop_LnkHome" onmouseover="USDANTMouseInOut(&#39;USDANavTop_ImgHome&#39;,&#39;USDANavTop$HdnHomeOver&#39;);" onmouseout="USDANTMouseInOut(&#39;USDANavTop_ImgHome&#39;,&#39;USDANavTop$HdnHomeNorm&#39;);"><img src="/images/nav_top_home.gif" id="USDANavTop_ImgHome" alt="Click to go to the Soil Data Access Home Page." title="Soil Data Access Home" width="60" height="21" border="0" /></a><img src="/images/top_nav_spacer.gif" id="USDANavTop_ImgSpacer1" width="1" height="21" border="0" /></td>
+               <td class="WhiteBackgroundColor"><a href="https://nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils" onmouseover="USDANTMouseInOut('USDANavTop_ImgAbout','USDANavTop$HdnAboutOver');" onmouseout="USDANTMouseInOut('USDANavTop_ImgAbout','USDANavTop$HdnAboutNorm');"><img src="/images/nav_top_about2.gif" id="USDANavTop_ImgAbout" alt="Click to go to the NRCS Soils page." title="About Soils" width="83" height="21" border="0" /></a><img src="/images/top_nav_spacer.gif" id="USDANavTop_ImgSpacer2" width="1" height="21" border="0" /></td>
+               <td class="WhiteBackgroundColor"><a href="/Help.aspx" id="USDANavTop_LnkHelp" onmouseover="USDANTMouseInOut(&#39;USDANavTop_ImgHelp&#39;,&#39;USDANavTop$HdnHelpOver&#39;);" onmouseout="USDANTMouseInOut(&#39;USDANavTop_ImgHelp&#39;,&#39;USDANavTop$HdnHelpNorm&#39;);"><img src="/images/nav_top_help.gif" id="USDANavTop_ImgHelp" alt="Click to go to the Help page." title="Help" width="47" height="21" border="0" /></a><img src="/images/top_nav_spacer.gif" id="USDANavTop_ImgSpacer3" width="1" height="21" border="0" /></td>
+               <td class="WhiteBackgroundColor"><a href="https://nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/state-soil-scientists " id="USDANavTop_LnkContact" onmouseover="USDANTMouseInOut(&#39;USDANavTop_ImgContact&#39;,&#39;USDANavTop$HdnContactOver&#39;);" onmouseout="USDANTMouseInOut(&#39;USDANavTop_ImgContact&#39;,&#39;USDANavTop$HdnContactNorm&#39;);"><img src="/images/nav_top_contact.gif" id="USDANavTop_ImgContact" alt="Click to go to a contact information page." title="Contact Us" width="84" height="21" border="0" /></a><img src="/images/top_nav_spacer.gif" id="USDANavTop_ImgSpacer4" width="1" height="21" border="0" /></td>
+             </tr>
+           </table>
+         </td>
+       </tr>
+     </table>
+<!-- USDANavTop END -->
+
+	<table border="0" style="width:767px;margin-left:auto;margin-right:auto;border-spacing:0px;padding:4px" class="cLightBody">
+		<tr style="vertical-align:top">
+			<td>
+				
+
+<!-- USDANavLeft START -->
+     <script language="javascript">
+       <!--
+     	function USDANLMouseInOut(ImageControl, HiddenControl) {
+     		var obja = document.getElementById(ImageControl);
+     		var objb = document.getElementById(HiddenControl);
+     		if (!objb) {
+     			var strb = new String();
+     			strb = HiddenControl;
+     			objb = document.getElementById(strb.replace('\$', '_'));
+     		}
+     		if (obja && objb) obja.src = objb.value;
+     	}
+       // -->
+     </script>
+
+     <input name="USDANavLeft$HdnSoilsNorm" type="hidden" id="USDANavLeft_HdnSoilsNorm" value="/images/r_c_nav_SOILS.gif" /> <input name="USDANavLeft$HdnSoilsOver" type="hidden" id="USDANavLeft_HdnSoilsOver" value="/images/r_c_nav_SOILS_over.gif" />
+     <input name="USDANavLeft$HdnWSSNorm" type="hidden" id="USDANavLeft_HdnWSSNorm" value="/images/r_c_nav_WSS.gif" /> <input name="USDANavLeft$HdnWSSOver" type="hidden" id="USDANavLeft_HdnWSSOver" value="/images/r_c_nav_WSS_over.gif" />
+     <input name="USDANavLeft$HdnNCSSNorm" type="hidden" id="USDANavLeft_HdnNCSSNorm" value="/images/r_c_nav_NCSS.gif" /> <input name="USDANavLeft$HdnNCSSOver" type="hidden" id="USDANavLeft_HdnNCSSOver" value="/images/r_c_nav_NCSS_over.gif" />
+     <input name="USDANavLeft$HdnArchivedNorm" type="hidden" id="USDANavLeft_HdnArchivedNorm" value="/images/r_c_nav_archivedSS.gif" /> <input name="USDANavLeft$HdnArchivedOver" type="hidden" id="USDANavLeft_HdnArchivedOver" value="/images/r_c_nav_archivedSS_over.gif" />
+     <input name="USDANavLeft$HdnStatusMapNorm" type="hidden" id="USDANavLeft_HdnStatusMapNorm" value="/images/r_c_nav_statusmaps.gif" /> <input name="USDANavLeft$HdnStatusMapOver" type="hidden" id="USDANavLeft_HdnStatusMapOver" value="/images/r_c_nav_statusmaps_over.gif" />
+     <input name="USDANavLeft$HdnOSDNorm" type="hidden" id="USDANavLeft_HdnOSDNorm" value="/images/r_c_nav_OSD.gif" /> <input name="USDANavLeft$HdnOSDOver" type="hidden" id="USDANavLeft_HdnOSDOver" value="/images/r_c_nav_OSD_over.gif" />
+     <input name="USDANavLeft$HdnSSMapToolNorm" type="hidden" id="USDANavLeft_HdnSSMapToolNorm" value="/images/r_c_nav_SSMapTool.gif" /> <input name="USDANavLeft$HdnSSMapToolOver" type="hidden" id="USDANavLeft_HdnSSMapToolOver" value="/images/r_c_nav_SSMapTool_over.gif" />
+<!--	 
+     <input name="USDANavLeft$HdnSDMNorm" type="hidden" id="USDANavLeft_HdnSDMNorm" value="/images/r_c_nav_SDM.gif" /> <input name="USDANavLeft$HdnSDMOver" type="hidden" id="USDANavLeft_HdnSDMOver" value="/images/r_c_nav_SDM_over.gif" />
+-->
+     <input name="USDANavLeft$HdnGDGNorm" type="hidden" id="USDANavLeft_HdnGDGNorm" value="/images/r_c_nav_GDG.gif" /> <input name="USDANavLeft$HdnGDGOver" type="hidden" id="USDANavLeft_HdnGDGOver" value="/images/r_c_nav_GDG_over.gif" />
+     <input name="USDANavLeft$HdneFOTGNorm" type="hidden" id="USDANavLeft_HdneFOTGNorm" value="/images/r_c_nav_eFOTG.gif" /> <input name="USDANavLeft$HdneFOTGOver" type="hidden" id="USDANavLeft_HdneFOTGOver" value="/images/r_c_nav_eFOTG_over.gif" />
+     <input name="USDANavLeft$HdnNSCDNorm" type="hidden" id="USDANavLeft_HdnNSCDNorm" value="/images/r_c_nav_NSCD.gif" /> <input name="USDANavLeft$HdnNSCDOver" type="hidden" id="USDANavLeft_HdnNSCDOver" value="/images/r_c_nav_NSCD_over.gif" />
+     <input name="USDANavLeft$HdnSGSDNorm" type="hidden" id="USDANavLeft_HdnSGSDNorm" value="/images/r_c_nav_SGSD.gif" /> <input name="USDANavLeft$HdnSGSDOver" type="hidden" id="USDANavLeft_HdnSGSDOver" value="/images/r_c_nav_SGSD_over.gif" />
+     <input name="USDANavLeft$HdnSQNorm" type="hidden" id="USDANavLeft_HdnSQNorm" value="/images/r_c_nav_SQ.gif" /> <input name="USDANavLeft$HdnSQOver" type="hidden" id="USDANavLeft_HdnSQOver" value="/images/r_c_nav_SQ_over.gif" />
+     <input name="USDANavLeft$HdnSGNorm" type="hidden" id="USDANavLeft_HdnSGNorm" value="/images/r_c_nav_SG.gif" /> <input name="USDANavLeft$HdnSGOver" type="hidden" id="USDANavLeft_HdnSGOver" value="/images/r_c_nav_SG_over.gif" />
+  <!--
+     <input name="USDANavLeft$HdnGeo1StopNorm" type="hidden" id="USDANavLeft_HdnGeo1StopNorm" value="/images/r_c_nav_GeoOneStop.gif" /> <input name="USDANavLeft$HdnGeo1StopOver" type="hidden" id="USDANavLeft_HdnGeo1StopOver" value="/images/r_c_nav_GeoOneStop_over.gif" />
+  -->
+
+     <table width="179" cellspacing="0" cellpadding="0" border="0">
+       <tr valign="top">
+         <td width="171">
+           <table width="171" cellpadding="0" cellspacing="0" border="0" bgcolor="ffffff">
+             <tr><td colspan="5" role="heading" aria-level="2"><img src="/images/r_c_head_search.gif" id="USDANavLeft_ImgSearch" width="172" height="23" alt="This is the Search Section where you can enter keywords to search." title="Search" /></td></tr>
+             <tr> <!-- Search -->
+               <td width="3" class="WhiteBackgroundColor"><img src="/images/spacer.gif" id="USDANavLeft_ImgSpacer1" width="3" /></td>
+               <td width="1" class="BlackBackgroundColor"><img src="/images/spacer.gif" id="USDANavLeft_ImgSpacer2" width="1" /></td>
+               <td width="163" class="LeftNavBackgroundColor">
+                 <form action="https://nrcs.usda.gov/search.asp" method="GET" class="searchform">
+                   <input type="hidden" name="site" value="NRCS"/>
+                   <table width="163" cellspacing="0" cellpadding="0" border="0">
+                     <tr><td colspan="3" height="5"/></tr>
+                     <tr>
+                       <td width="7"/>
+                       <td>
+                         <label for="searchsite"><span class="accessibility">Search for keywords</span></label>
+                         <input type="text" id="searchTerms" name="qu" size="10" value="Enter Keywords" class="searchform"/>
+                       </td>
+                       <td width="29" height="20">
+                         <input src="/images/button-go.gif" name="USDANavLeft$ImgGo" type="image" id="USDANavLeft_ImgGo" width="29" height="20" alt="Click this Go button to perform a search." value="Search" />
+                       </td>
+                     </tr>
+                     <tr>
+                       <td width="7"/>
+                       <td colspan="2">
+                         <select name="ct" id="searchSite" accesskey="s" class="googlesiteidbox" aria-label="Choose NRCS sites to search.">
+                           <option value="NRCS">National NRCS</option>
+                           <option value="ALL" selected>All NRCS Sites</option>
+                           <option value="USDA">NRCS, FSA, &amp; RD</option>
+                         </select>
+                       </td>
+                     </tr>
+                   </table>
+                 </form>
+               </td>
+               <td width="1" class="BlackBackgroundColor"><img src="/images/spacer.gif" id="USDANavLeft_ImgSpacer3" width="1" /></td>
+               <td width="3" class="WhiteBackgroundColor"><img src="/images/spacer.gif" id="USDANavLeft_ImgSpacer4" width="3" /></td>
+             </tr>
+             <tr> <!-- Browse By Subject -->
+               <td width="3" class="WhiteBackgroundColor"/>
+               <td width="1" class="BlackBackgroundColor"/>
+               <td width="163" class="LeftNavBackgroundColor">
+                 <table width="163" border="0" cellspacing="0" cellpadding="0">
+                   <tr><td role="heading" aria-level="2"><img src="/images/r_c_head_subject.gif" id="USDANavLeft_ImgSubject" width="163" height="30" border="0" alt="This is the Browse by Subject section." title="Browse by Subject" /></td></tr>
+
+				    <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+        			  <td style="height: 25px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut1" border="0" />
+						<a href="https://nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils" class="cUSDALeftNav" id="SOILS" alt="Click to go to the NRCS Soils home page." title="NRCS Soils Home">Soils Home</a>
+                      </td>
+				    </tr>
+                   
+                    <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					  <td style="height: 25px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut2" border="0" />
+					    <a href="https://websoilsurvey.sc.egov.usda.gov/" class="cUSDALeftNav" id="WSS" alt="Click to go to the Web Soil Survey home page." title="WSS">Web Soil Survey</a>
+					  </td>
+				    </tr>
+
+                    <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					  <td style="height: 65px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut3" border="0" />
+					    <a href="https://nrcs.usda.gov/about/partner-with-us/national-cooperative-soil-survey" class="cUSDALeftNav" id="NCSS" alt="Click to go to the NCSS page." title="NCSS">National Cooperative Soil Survey (NCSS)</a>
+					  </td>
+				    </tr>
+
+				   <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					 <td style="height: 50px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut4" border="0" />
+                        <a href="https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soil/soil-surveys-by-state" class="cUSDALeftNav" id="archivedSS" alt="Click to go to Archived Soil Surveys." title="Archived Soil Surveys">Archived Soil Surveys</a>
+					 </td>
+				   </tr>
+
+				   <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+				  	 <td style="height: 25px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut5" border="0" />
+			    		<a href="https://websoilsurvey.sc.egov.usda.gov/DataAvailability/SoilDataAvailabilityMap.pdf"" class="cUSDALeftNav" id="statusmaps" alt="Click to go to a Soil Data Availability Map." title="Status Maps">Status Maps</a>
+					 </td>
+				   </tr>
+
+				   <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					 <td style="height: 50px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut6" border="0" />
+						<a href="https://nrcs.usda.gov/resources/data-and-reports/official-soil-series-descriptions-osd" class="cUSDALeftNav" id="OSD" alt="Click to go to Official Soil Series Descriptions or OSD." title="OSD">Official Soil Series Descriptions (OSD)</a>
+					 </td>
+				   </tr>
+
+				   <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					 <td style="height: 50px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut7" border="0" />
+						<a href="https://casoilresource.lawr.ucdavis.edu/see/" class="cUSDALeftNav" id="SSMapTool" alt="Click to go to the Series Extent Explorer application." title="Series Extent Explorer">Series Extent Explorer</a>
+					 </td>
+				   </tr>
+
+				   <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					 <td style="height: 50px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut8" border="0" />
+						<a href="https://gdg.sc.egov.usda.gov/" class="cUSDALeftNav" id="GDG" alt="Click to go to the Geospatial Data Gateway." title="Geospatial Data Gateway">Geospatial Data Gateway</a>
+				 	</td>
+				   </tr>	
+
+				   <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					 <td style="height: 25px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut9" border="0" />
+						<a href="http://www.nrcs.usda.gov/wps/portal/nrcs/main/national/technical/fotg/" class="cUSDALeftNav" id="FOTG" alt="Click to go to FOTG or county technical guides." title="FOTG (county technical guides)">eFOTG</a>
+					 </td>
+				   </tr>
+
+				   <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					 <td style="height: 65px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut10" border="0" />
+						<a href="http://ncsslabdatamart.sc.egov.usda.gov/" class="cUSDALeftNav" id="NSCD" alt="Click to go to National Soil Characterization Data." title="National Soil Characterization Data">National Soil Characterization Data</a>
+					 </td>
+				   </tr>
+
+				   <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					 <td style="height: 25px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut11" border="0" />
+						<a href="https://nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health" class="cUSDALeftNav" id="SQ" alt="Click to go to Soil Health." title="Soil Health">Soil Health</a>
+					 </td>
+				   </tr>
+
+				   <tr style="padding-top: 2ex; padding-bottom: 2ex;" class="cUSDALeftNav">
+					 <td style="height: 25px">
+                        <img src="/images/list_but_3.gif" id="USDANavLeft_ImgListBut12" border="0" />
+						<a href="https://nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-geography" class="cUSDALeftNav" id="SG" alt="Click to go to Soil Geography." title="Soil Geography">Soil Geography</a>
+					 </td>
+				   </tr>
+                 </table>
+               </td>
+               <td width="1" class="BlackBackgroundColor"/>
+               <td width="3" class="WhiteBackgroundColor"/>
+             </tr>
+             <tr><td colspan="5" align="center"><img src="/images/right_column_footer_2.gif" id="USDANavLeft_ImgFooter" width="172" height="17" border="0" /></td></tr>
+           </table>
+         </td>
+       </tr>
+     </table>
+<!-- USDANavLeft END -->
+			</td>
+			<td>
+				<br />
+				<table border="0" style="width:100%;border-spacing:0px;padding:0px">
+					<tr style="vertical-align:top">
+						<td class="cHeadlineBar" role="heading" aria-level="1">
+                            <a name="startContent" id="startContent"></a>
+							<img src="images/Welcome.png" alt="Welcome to the Soil Data Access home page." title="Welcome to Soil Data Access." />
+                            <br />
+						</td>
+					</tr>
+				    <tr>
+						<td id="HtcTesting"></td>
+
+					</tr>
+					<tr>
+						<td>
+							<p>
+							Soil Data Access is the name of a suite of web services and applications whose purpose is to meet
+							requirements for requesting and delivering soil survey spatial and tabular data that are not met by
+							the Web Soil Survey and Geospatial Data Gateway websites.  These requirements include:
+							</p>
+							<ul>
+								<li>Provide a way to request data for an ad hoc area of interest of any size.</li>
+								<li>Provide a way to obtain data in real-time.</li>
+								<li>Provide a way to request selected tabular and spatial attributes.</li>
+								<li>Provide a way to return tabular and spatial data where the organization of that data doesn't have to 
+									mirror that of the underlying source database.</li>
+								<li>Provide a way to bundle results by request, rather than by survey area.</li>
+							</ul>
+							<br />
+							The ad hoc area of interest requirement is addressed, at least in part, by providing web services and
+							applications capable of processing requests for spatial and tabular data, where an area of interest can be
+							expressed by either a variety of spatial filters, or by using a SQL query or Shape command capable of
+							referencing spatial entities represented in the underlying tabular data.
+							<br />
+							<br />
+							The real-time requirement is addressed by providing web services and interfaces that are capable of
+							servicing a request in real-time.
+							<br />
+							<br />
+							The selected tabular and spatial attributes and alternative organization requirements are 
+                            addressed by requiring the use of SQL queries and Shape commands in order to request 
+                            tabular and spatial data.  This combination allows tabular results to be
+							returned either as a single table or multiple tables.
+							<br />
+							<br />
+							The requirement to bundle results by request is addressed by virtue of the fact that, by design, the result of any
+							request for this suite of web services and applications is always bundled by request.  In other words, as far as this
+							suite of web services and applications is concerned, no other bundling options exist 
+                            (it is possible to programmatically-define a "persistent Area of Interest" that allows
+                            the soils data in the pAOI to be referenced at a later time via all of the web services).
+							<br />
+							<br />
+							The Soil Data Access suite provides no option to return a predefined set of tabular attributes,
+							although we do provide a variety of sample SQL queries that can be adapted to one's needs.
+						</td>
+					</tr>
+				</table>
+				<br />
+			</td>
+			<td>
+				
+
+<!-- USDAIWantTo START -->
+<script language="javascript">
+       <!--
+	function NLPopUp(url) {
+		var w = window.open(url, 'SDANews', 'toolbar=0,scrollbars=0,location=0,menubar=0,resizable=0,width=300,height=162');
+		if (w) w.focus();
+	}
+	// -->
+</script>
+
+<!-- USDAIWantTo END -->
+
+<table width="188" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td colspan="6" role="heading" aria-level="2">
+			<img src="/images/rn_iwantto_top_cut.gif" id="USDAIWantTo_ImgHeader" border="0" alt="This is the I Want To section." title="I Want To..." /></td>
+	</tr>
+
+    <!-- View New Features and Fixes ... -->
+    <tr id="USDAIWantTo_IWant4" style="padding-top: 2ex;" valign="top" class="cUSDARightNav">
+	<td id="USDAIWantTo_IWant4L" width="4" background="/images/rn_left_col.gif"></td>
+	<td style="width:10px"></td>
+	<td style="width:12px; vertical-align:top">
+			<img src="/images/list_but_3.gif" id="USDAIWantTo_ImgListBut4" border="0" /></td>
+	<td style="width:148px; height: 60px;" class="cUSDARightNav" title="View New Features and Fixes.">
+            <a href="/NewFeaturesFixes.aspx" id="USDAIWantTo_Lnk4">View New Features and Fixes</a></td>
+	<td style="width:10px"></td>
+	<td id="USDAIWantTo_IWant4R" style="width:4px" background="/images/rn_right_col.gif"></td>
+</tr>
+
+    
+	<!-- Submit a custom request ... -->
+	
+
+	<tr id="USDAIWantTo_IWant1" style="padding-top: 2ex;" valign="top" class="cUSDARightNav">
+	<td id="USDAIWantTo_IWant1L" width="4" background="/images/rn_left_col.gif"></td>
+	<td style="width:10px"></td>
+	<td style="width:12px; vertical-align:top">
+			<img src="/images/list_but_3.gif" id="USDAIWantTo_ImgListBut1" border="0" /></td>
+	<td style="width:148px; height: 60px;" class="cUSDARightNav" title="Submit a custom request for soil tabular data.">
+            <a href="/Query.aspx" id="USDAIWantTo_Lnk1">Submit a custom request for soil tabular data</a></td>
+	<td style="width:10px"></td>
+	<td id="USDAIWantTo_IWant1R" width="4" background="/images/rn_right_col.gif"></td>
+</tr>
+
+
+	<!-- Subscribe to... -->
+	<tr id="USDAIWantTo_IWant2" style="padding-top: 2ex;" valign="top" class="cUSDARightNav">
+	<td id="USDAIWantTo_IWant2L" width="4" background="/images/rn_left_col.gif"></td>
+	<td style="width:10px"></td>
+	<td style="width:12px; vertical-align:top">
+			<img src="/images/list_but_3.gif" id="USDAIWantTo_ImgListBut2" border="0" /></td>
+	<td style="width:148px; height: 60px;" class="cUSDARightNav" title="Subscribe to Soil Data Access News."><a target="_blank" rel="noopener noreferrer"
+			href="https://public.govdelivery.com/accounts/USDANRCS/subscriber/new?topic_id=USDANRCS_4025">Subscribe to Soil Data Access News</a></td>
+	<td style="width:10px"></td>
+	<td id="USDAIWantTo_IWant2R" width="4" background="/images/rn_right_col.gif"></td>
+</tr>
+
+
+	<!-- Unsubscribe from... -->
+	<tr id="USDAIWantTo_IWant3" style="padding-top: 2ex;" valign="top" class="cUSDARightNav">
+	<td id="USDAIWantTo_IWant3L" width="4" background="/images/rn_left_col.gif"></td>
+	<td style="width:10px"></td>
+	<td style="width:12px; vertical-align:top">
+			<img src="/images/list_but_3.gif" id="USDAIWantTo_ImgListBut3" border="0" /></td>
+	<td style="width:148px; height: 60px;" class="cUSDARightNav" title="Unsubscribe from Soil Data Access News."><a target="_blank"  rel="noopener noreferrer"
+			href="https://public.govdelivery.com/accounts/USDANRCS/subscriber/new?topic_id=USDANRCS_4025">Unsubscribe from Soil Data Access News</a></td>
+	<td style="width:10px"></td>
+	<td id="USDAIWantTo_IWant3R" width="4" background="/images/rn_right_col.gif"></td>
+</tr>
+   
+
+	<tr>
+		<td colspan="6">
+			<img src="/images/rn_bottom_cut.gif" id="USDAIWantTo_ImgFooter" border="0" /></td>
+	</tr>
+</table>
+
+				<br />
+				
+<!-- USDAIWantHelp START -->
+<table width="188" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td colspan="6" role="heading" aria-level="2">
+            <img src="/images/rn_iwanthelp_top_cut.gif" id="USDAIWantHelp_ImgHeader" border="0" alt="This is the I Want Help With section." title="I Want Help With..." />
+        </td>
+    </tr>
+
+    <tr id="USDAIWantHelp_IWant1" style="padding-top: 2ex;" valign="top" class="cUSDARightNav">
+	<td id="USDAIWantHelp_IWant1L" style="width:4px" background="/images/rn_left_col.gif"></td>
+	<td style="width:10px"></td>
+	<td style="width:12px;vertical-align:top">
+            <img src="/images/list_but_3.gif" id="USDAIWantHelp_ImgListBut1" border="0" />
+        </td>
+	<td style="width:148px; height:60px;" title="Creating my own custom database queries." class="cUSDARightNav">
+            <a href="/QueryHelp.aspx" id="USDAIWantHelp_Lnk1">Creating my own custom database queries</a>
+        </td>
+	<td style="width:10px"></td>
+	<td id="USDAIWantHelp_IWant1R" style="width:4px" background="/images/rn_right_col.gif"></td>
+</tr>
+
+    <tr id="USDAIWantHelp_IWant2" style="padding-top: 2ex;" valign="top" class="cUSDARightNav">
+	<td id="USDAIWantHelp_IWant2L" style="width:4px" background="/images/rn_left_col.gif"></td>
+	<td style="width:10px"></td>
+	<td style="width:12px;vertical-align:top">
+            <img src="/images/list_but_3.gif" id="USDAIWantHelp_ImgListBut2" border="0" />
+        </td>
+	<td style="width:148px; height:60px;" title="Index to SQL Library - Sample Scripts." class="cUSDARightNav">
+            <a href="https://nasis.sc.egov.usda.gov/NasisReportsWebSite/limsreport.aspx?report_name=SDA-SQL_Library_Home" id="USDAIWantHelp_Lnk2">Index to SQL Library - Sample Scripts</a>
+        </td>
+	<td style="width:10px"></td>
+	<td id="USDAIWantHelp_IWant2R" style="width:4px" background="/images/rn_right_col.gif"></td>
+</tr>
+	
+    <tr id="USDAIWantHelp_IWant3" style="padding-top: 2ex;" valign="top" class="cUSDARightNav">
+	<td id="USDAIWantHelp_IWant3L" style="width:4px" background="/images/rn_left_col.gif"></td>
+	<td style="width:10px"></td>
+	<td style="width:12px;vertical-align:top">
+            <img src="/images/list_but_3.gif" id="USDAIWantHelp_ImgListBut3" border="0" />
+        </td>
+	<td style="width:148px; height:60px;" title="Using Soil Data Access web services." class="cUSDARightNav">
+            <a href="/WebServiceHelp.aspx" id="USDAIWantHelp_Lnk3">Using Soil Data Access web services</a>
+        </td>
+	<td style="width:10px"></td>
+	<td id="USDAIWantHelp_IWant3R" style="width:4px" background="/images/rn_right_col.gif"></td>
+</tr>
+
+    <tr id="USDAIWantHelp_IWant4" style="padding-top: 2ex;" valign="top" class="cUSDARightNav">
+	<td id="USDAIWantHelp_IWant4L" style="width:4px" background="/images/rn_left_col.gif"></td>
+	<td style="width:10px"></td>
+	<td style="width:12px;vertical-align:top">
+            <img src="/images/list_but_3.gif" id="USDAIWantHelp_ImgListBut4" border="0" />
+        </td>
+	<td style="width:148px; height:60px;" title="Using the Soil Data Access website." class="cUSDARightNav">
+            <a href="/Help.aspx" id="USDAIWantHelp_Lnk4">Using the Soil Data Access website</a>
+        </td>
+	<td style="width:10px"></td>
+	<td id="USDAIWantHelp_IWant4R" style="width:4px" background="/images/rn_right_col.gif"></td>
+</tr>
+
+    <tr id="USDAIWantHelp_IWant5" style="padding-top: 2ex;" valign="top" class="cUSDARightNav">
+	<td id="USDAIWantHelp_IWant5L" style="width:4px" background="/images/rn_left_col.gif"></td>
+	<td style="width:10px"></td>
+	<td style="width:12px;vertical-align:top">
+            <img src="/images/list_but_3.gif" id="USDAIWantHelp_ImgListBut5" border="0" />
+        </td>
+	<td style="width:148px; height:60px;" title="Citing Soil Data Access as a source of soils data." class="cUSDARightNav">
+            <a href="/Citation.htm" id="USDAIWantHelp_Lnk5">Citing Soil Data Access as a source of soils data</a>
+        </td>
+	<td style="width:10px"></td>
+	<td id="USDAIWantHelp_IWant5R" style="width:4px" background="/images/rn_right_col.gif"></td>
+</tr>
+
+
+   
+    <tr>    
+        <td colspan="6">
+            <img src="/images/rn_bottom_cut.gif" id="USDAIWantHelp_ImgFooter" border="0" />
+        </td>
+    </tr>
+</table>
+<!-- USDAIWantHelp END -->
+
+				<br />
+			</td>
+		</tr>
+	</table>
+
+	
+
+<!-- USDAFooter START -->
+     <script language="javascript">
+       <!--
+         function ShowSiteDisclaimer() {
+           alert('Notice!\n\nThis is a United States Department of Agriculture computer system, which may be accessed and used only for official Government business (or as otherwise permitted by regulation) by authorized personnel.  Unauthorized access or use of this computer system may subject violators to criminal, civil, and/or administrative action.  All information on this computer system may be intercepted, recorded, read, copied, and disclosed by and to authorized personnel for official purposes, including criminal investigations.  Access or use of this computer system by any person, whether authorized or unauthorized, constitutes consent to these terms.');
+         }
+       // -->
+     </script>
+
+     <table width="767" align="center" cellspacing="0" cellpadding="0" border="0" class="cLightBody">
+       <tr>
+         <td align="center" class="cUSDAFooter">
+            <div style="width: 90%;">
+                <a href="https://nrcs.usda.gov/" aria-label="Natural Resources Conservation Service Home page."><b><acronym title="Natural Resources Conservation Service">NRCS</acronym> Home</b></a>
+                |
+                <a href="https://www.usda.gov" aria-label="United States Department of Agriculture."><acronym title="United States Department of Agriculture">USDA</acronym></a>
+                |
+                <a href="https://nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils" aria-label="Natural Resources Conservation Service Soils."><acronym title="Natural Resources Conservation Service Soils">NRCS Soils</acronym></a> 
+                |
+                <a href="javascript:ShowSiteDisclaimer();" aria-label="Site Disclaimer."><acronym title="Site Disclaimer">Disclaimer</acronym></a>
+                |
+                <a href="https://nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/state-soil-scientists" id="USDAFooter_LnkFooterContactUs" class="SDM_Footer" aria-label="How to Contact Us."><acronym title="How to Contact Us">Contact Us</acronym></a>
+                |
+                <br/>
+                <a href="https://www.usa.gov" aria-label="USA Dot Gov."><acronym title="USA Dot Gov">USA.gov</acronym></a> 
+                |
+                <a href="https://www.whitehouse.gov" aria-label="The White House."><acronym title="The White House">White House</acronym></a> 
+                |
+                <a href="https://www.usda.gov/ogc/office-information-affairs/foia-division" aria-label="Freedom of Information Act."><acronym title="Freedom of Information Act">FOIA</acronym></a>
+                |
+                <a href="https://www.usda.gov/accessibility-statement" aria-label="NRCS Accessibility Statement."><acronym title="NRCS Accessibility Statement">Accessibility Statement</acronym></a>
+                |
+                <br/>
+                <a href="https://www.usda.gov/privacy-policy" aria-label="USDA Privacy Policy."><acronym title="USDA Privacy Policy">Privacy Policy</acronym></a>
+                | 
+                <a href="https://www.usda.gov/non-discrimination-statement" aria-label="USDA Non-Discrimination Statement."><acronym title="USDA Non-Discrimination Statement">Non-Discrimination Statement</acronym></a>
+                |
+                <a href="https://www.ocio.usda.gov/policy-directives-records-forms/information-quality-activities" aria-label="USDA Information Quality."><acronym title="USDA Information Quality">Information Quality</acronym></a>
+            </div>
+         </td>
+       </tr>
+     </table>
+<!-- USDAFooter END -->
+</body>
+</html>
+
