@@ -36,5 +36,6 @@ deliverable to HC&C.
 
 # Information
 
-- Please submit feature requests and bugs to [issues](issues/ "issues")
+- Please submit feature requests and bugs to the
+  [issues](https://github.com/ecoFw/hi-csa-db/issues "issues") system.
 - For more information, contact Dr. Matthew Kekoa Lau [mklau3@hawaii.edu](mklau3@hawaii.edu "mklau3@hawaii.edu").
