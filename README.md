@@ -36,7 +36,7 @@ deliverable to HC&C.
 
 # Information
 
-- Details of the project pipeline can be found in [hi-csa-db.pdf](hi-csa-db.pdf)
+- Details of the project pipeline can be found in [hi-csa-db.pdf](hi-csa-db.pdf).
 - Please submit feature requests and bugs to the
   [issues](https://github.com/ecoFw/hi-csa-db/issues "issues") system.
 - For more information, contact Dr. Matthew Kekoa Lau [mklau3@hawaii.edu](mklau3@hawaii.edu "mklau3@hawaii.edu").
