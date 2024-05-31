@@ -12,7 +12,7 @@ p_load(rmarkdown, tictoc)
 
 tic()
 rmarkdown::render("hi-csa-db.Rmd", 
-                  output_format = c("html_document", "pdf_document"))
+                  output_format = c("html_document"))
 toc()
 
 ```
@@ -268,7 +268,7 @@ colnames(nrcs.db) <- c("Mitigation", "Practice", "Description", "Resource")
 
 ```{r crawl-attra, cache = FALSE, eval = TRUE, results = "hide"}
 
-attra.url <- "https://attra.ncat.org/climate-solutions/"
+attra.url <- "https://attra.ncat.org/publication/climate-beneficial-practices/"
 
 if ("attra.rds" %in% dir("data")){
 
@@ -282,7 +282,7 @@ if ("attra.rds" %in% dir("data")){
              NetwExtLinks = TRUE, 
              ExtractXpathPat = "//*/a/@href",
              RequestsDelay = 0,01,
-             ManyPerPattern = TRUE, MaxDepth = 1, 
+             ManyPerPattern = TRUE, MaxDepth = 2, 
              saveOnDisk = FALSE
              )
     attra <- list()

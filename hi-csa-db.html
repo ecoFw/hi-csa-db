@@ -384,30 +384,6 @@ directory.</li>
 </div>
 <div id="ingest" class="section level1">
 <h1>Ingest</h1>
-<pre><code>## also installing the dependency &#39;selectr&#39;</code></pre>
-<pre><code>## 
-## The downloaded binary packages are in
-##  /var/folders/zz/j2shfc556fjfgbrlvltlpfw40000gp/T//Rtmpun5xoE/downloaded_packages</code></pre>
-<pre><code>## 
-## rvest installed</code></pre>
-<pre><code>## also installing the dependencies &#39;png&#39;, &#39;iterators&#39;, &#39;debugme&#39;, &#39;showimage&#39;, &#39;data.table&#39;, &#39;foreach&#39;, &#39;doParallel&#39;, &#39;webdriver&#39;</code></pre>
-<pre><code>## 
-## The downloaded binary packages are in
-##  /var/folders/zz/j2shfc556fjfgbrlvltlpfw40000gp/T//Rtmpun5xoE/downloaded_packages</code></pre>
-<pre><code>## 
-## Rcrawler installed</code></pre>
-<pre><code>## also installing the dependencies &#39;tzdb&#39;, &#39;bitops&#39;, &#39;qpdf&#39;, &#39;minty&#39;, &#39;RCurl&#39;, &#39;rjson&#39;, &#39;ndjson&#39;, &#39;antiword&#39;, &#39;pdftools&#39;, &#39;readODS&#39;, &#39;streamR&#39;, &#39;striprtf&#39;</code></pre>
-<pre><code>## 
-## The downloaded binary packages are in
-##  /var/folders/zz/j2shfc556fjfgbrlvltlpfw40000gp/T//Rtmpun5xoE/downloaded_packages</code></pre>
-<pre><code>## 
-## readtext installed</code></pre>
-<pre><code>## also installing the dependencies &#39;uuid&#39;, &#39;gargle&#39;, &#39;googledrive&#39;, &#39;ids&#39;</code></pre>
-<pre><code>## 
-## The downloaded binary packages are in
-##  /var/folders/zz/j2shfc556fjfgbrlvltlpfw40000gp/T//Rtmpun5xoE/downloaded_packages</code></pre>
-<pre><code>## 
-## googlesheets4 installed</code></pre>
 <div id="webcrawl" class="section level2">
 <h2>Webcrawl</h2>
 <p>There are currently two webcrawl directories for NRCS. The first,
@@ -590,7 +566,7 @@ for (i in seq_along(nrcs.db[, &quot;a&quot;])){
 ## Prep for export
 nrcs.db[is.na(nrcs.db[, &quot;H4&quot;]), &quot;H4&quot;] &lt;- &quot;Other&quot;
 colnames(nrcs.db) &lt;- c(&quot;Mitigation&quot;, &quot;Practice&quot;, &quot;Description&quot;, &quot;Resource&quot;)</code></pre>
-<pre class="r"><code>attra.url &lt;- &quot;https://attra.ncat.org/climate-solutions/&quot;
+<pre class="r"><code>attra.url &lt;- &quot;https://attra.ncat.org/publication/climate-beneficial-practices/&quot;
 
 if (&quot;attra.rds&quot; %in% dir(&quot;data&quot;)){
 
@@ -604,7 +580,7 @@ if (&quot;attra.rds&quot; %in% dir(&quot;data&quot;)){
              NetwExtLinks = TRUE, 
              ExtractXpathPat = &quot;//*/a/@href&quot;,
              RequestsDelay = 0,01,
-             ManyPerPattern = TRUE, MaxDepth = 1, 
+             ManyPerPattern = TRUE, MaxDepth = 2, 
              saveOnDisk = FALSE
              )
     attra &lt;- list()
