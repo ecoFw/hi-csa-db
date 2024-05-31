@@ -7,8 +7,8 @@ author: MK Lau
 <!-- Rendering rmarkdown Notebook -->
 ```{r render, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
 
-library(rmarkdown)
-library(tictoc)
+library(pacman)
+p_load(rmarkdown, tictoc)
 
 tic()
 rmarkdown::render("hi-csa-db.Rmd", 
