@@ -259,8 +259,22 @@ for (i in seq_along(nrcs.db[, "a"])){
     }else{}
 }
 
+
+## Stop-gap fixes
+## These need to be fixed on ingestion. Must be an issue with data structure. 
+## Energy mis-matched info
+nrcs.db[nrcs.db[, "H3"] == "Energy, Combustion, and Electricity Efficiency", 
+        "H4"] <- c("Irrigation Pipeline",
+                   "Irrigation System, Microirrigation",
+                   "Sprinkler System",
+                   "Pumping Plant", 
+                   "Energy Efficient Lighting System")
+## H4 is NA
+nrcs.db[is.na(nrcs.db[, "H4"]), "H3"] <- "Conservation Efforts" 
+nrcs.db[is.na(nrcs.db[, "H4"]), "H4"] <- "Support Pollinators" 
+
+
 ## Prep for export
-nrcs.db[is.na(nrcs.db[, "H4"]), "H4"] <- "Other"
 colnames(nrcs.db) <- c("Mitigation", "Practice", "Description", "Resource")
 
 ```
