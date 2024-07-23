@@ -7,12 +7,18 @@ author: MK Lau
 <!-- Rendering rmarkdown Notebook -->
 ```{r render, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
 
-library(rmarkdown)
-library(tictoc)
+library(pacman)
+p_load(rmarkdown, tictoc, curl)
 
 tic()
+## Issue with http/html
+## Forcing http1
+## See https://github.com/jeroen/curl/issues/232
+## See https://cran.r-project.org/web/packages/curl/vignettes/intro.html#Disabling_HTTP2
+handle <- new_handle()
+curl::handle_setopt(handle, http_version = 2)
 rmarkdown::render("hi-csa-db.Rmd", 
-                  output_format = c("html_document", "pdf_document"))
+                  output_format = c("html_document"))
 toc()
 
 ```
@@ -126,8 +132,6 @@ Mitigation Strategies webpage. It is then exported to the
 ## 3. Get URL links to resources
 ## From the remaining search,
 ## 1. Get a list of other resources
-
-
 
 nrcs.csm <- read_html(nrcs.url)
 
@@ -259,8 +263,8 @@ for (i in seq_along(nrcs.db[, "a"])){
     }else{}
 }
 
+
 ## Prep for export
-nrcs.db[is.na(nrcs.db[, "H4"]), "H4"] <- "Other"
 colnames(nrcs.db) <- c("Mitigation", "Practice", "Description", "Resource")
 
 ```
@@ -268,7 +272,7 @@ colnames(nrcs.db) <- c("Mitigation", "Practice", "Description", "Resource")
 
 ```{r crawl-attra, cache = FALSE, eval = TRUE, results = "hide"}
 
-attra.url <- "https://attra.ncat.org/climate-solutions/"
+attra.url <- "https://attra.ncat.org/publication/climate-beneficial-practices/"
 
 if ("attra.rds" %in% dir("data")){
 
@@ -282,7 +286,7 @@ if ("attra.rds" %in% dir("data")){
              NetwExtLinks = TRUE, 
              ExtractXpathPat = "//*/a/@href",
              RequestsDelay = 0,01,
-             ManyPerPattern = TRUE, MaxDepth = 1, 
+             ManyPerPattern = TRUE, MaxDepth = 2, 
              saveOnDisk = FALSE
              )
     attra <- list()
@@ -484,6 +488,21 @@ hicsa.db <- db_merge(db.og, nrc.tab)
 ```{r nrcs-save, eval = TRUE, echo = TRUE}
 
 hicsa.db <- nrcs.db
+
+## Stop-gap fixes
+## These need to be fixed on ingestion. Must be an issue with data structure. 
+## Energy mis-matched info
+hicsa.db[hicsa.db[, "Mitigation"] == "Energy, Combustion, and Electricity Efficiency", 
+        "Practice"] <- c("Irrigation Pipeline",
+                   "Irrigation System, Microirrigation",
+                   "Sprinkler System",
+                   "Pumping Plant", 
+                   "Energy Efficient Lighting System")
+## H4 is NA
+hicsa.db[is.na(hicsa.db[, "Practice"]), "Mitigation"] <- "Conservation Efforts" 
+hicsa.db[is.na(hicsa.db[, "Practice"]), "Practice"] <- "Support Pollinators" 
+
+## Export
 saveRDS(hicsa.db, file = "./data/hi-csa-db.rds")
 
 ```

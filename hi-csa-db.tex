@@ -1,0 +1,628 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Hawai`i Climate Smart Agriculture Database Data Pipeline},
+  pdfauthor={MK Lau},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Hawai`i Climate Smart Agriculture Database Data Pipeline}
+\author{MK Lau}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Context}\label{context}
+
+The City and County of Honolulu's Office of Climate Resilience has
+contracted OACA to produce a Climate Smart Agriculture database intended
+to inform food system professionals and policy makers on the potential
+ecosystem service impacts of CSA activities. The consultant (MK Lau) has
+been sub-contracted by OACA to complete the deliverables listed below in
+partial fulfillment of the larger contracted deliverable to HC\&C.
+
+\section{Database Construction}\label{database-construction}
+
+\begin{itemize}
+\tightlist
+\item
+  The goal is to construct a database of resources to support climate
+  smart agricultural practices, using the USDA NRCS climate smart
+  mitigation strategies as a framework.
+\item
+  Via the data pipeline described in this document, data are ingested
+  into the database starting with hand-extracted data gathered by Lucas
+  McKinnon and Jackson Hart and then using a webcrawling to gather
+  resources from existing websites, including the NRCS, NIFA, AMS, and
+  ATTRA.
+\item
+  A structured relational database in produced and saved to the main
+  directory.
+\end{itemize}
+
+\section{Ingest}\label{ingest}
+
+\subsection{Webcrawl}\label{webcrawl}
+
+There are currently two webcrawl directories for NRCS. The first,
+``nrcs.usda.gov-292243'', contains a very deep crawl with max depth = 4.
+The second, ``nrcs.usda.gov-301855'', is a shallower crawl with a max
+depth of 1, which is currenlty being used to compile data for the
+database.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nrcs.url }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"https://www.nrcs.usda.gov/conservation{-}basics/"}\NormalTok{, }
+                   \StringTok{"natural{-}resource{-}concerns/climate/climate{-}smart{-}mitigation{-}activities"}\NormalTok{)}
+
+\ControlFlowTok{if}\NormalTok{ (}\StringTok{"nrcs.rds"} \SpecialCharTok{\%in\%} \FunctionTok{dir}\NormalTok{(}\StringTok{"data"}\NormalTok{))\{}
+
+\NormalTok{    nrcs }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\AttributeTok{file =} \StringTok{"./data/nrcs.rds"}\NormalTok{)}
+
+\NormalTok{\}}\ControlFlowTok{else}\NormalTok{\{}
+
+    \FunctionTok{Rcrawler}\NormalTok{(}\AttributeTok{Website =}\NormalTok{ nrcs.url,}
+             \AttributeTok{no\_cores =} \DecValTok{4}\NormalTok{, }\AttributeTok{no\_conn =} \DecValTok{4}\NormalTok{, }
+             \AttributeTok{NetworkData =} \ConstantTok{TRUE}\NormalTok{,}
+             \AttributeTok{NetwExtLinks =} \ConstantTok{TRUE}\NormalTok{, }
+             \AttributeTok{ExtractXpathPat =} \StringTok{"//*/a/@href"}\NormalTok{,}
+             \AttributeTok{RequestsDelay =} \DecValTok{0}\NormalTok{,}\DecValTok{01}\NormalTok{,}
+             \AttributeTok{ManyPerPattern =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{MaxDepth =} \DecValTok{1}\NormalTok{, }
+             \AttributeTok{saveOnDisk =} \ConstantTok{FALSE}
+\NormalTok{             )}
+\NormalTok{    nrcs }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{    nrcs[[}\DecValTok{1}\NormalTok{]] }\OtherTok{\textless{}{-}}\NormalTok{ INDEX}
+\NormalTok{    nrcs[[}\DecValTok{2}\NormalTok{]] }\OtherTok{\textless{}{-}}\NormalTok{ DATA}
+\NormalTok{    nrcs[[}\DecValTok{3}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(NetwIndex, NetwEdges)}
+    \FunctionTok{names}\NormalTok{(nrcs)[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"INDEX"}
+    \FunctionTok{names}\NormalTok{(nrcs)[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"DATA"}
+    \FunctionTok{names}\NormalTok{(nrcs)[}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"network"}
+    \FunctionTok{names}\NormalTok{(nrcs[[}\DecValTok{3}\NormalTok{]])[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"NetwIndex"}
+    \FunctionTok{names}\NormalTok{(nrcs[[}\DecValTok{3}\NormalTok{]])[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"NetwEdges"}
+    \FunctionTok{saveRDS}\NormalTok{(nrcs, }\AttributeTok{file =} \StringTok{"data/nrcs.rds"}\NormalTok{, }\AttributeTok{compress =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+The following code scrapes key information from the NRCS Climate
+Mitigation Strategies webpage. It is then exported to the
+\texttt{data/hi-csa-es.db}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# From the }
+\DocumentationTok{\#\# 1. Get a list of mitigation categories}
+\DocumentationTok{\#\# 2. Get a list of practices within each mitigation}
+\DocumentationTok{\#\# 3. Get URL links to resources}
+\DocumentationTok{\#\# From the remaining search,}
+\DocumentationTok{\#\# 1. Get a list of other resources}
+
+
+
+\NormalTok{nrcs.csm }\OtherTok{\textless{}{-}} \FunctionTok{read\_html}\NormalTok{(nrcs.url)}
+
+\NormalTok{h2 }\OtherTok{\textless{}{-}}\NormalTok{ nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"h2"}\NormalTok{)}
+\NormalTok{h3 }\OtherTok{\textless{}{-}}\NormalTok{ nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"h3"}\NormalTok{)}
+\NormalTok{h4 }\OtherTok{\textless{}{-}}\NormalTok{ nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"h4"}\NormalTok{)}
+\NormalTok{p }\OtherTok{\textless{}{-}}\NormalTok{ nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"p"}\NormalTok{)}
+\NormalTok{a }\OtherTok{\textless{}{-}}\NormalTok{ nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"a"}\NormalTok{)}
+\NormalTok{div }\OtherTok{\textless{}{-}}\NormalTok{ nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"div"}\NormalTok{)}
+
+\NormalTok{nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"h3"}\NormalTok{)}
+\NormalTok{nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"h4"}\NormalTok{)}
+\NormalTok{nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"body"}\NormalTok{)}
+\NormalTok{nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{".title"}\NormalTok{)}
+
+\NormalTok{headers }\OtherTok{\textless{}{-}}\NormalTok{ nrcs.csm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"h3, h4, p"}\NormalTok{)}
+
+\CommentTok{\# Load the web page}
+\NormalTok{webpage }\OtherTok{\textless{}{-}} \FunctionTok{read\_html}\NormalTok{(nrcs.url)}
+
+\CommentTok{\# Extract all headers (h3, h4) and paragraphs (p)}
+\NormalTok{elements }\OtherTok{\textless{}{-}}\NormalTok{ webpage }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"h3, h4, p"}\NormalTok{)}
+
+\CommentTok{\# Initialize lists to store the associations}
+\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{current\_h3 }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{current\_h4 }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+
+\CommentTok{\# Loop through each element and determine its tag type}
+\ControlFlowTok{for}\NormalTok{ (element }\ControlFlowTok{in}\NormalTok{ elements) \{}
+  \CommentTok{\# Get the text, tag name, and anchor tags within the current element}
+\NormalTok{  element\_text }\OtherTok{=}\NormalTok{ element }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_text}\NormalTok{(}\AttributeTok{trim =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  tag\_name }\OtherTok{=}\NormalTok{ element }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_name}\NormalTok{()}
+
+  \CommentTok{\# Check if it\textquotesingle{}s an h3 header}
+  \ControlFlowTok{if}\NormalTok{ (tag\_name }\SpecialCharTok{==} \StringTok{"h3"}\NormalTok{) \{}
+    \CommentTok{\# If it\textquotesingle{}s an h3, update the current context}
+\NormalTok{    current\_h3 }\OtherTok{=}\NormalTok{ element\_text}
+\NormalTok{    result[[current\_h3]] }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\StringTok{"h4"} \OtherTok{=} \FunctionTok{list}\NormalTok{(), }\StringTok{"p"} \OtherTok{=} \FunctionTok{list}\NormalTok{())}
+\NormalTok{  \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (tag\_name }\SpecialCharTok{==} \StringTok{"h4"} \SpecialCharTok{\&\&} \SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(current\_h3)) \{}
+    \CommentTok{\# If it\textquotesingle{}s an h4, update the current context}
+\NormalTok{    current\_h4 }\OtherTok{=}\NormalTok{ element\_text}
+\NormalTok{    result[[current\_h3]]}\SpecialCharTok{$}\NormalTok{h4[[current\_h4]] }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\StringTok{"p"} \OtherTok{=} \FunctionTok{list}\NormalTok{())}
+\NormalTok{  \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (tag\_name }\SpecialCharTok{==} \StringTok{"p"}\NormalTok{) \{}
+    \CommentTok{\# If it\textquotesingle{}s a paragraph, add it to the corresponding context}
+\NormalTok{    paragraph\_data }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\StringTok{"text"} \OtherTok{=}\NormalTok{ element\_text, }\StringTok{"links"} \OtherTok{=} \FunctionTok{list}\NormalTok{())}
+
+    \CommentTok{\# Check for any anchor tags (links) within the paragraph}
+\NormalTok{    anchors }\OtherTok{=}\NormalTok{ element }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_elements}\NormalTok{(}\StringTok{"a"}\NormalTok{)}
+    
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(anchors) }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+\NormalTok{      paragraph\_data}\SpecialCharTok{$}\NormalTok{links }\OtherTok{=} \FunctionTok{lapply}\NormalTok{(anchors, }\ControlFlowTok{function}\NormalTok{(anchor) \{}
+        \FunctionTok{list}\NormalTok{(}\StringTok{"text"} \OtherTok{=}\NormalTok{ anchor }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_text}\NormalTok{(}\AttributeTok{trim =} \ConstantTok{TRUE}\NormalTok{), }\StringTok{"href"} \OtherTok{=}\NormalTok{ anchor }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{html\_attr}\NormalTok{(}\StringTok{"href"}\NormalTok{))}
+\NormalTok{      \})}
+\NormalTok{    \}}
+    
+    \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(current\_h4) }\SpecialCharTok{\&\&} \SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(current\_h3)) \{}
+\NormalTok{      result[[current\_h3]]}\SpecialCharTok{$}\NormalTok{h4[[current\_h4]]}\SpecialCharTok{$}\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{append}\NormalTok{(result[[current\_h3]]}\SpecialCharTok{$}\NormalTok{h4[[current\_h4]]}\SpecialCharTok{$}\NormalTok{p, }\FunctionTok{list}\NormalTok{(paragraph\_data))}
+\NormalTok{    \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(current\_h3)) \{}
+\NormalTok{      result[[current\_h3]]}\SpecialCharTok{$}\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{append}\NormalTok{(result[[current\_h3]]}\SpecialCharTok{$}\NormalTok{p, }\FunctionTok{list}\NormalTok{(paragraph\_data))}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+
+\CommentTok{\# Define a function to convert the list into a data frame}
+\NormalTok{list\_to\_dataframe }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(result) \{}
+  \CommentTok{\# Initialize an empty data frame}
+\NormalTok{  data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{H3 =} \FunctionTok{character}\NormalTok{(), }\AttributeTok{H4 =} \FunctionTok{character}\NormalTok{(), }\AttributeTok{p =} \FunctionTok{character}\NormalTok{(), }\AttributeTok{a =} \FunctionTok{character}\NormalTok{(), }\AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}\NormalTok{)}
+
+  \CommentTok{\# Iterate through the result list to build the data frame}
+  \ControlFlowTok{for}\NormalTok{ (h3\_name }\ControlFlowTok{in} \FunctionTok{names}\NormalTok{(result)) \{}
+\NormalTok{    h3\_entry }\OtherTok{\textless{}{-}}\NormalTok{ result[[h3\_name]]}
+    
+    \CommentTok{\# Extract paragraphs for h3{-}level}
+    \ControlFlowTok{if}\NormalTok{ (}\StringTok{"p"} \SpecialCharTok{\%in\%} \FunctionTok{names}\NormalTok{(h3\_entry)) \{}
+      \ControlFlowTok{for}\NormalTok{ (p\_item }\ControlFlowTok{in}\NormalTok{ h3\_entry}\SpecialCharTok{$}\NormalTok{p) \{}
+        \CommentTok{\# Check if the paragraph contains links}
+        \ControlFlowTok{if}\NormalTok{ (}\StringTok{"links"} \SpecialCharTok{\%in\%} \FunctionTok{names}\NormalTok{(p\_item)) \{}
+          \ControlFlowTok{for}\NormalTok{ (link }\ControlFlowTok{in}\NormalTok{ p\_item}\SpecialCharTok{$}\NormalTok{links) \{}
+\NormalTok{            new\_row }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+              \AttributeTok{H3 =}\NormalTok{ h3\_name,}
+              \AttributeTok{H4 =} \ConstantTok{NA}\NormalTok{,}
+              \AttributeTok{p =}\NormalTok{ p\_item}\SpecialCharTok{$}\NormalTok{text,}
+              \AttributeTok{a =}\NormalTok{ link}\SpecialCharTok{$}\NormalTok{href,}
+              \AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}
+\NormalTok{            )}
+\NormalTok{            data }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(data, new\_row)}
+\NormalTok{          \}}
+\NormalTok{        \}}
+\NormalTok{      \}}
+\NormalTok{    \}}
+
+    \CommentTok{\# Extract h4{-}level entries}
+    \ControlFlowTok{if}\NormalTok{ (}\StringTok{"h4"} \SpecialCharTok{\%in\%} \FunctionTok{names}\NormalTok{(h3\_entry)) \{}
+      \ControlFlowTok{for}\NormalTok{ (h4\_name }\ControlFlowTok{in} \FunctionTok{names}\NormalTok{(h3\_entry}\SpecialCharTok{$}\NormalTok{h4)) \{}
+\NormalTok{        h4\_entry }\OtherTok{\textless{}{-}}\NormalTok{ h3\_entry}\SpecialCharTok{$}\NormalTok{h4[[h4\_name]]}
+        
+        \CommentTok{\# Extract paragraphs and links at h4{-}level}
+        \ControlFlowTok{if}\NormalTok{ (}\StringTok{"p"} \SpecialCharTok{\%in\%} \FunctionTok{names}\NormalTok{(h4\_entry)) \{}
+          \ControlFlowTok{for}\NormalTok{ (p\_item }\ControlFlowTok{in}\NormalTok{ h4\_entry}\SpecialCharTok{$}\NormalTok{p) \{}
+            \ControlFlowTok{if}\NormalTok{ (}\StringTok{"links"} \SpecialCharTok{\%in\%} \FunctionTok{names}\NormalTok{(p\_item)) \{}
+              \ControlFlowTok{for}\NormalTok{ (link }\ControlFlowTok{in}\NormalTok{ p\_item}\SpecialCharTok{$}\NormalTok{links) \{}
+\NormalTok{                new\_row }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+                  \AttributeTok{H3 =}\NormalTok{ h3\_name,}
+                  \AttributeTok{H4 =}\NormalTok{ h4\_name,}
+                  \AttributeTok{p =}\NormalTok{ p\_item}\SpecialCharTok{$}\NormalTok{text,}
+                  \AttributeTok{a =}\NormalTok{ link}\SpecialCharTok{$}\NormalTok{href,}
+                  \AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}
+\NormalTok{                )}
+\NormalTok{                data }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(data, new\_row)}
+\NormalTok{              \}}
+\NormalTok{            \}}
+\NormalTok{          \}}
+\NormalTok{        \}}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{  \}}
+
+  \FunctionTok{return}\NormalTok{(data)}
+\NormalTok{\}}
+
+\DocumentationTok{\#\# Use the function to convert the list into a data frame}
+\NormalTok{nrcs.db }\OtherTok{\textless{}{-}} \FunctionTok{list\_to\_dataframe}\NormalTok{(result)}
+\DocumentationTok{\#\# Add the full path for the nrcs urls}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(nrcs.db[, }\StringTok{"a"}\NormalTok{]))\{}
+    \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{grepl}\NormalTok{(}\StringTok{"http"}\NormalTok{, nrcs.db[i, }\StringTok{"a"}\NormalTok{]))\{}
+\NormalTok{        nrcs.db[i, }\StringTok{"a"}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"https://www.nrcs.usda.gov"}\NormalTok{, nrcs.db[i, }\StringTok{"a"}\NormalTok{])}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{\}}
+\NormalTok{\}}
+
+\DocumentationTok{\#\# Prep for export}
+\NormalTok{nrcs.db[}\FunctionTok{is.na}\NormalTok{(nrcs.db[, }\StringTok{"H4"}\NormalTok{]), }\StringTok{"H4"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Other"}
+\FunctionTok{colnames}\NormalTok{(nrcs.db) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Mitigation"}\NormalTok{, }\StringTok{"Practice"}\NormalTok{, }\StringTok{"Description"}\NormalTok{, }\StringTok{"Resource"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{attra.url }\OtherTok{\textless{}{-}} \StringTok{"https://attra.ncat.org/climate{-}solutions/"}
+
+\ControlFlowTok{if}\NormalTok{ (}\StringTok{"attra.rds"} \SpecialCharTok{\%in\%} \FunctionTok{dir}\NormalTok{(}\StringTok{"data"}\NormalTok{))\{}
+
+\NormalTok{    attra }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\AttributeTok{file =} \StringTok{"./data/attra.rds"}\NormalTok{)}
+
+\NormalTok{\}}\ControlFlowTok{else}\NormalTok{\{}
+
+    \FunctionTok{Rcrawler}\NormalTok{(}\AttributeTok{Website =}\NormalTok{ attra.url,}
+             \AttributeTok{no\_cores =} \DecValTok{4}\NormalTok{, }\AttributeTok{no\_conn =} \DecValTok{4}\NormalTok{, }
+             \AttributeTok{NetworkData =} \ConstantTok{TRUE}\NormalTok{,}
+             \AttributeTok{NetwExtLinks =} \ConstantTok{TRUE}\NormalTok{, }
+             \AttributeTok{ExtractXpathPat =} \StringTok{"//*/a/@href"}\NormalTok{,}
+             \AttributeTok{RequestsDelay =} \DecValTok{0}\NormalTok{,}\DecValTok{01}\NormalTok{,}
+             \AttributeTok{ManyPerPattern =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{MaxDepth =} \DecValTok{1}\NormalTok{, }
+             \AttributeTok{saveOnDisk =} \ConstantTok{FALSE}
+\NormalTok{             )}
+\NormalTok{    attra }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{    attra[[}\DecValTok{1}\NormalTok{]] }\OtherTok{\textless{}{-}}\NormalTok{ INDEX}
+\NormalTok{    attra[[}\DecValTok{2}\NormalTok{]] }\OtherTok{\textless{}{-}}\NormalTok{ DATA}
+\NormalTok{    attra[[}\DecValTok{3}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(NetwIndex, NetwEdges)}
+    \FunctionTok{names}\NormalTok{(attra)[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"INDEX"}
+    \FunctionTok{names}\NormalTok{(attra)[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"DATA"}
+    \FunctionTok{names}\NormalTok{(attra)[}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"network"}
+    \FunctionTok{names}\NormalTok{(attra[[}\DecValTok{3}\NormalTok{]])[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"NetwIndex"}
+    \FunctionTok{names}\NormalTok{(attra[[}\DecValTok{3}\NormalTok{]])[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"NetwEdges"}
+    \FunctionTok{saveRDS}\NormalTok{(attra, }\AttributeTok{file =} \StringTok{"./data/attra.rds"}\NormalTok{, }\AttributeTok{compress =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nifa.url }\OtherTok{\textless{}{-}} \StringTok{"https://www.nifa.usda.gov/grants"}
+
+\ControlFlowTok{if}\NormalTok{ (}\StringTok{"nifa.rds"} \SpecialCharTok{\%in\%} \FunctionTok{dir}\NormalTok{(}\StringTok{"data"}\NormalTok{))\{}
+
+\NormalTok{    rds }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\AttributeTok{file =} \StringTok{"./data/nifa.rds"}\NormalTok{)}
+
+\NormalTok{\}}\ControlFlowTok{else}\NormalTok{\{}
+
+    \FunctionTok{Rcrawler}\NormalTok{(}\AttributeTok{Website =}\NormalTok{ nifa.url,}
+             \AttributeTok{no\_cores =} \DecValTok{4}\NormalTok{, }\AttributeTok{no\_conn =} \DecValTok{4}\NormalTok{, }
+             \AttributeTok{NetworkData =} \ConstantTok{TRUE}\NormalTok{,}
+             \AttributeTok{NetwExtLinks =} \ConstantTok{TRUE}\NormalTok{, }
+             \AttributeTok{ExtractXpathPat =} \StringTok{"//*/a/@href"}\NormalTok{,}
+             \AttributeTok{RequestsDelay =} \DecValTok{0}\NormalTok{,}\DecValTok{01}\NormalTok{,}
+             \AttributeTok{ManyPerPattern =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{MaxDepth =} \DecValTok{1}\NormalTok{, }
+             \AttributeTok{saveOnDisk =} \ConstantTok{FALSE}
+\NormalTok{             )}
+\NormalTok{    nifa }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{    nifa[[}\DecValTok{1}\NormalTok{]] }\OtherTok{\textless{}{-}}\NormalTok{ INDEX}
+\NormalTok{    nifa[[}\DecValTok{2}\NormalTok{]] }\OtherTok{\textless{}{-}}\NormalTok{ DATA}
+\NormalTok{    nifa[[}\DecValTok{3}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(NetwIndex, NetwEdges)}
+    \FunctionTok{names}\NormalTok{(nifa)[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"INDEX"}
+    \FunctionTok{names}\NormalTok{(nifa)[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"DATA"}
+    \FunctionTok{names}\NormalTok{(nifa)[}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"network"}
+    \FunctionTok{names}\NormalTok{(nifa[[}\DecValTok{3}\NormalTok{]])[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"NetwIndex"}
+    \FunctionTok{names}\NormalTok{(nifa[[}\DecValTok{3}\NormalTok{]])[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"NetwEdges"}
+    \FunctionTok{saveRDS}\NormalTok{(nifa, }\AttributeTok{file =} \StringTok{"./data/nifa.rds"}\NormalTok{, }\AttributeTok{compress =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ams.url }\OtherTok{\textless{}{-}} \StringTok{"https://www.ams.usda.gov/services/grants"}
+
+\ControlFlowTok{if}\NormalTok{ (}\StringTok{"ams.rds"} \SpecialCharTok{\%in\%} \FunctionTok{dir}\NormalTok{(}\StringTok{"data"}\NormalTok{))\{}
+
+\NormalTok{    ams }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\AttributeTok{file =} \StringTok{"./data/ams.rds"}\NormalTok{)}
+
+\NormalTok{\}}\ControlFlowTok{else}\NormalTok{\{}
+
+    \FunctionTok{Rcrawler}\NormalTok{(}\AttributeTok{Website =}\NormalTok{ ams.url,}
+             \AttributeTok{no\_cores =} \DecValTok{4}\NormalTok{, }\AttributeTok{no\_conn =} \DecValTok{4}\NormalTok{, }
+             \AttributeTok{NetworkData =} \ConstantTok{TRUE}\NormalTok{,}
+             \AttributeTok{NetwExtLinks =} \ConstantTok{TRUE}\NormalTok{, }
+             \AttributeTok{ExtractXpathPat =} \StringTok{"//*/a/@href"}\NormalTok{,}
+             \AttributeTok{RequestsDelay =} \DecValTok{0}\NormalTok{,}\DecValTok{01}\NormalTok{,}
+             \AttributeTok{ManyPerPattern =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{MaxDepth =} \DecValTok{1}\NormalTok{, }
+             \AttributeTok{saveOnDisk =} \ConstantTok{FALSE}
+\NormalTok{             )}
+\NormalTok{    ams }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{    ams[[}\DecValTok{1}\NormalTok{]] }\OtherTok{\textless{}{-}}\NormalTok{ INDEX}
+\NormalTok{    ams[[}\DecValTok{2}\NormalTok{]] }\OtherTok{\textless{}{-}}\NormalTok{ DATA}
+\NormalTok{    ams[[}\DecValTok{3}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(NetwIndex, NetwEdges)}
+    \FunctionTok{names}\NormalTok{(ams)[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"INDEX"}
+    \FunctionTok{names}\NormalTok{(ams)[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"DATA"}
+    \FunctionTok{names}\NormalTok{(ams)[}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"network"}
+    \FunctionTok{names}\NormalTok{(ams[[}\DecValTok{3}\NormalTok{]])[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"NetwIndex"}
+    \FunctionTok{names}\NormalTok{(ams[[}\DecValTok{3}\NormalTok{]])[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"NetwEdges"}
+    \FunctionTok{saveRDS}\NormalTok{(ams, }\AttributeTok{file =} \StringTok{"./data/ams.rds"}\NormalTok{, }\AttributeTok{compress =} \ConstantTok{FALSE}\NormalTok{)}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Other data to integrate}\label{other-data-to-integrate}
+
+\begin{itemize}
+\tightlist
+\item
+  \url{https://gofarmhawaii.org/farmer-resources-2/}
+\item
+  \url{https://www.fsa.usda.gov/programs-and-services/farm-loan-programs/}
+\item
+  \url{https://www.fns.usda.gov/fm/grant-opportunities}
+\item
+  \url{https://www.rd.usda.gov/}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nrc.wc[nrc.wc[, }\StringTok{"Level"}\NormalTok{] }\SpecialCharTok{==} \DecValTok{2}\NormalTok{, }\StringTok{"Url"}\NormalTok{]}
+\NormalTok{nrc.url }\OtherTok{\textless{}{-}} 
+\NormalTok{nrc.url }\OtherTok{\textless{}{-}}\NormalTok{ nrc.url[}\FunctionTok{grepl}\NormalTok{(}\StringTok{"natural{-}resource{-}concerns/"}\NormalTok{, nrc.url)]}
+\NormalTok{nrc.cat }\OtherTok{\textless{}{-}} \FunctionTok{strsplit}\NormalTok{(nrc.url, }\StringTok{"natural{-}resource{-}concerns/"}\NormalTok{)}
+\NormalTok{nrc.url }\OtherTok{\textless{}{-}}\NormalTok{ nrc.url[}\FunctionTok{lapply}\NormalTok{(nrc.cat, length) }\SpecialCharTok{==} \DecValTok{2}\NormalTok{]}
+\NormalTok{nrc.cat }\OtherTok{\textless{}{-}}\NormalTok{ nrc.cat[}\FunctionTok{lapply}\NormalTok{(nrc.cat, length) }\SpecialCharTok{==} \DecValTok{2}\NormalTok{]}
+\NormalTok{nrc.cat }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(nrc.cat, }\ControlFlowTok{function}\NormalTok{(x) x[}\DecValTok{2}\NormalTok{])}
+\NormalTok{nrc.cat }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(nrc.cat, strsplit, }\AttributeTok{split =} \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{/"}\NormalTok{)}
+\NormalTok{nrc.cat }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(nrc.cat, unlist)}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{seq\_len}\NormalTok{(}\FunctionTok{length}\NormalTok{(nrc.cat)))\{}
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(nrc.cat[[i]]) }\SpecialCharTok{\textless{}} \FunctionTok{max}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(nrc.cat, length))))\{}
+\NormalTok{        nrc.cat[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(nrc.cat[[i]], }\FunctionTok{rep}\NormalTok{(}\StringTok{""}\NormalTok{, }\AttributeTok{times =} \FunctionTok{max}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(nrc.cat, length))) }\SpecialCharTok{{-}} \FunctionTok{length}\NormalTok{(nrc.cat[[i]])))}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{\}}
+\NormalTok{\}}
+
+\NormalTok{nrc.tab }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\FunctionTok{do.call}\NormalTok{(rbind, nrc.cat), nrc.url)}
+\FunctionTok{colnames}\NormalTok{(nrc.tab) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Category"}\NormalTok{, }
+                       \FunctionTok{paste0}\NormalTok{(}\StringTok{"Sub{-}Category "}\NormalTok{, }\FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{ncol}\NormalTok{(nrc.tab)}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)),}
+                       \StringTok{"Resource"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Manual}\label{manual}
+
+Data from
+\href{https://www.nrcs.usda.gov/sites/default/files/2023-10/NRCS-CSAF-Mitigation-Activities-List.pdf}{NRCS}
+were extracted manually using \href{https://tabula.technology/}{tabula}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{csa.mit.tab }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/tabula{-}NRCS{-}CSAF{-}Mitigation{-}Activities.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{csa.mit.head }\OtherTok{\textless{}{-}}\NormalTok{ csa.mit.tab[}\FunctionTok{grepl}\NormalTok{(}\StringTok{"Mitigation Categories"}\NormalTok{, csa.mit.tab[, }\DecValTok{1}\NormalTok{]), ]}
+\NormalTok{csa.mit.head }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{[.*?}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{]"}\NormalTok{, }\StringTok{""}\NormalTok{, csa.mit.head)}
+\NormalTok{csa.mit.head }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"  "}\NormalTok{, }\StringTok{" "}\NormalTok{, csa.mit.head)}
+\FunctionTok{colnames}\NormalTok{(csa.mit.tab) }\OtherTok{\textless{}{-}}\NormalTok{ csa.mit.head}
+\NormalTok{csa.mit.tab }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(csa.mit.tab, }\DecValTok{2}\NormalTok{, gsub, }\AttributeTok{pattern =} \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{[.*?}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{]"}\NormalTok{, }\AttributeTok{replace =} \StringTok{""}\NormalTok{)}
+\NormalTok{csa.mit.tab }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(csa.mit.tab, }\DecValTok{2}\NormalTok{, gsub, }\AttributeTok{pattern =} \StringTok{"  "}\NormalTok{, }\AttributeTok{replace =} \StringTok{" "}\NormalTok{)}
+
+\DocumentationTok{\#\# Removing narrative crosswalk}
+\NormalTok{csa.cwk }\OtherTok{\textless{}{-}}\NormalTok{ csa.mit.tab[}\FunctionTok{seq}\NormalTok{(}\FunctionTok{grep}\NormalTok{(}\StringTok{"Waste Storage Structure"}\NormalTok{, csa.mit.tab[, }\DecValTok{2}\NormalTok{]), }\FunctionTok{nrow}\NormalTok{(csa.mit.tab)), ]}
+\FunctionTok{colnames}\NormalTok{(csa.cwk)[}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Narrative"}
+\NormalTok{csa.mit.tab }\OtherTok{\textless{}{-}}\NormalTok{csa.mit.tab[}\SpecialCharTok{{-}}\FunctionTok{seq}\NormalTok{(}\FunctionTok{grep}\NormalTok{(}\StringTok{"Waste Storage Structure"}\NormalTok{, csa.mit.tab[, }\DecValTok{2}\NormalTok{]), }\FunctionTok{nrow}\NormalTok{(csa.mit.tab)), ]}
+
+\DocumentationTok{\#\# Generate urls for codes}
+\NormalTok{get.codes }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{    x }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(x, }\AttributeTok{collapse =} \StringTok{" "}\NormalTok{)}
+\NormalTok{    x }\OtherTok{\textless{}{-}} \FunctionTok{unlist}\NormalTok{(}\FunctionTok{strsplit}\NormalTok{(x, }\AttributeTok{split =} \StringTok{" "}\NormalTok{))}
+\NormalTok{    x }\OtherTok{\textless{}{-}}\NormalTok{ x[}\FunctionTok{grep}\NormalTok{(}\StringTok{"E[0{-}9][0{-}9][0{-}9][a{-}z,A{-}Z]"}\NormalTok{, x)]}
+    \FunctionTok{return}\NormalTok{(x)}
+\NormalTok{\}}
+
+\NormalTok{csa.mit.codes }\OtherTok{\textless{}{-}} \FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(}\FunctionTok{apply}\NormalTok{(csa.mit.tab, }\DecValTok{1}\NormalTok{, get.codes), }\ControlFlowTok{function}\NormalTok{(x) x[}\DecValTok{1}\NormalTok{]))}
+\NormalTok{csa.mit.tab[, }\StringTok{"Code"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ csa.mit.codes}
+\NormalTok{csa.mit.tab[}\SpecialCharTok{!}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"E"}\NormalTok{, csa.mit.tab[, }\StringTok{"Code"}\NormalTok{])), }\StringTok{"Code"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{""}
+\NormalTok{csa.mit.url }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"https://www.nrcs.usda.gov/sites/default/files/2022{-}11/"}\NormalTok{, }
+\NormalTok{                      csa.mit.tab[, }\StringTok{"Code"}\NormalTok{],}
+                      \StringTok{"\_July\_2022.pdf"}\NormalTok{)}
+\NormalTok{csa.mit.url }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{"{-}"}\NormalTok{, csa.mit.url)}
+\NormalTok{csa.mit.url[csa.mit.tab[, }\StringTok{"Code"}\NormalTok{] }\SpecialCharTok{==} \StringTok{""}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{""}
+\NormalTok{csa.mit.tab }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(csa.mit.tab, }\StringTok{"URL"} \OtherTok{=}\NormalTok{ csa.mit.url)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{db.og }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{read\_sheet}\NormalTok{(}\StringTok{"https://docs.google.com/spreadsheets/d/1AMlsLPDnwt01eEsBLdRe1hvhNSa3ofndcWX0gJ9xbUo/"}\NormalTok{, }\AttributeTok{sheet =} \StringTok{"Original"}\NormalTok{))}
+\NormalTok{db.jh }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{read\_sheet}\NormalTok{(}\StringTok{"https://docs.google.com/spreadsheets/d/1AMlsLPDnwt01eEsBLdRe1hvhNSa3ofndcWX0gJ9xbUo/"}\NormalTok{, }\AttributeTok{sheet =} \StringTok{"Jackson\textquotesingle{}s Version"}\NormalTok{))}
+
+\NormalTok{db.mg }\OtherTok{\textless{}{-}} \FunctionTok{db\_merge}\NormalTok{(db.og, db.jh) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{    distinct}
+
+\FunctionTok{colnames}\NormalTok{(db.og)[}\FunctionTok{colnames}\NormalTok{(db.og) }\SpecialCharTok{==} \StringTok{"Resources (Links)"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Resource"}
+\FunctionTok{colnames}\NormalTok{(nrc.tab)[}\FunctionTok{colnames}\NormalTok{(nrc.tab) }\SpecialCharTok{==} \StringTok{"Sub{-}Category 1"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"Sub{-}Category"}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Merge Data Streams}\label{merge-data-streams}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hicsa.db }\OtherTok{\textless{}{-}} \FunctionTok{db\_merge}\NormalTok{(db.og, nrc.tab)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Saving Database}\label{saving-database}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hicsa.db }\OtherTok{\textless{}{-}}\NormalTok{ nrcs.db}
+\FunctionTok{saveRDS}\NormalTok{(hicsa.db, }\AttributeTok{file =} \StringTok{"./data/hi{-}csa{-}db.rds"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Preview}\label{preview}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0839}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0757}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.7538}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0867}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mitigation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Practice
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Resource
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Additional Resources: Climate-Smart Agriculture and Forestry &
+Irrigation Water Management & Producers and landowners interested in
+climate-smart agriculture and forestry are encouraged to contact the
+NRCS office at their local USDA Service Center for additional
+information, including one-on-one support specific to their operation.
+Visit~farmers.gov/service-locator~to find your local office. &
+\url{https://www.farmers.gov/working-with-us/service-center-locator} \\
+Additional Resources: Climate-Smart Agriculture and Forestry &
+Irrigation Water Management & Visit~farmers.gov/climate-smart~for
+additional information on climate solutions for your working land,
+including USDA programs and digital tools. You may~access state-specific
+application ranking dates for NRCS conservation programs here. &
+\url{https://www.farmers.gov/conservation/climate-smart} \\
+Additional Resources: Climate-Smart Agriculture and Forestry &
+Irrigation Water Management & Visit~farmers.gov/climate-smart~for
+additional information on climate solutions for your working land,
+including USDA programs and digital tools. You may~access state-specific
+application ranking dates for NRCS conservation programs here. &
+\url{https://www.nrcs.usda.gov/ranking-dates} \\
+Additional Resources: Climate-Smart Agriculture and Forestry &
+Irrigation Water Management & Visit~USDA's Climate Solutions webpage~for
+Department-wide resources, tools and announcements to support
+agricultural producers and rural communities in making informed,
+science-based decisions to support climate change mitigation and build
+climate resilience. &
+\url{https://www.usda.gov/topics/climate-solutions} \\
+Agroforestry, Forestry and Wildlife Habitat & Critical Area Planting &
+Critical area planting is establishing permanent vegetation on sites
+that have, or are expected to have, high erosion rates, and on sites
+that have physical, chemical, or biological conditions that prevent the
+establishment of vegetation with normal practices. Producers who
+practice critical area planting may increase soil carbon sequestration
+in perennial biomass and soils while delivering the co-benefits of
+reducing soil erosion, building soil health, providing wildlife habitat,
+and increasing plant productivity and health. Watch the video &
+\url{https://youtu.be/aRNOLSrr6Ok} \\
+Agroforestry, Forestry and Wildlife Habitat & Windbreak and Shelterbelt
+Establishment and Renovation & This practice establishes, enhances or
+renovates windbreaks, which are single or multiple rows of trees or
+shrubs planted in linear or curvilinear configurations. Producers who
+establish windbreaks may increase carbon sequestration in perennial
+biomass and soils while delivering the co-benefits of reducing erosion,
+protecting crops, livestock and buildings from wind-related damage,
+enhancing moisture management and improving ambient air quality. Watch
+the video & \url{https://youtu.be/EUoMCc3J4dA} \\
+\end{longtable}
+
+\end{document}
