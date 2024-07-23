@@ -437,8 +437,6 @@ Mitigation Strategies webpage. It is then exported to the
 ## From the remaining search,
 ## 1. Get a list of other resources
 
-
-
 nrcs.csm &lt;- read_html(nrcs.url)
 
 h2 &lt;- nrcs.csm %&gt;% html_elements(&quot;h2&quot;)
@@ -569,8 +567,8 @@ for (i in seq_along(nrcs.db[, &quot;a&quot;])){
     }else{}
 }
 
+
 ## Prep for export
-nrcs.db[is.na(nrcs.db[, &quot;H4&quot;]), &quot;H4&quot;] &lt;- &quot;Other&quot;
 colnames(nrcs.db) &lt;- c(&quot;Mitigation&quot;, &quot;Practice&quot;, &quot;Description&quot;, &quot;Resource&quot;)</code></pre>
 <pre class="r"><code>attra.url &lt;- &quot;https://attra.ncat.org/publication/climate-beneficial-practices/&quot;
 
@@ -738,6 +736,21 @@ colnames(nrc.tab)[colnames(nrc.tab) == &quot;Sub-Category 1&quot;] &lt;- &quot;S
 <div id="saving-database" class="section level1">
 <h1>Saving Database</h1>
 <pre class="r"><code>hicsa.db &lt;- nrcs.db
+
+## Stop-gap fixes
+## These need to be fixed on ingestion. Must be an issue with data structure. 
+## Energy mis-matched info
+hicsa.db[hicsa.db[, &quot;Mitigation&quot;] == &quot;Energy, Combustion, and Electricity Efficiency&quot;, 
+        &quot;Practice&quot;] &lt;- c(&quot;Irrigation Pipeline&quot;,
+                   &quot;Irrigation System, Microirrigation&quot;,
+                   &quot;Sprinkler System&quot;,
+                   &quot;Pumping Plant&quot;, 
+                   &quot;Energy Efficient Lighting System&quot;)
+## H4 is NA
+hicsa.db[is.na(hicsa.db[, &quot;Practice&quot;]), &quot;Mitigation&quot;] &lt;- &quot;Conservation Efforts&quot; 
+hicsa.db[is.na(hicsa.db[, &quot;Practice&quot;]), &quot;Practice&quot;] &lt;- &quot;Support Pollinators&quot; 
+
+## Export
 saveRDS(hicsa.db, file = &quot;./data/hi-csa-db.rds&quot;)</code></pre>
 </div>
 <div id="preview" class="section level1">

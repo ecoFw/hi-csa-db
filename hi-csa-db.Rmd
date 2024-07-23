@@ -8,9 +8,15 @@ author: MK Lau
 ```{r render, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
 
 library(pacman)
-p_load(rmarkdown, tictoc)
+p_load(rmarkdown, tictoc, curl)
 
 tic()
+## Issue with http/html
+## Forcing http1
+## See https://github.com/jeroen/curl/issues/232
+## See https://cran.r-project.org/web/packages/curl/vignettes/intro.html#Disabling_HTTP2
+handle <- new_handle()
+curl::handle_setopt(handle, http_version = 2)
 rmarkdown::render("hi-csa-db.Rmd", 
                   output_format = c("html_document"))
 toc()
