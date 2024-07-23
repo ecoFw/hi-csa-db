@@ -127,8 +127,6 @@ Mitigation Strategies webpage. It is then exported to the
 ## From the remaining search,
 ## 1. Get a list of other resources
 
-
-
 nrcs.csm <- read_html(nrcs.url)
 
 h2 <- nrcs.csm %>% html_elements("h2")
