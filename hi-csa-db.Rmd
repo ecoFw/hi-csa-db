@@ -497,6 +497,10 @@ hicsa.db[hicsa.db[, "Mitigation"] == "Energy, Combustion, and Electricity Effici
 hicsa.db[is.na(hicsa.db[, "Practice"]), "Mitigation"] <- "Conservation Efforts" 
 hicsa.db[is.na(hicsa.db[, "Practice"]), "Practice"] <- "Support Pollinators" 
 
+## Wetland not Energy Efficient Building Envelope
+hicsa.db[hicsa.db[, "Mitigation"] == "Wetlands", "Practice"] <- "Wetland Restoration"
+
+
 ## Export
 saveRDS(hicsa.db, file = "./data/hi-csa-db.rds")
 
