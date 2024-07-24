@@ -7,16 +7,12 @@ author: MK Lau
 <!-- Rendering rmarkdown Notebook -->
 ```{r render, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
 
+## Run the following to render the notebook and generate the database
+
 library(pacman)
 p_load(rmarkdown, tictoc, curl)
 
 tic()
-## Issue with http/html
-## Forcing http1
-## See https://github.com/jeroen/curl/issues/232
-## See https://cran.r-project.org/web/packages/curl/vignettes/intro.html#Disabling_HTTP2
-handle <- new_handle()
-curl::handle_setopt(handle, http_version = 2)
 rmarkdown::render("hi-csa-db.Rmd", 
                   output_format = c("html_document"))
 toc()
@@ -484,7 +480,6 @@ hicsa.db <- db_merge(db.og, nrc.tab)
 
 # Saving Database
 
-
 ```{r nrcs-save, eval = TRUE, echo = TRUE}
 
 hicsa.db <- nrcs.db
@@ -501,6 +496,10 @@ hicsa.db[hicsa.db[, "Mitigation"] == "Energy, Combustion, and Electricity Effici
 ## H4 is NA
 hicsa.db[is.na(hicsa.db[, "Practice"]), "Mitigation"] <- "Conservation Efforts" 
 hicsa.db[is.na(hicsa.db[, "Practice"]), "Practice"] <- "Support Pollinators" 
+
+## Wetland not Energy Efficient Building Envelope
+hicsa.db[hicsa.db[, "Mitigation"] == "Wetlands", "Practice"] <- "Wetland Restoration"
+
 
 ## Export
 saveRDS(hicsa.db, file = "./data/hi-csa-db.rds")
