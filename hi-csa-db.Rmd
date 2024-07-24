@@ -263,8 +263,6 @@ for (i in seq_along(nrcs.db[, "a"])){
 ## Prep for export
 colnames(nrcs.db) <- c("Mitigation", "Practice", "Description", "Resource")
 
-## 
-
 ```
 
 
