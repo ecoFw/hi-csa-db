@@ -437,7 +437,8 @@ Mitigation Strategies webpage. It is then exported to the
 ## From the remaining search,
 ## 1. Get a list of other resources
 
-nrcs.csm &lt;- read_html(nrcs.url)
+
+nrcs.csm &lt;- rvest::read_html(url(nrcs.url))
 
 h2 &lt;- nrcs.csm %&gt;% html_elements(&quot;h2&quot;)
 h3 &lt;- nrcs.csm %&gt;% html_elements(&quot;h3&quot;)
@@ -454,7 +455,7 @@ nrcs.csm %&gt;% html_elements(&quot;.title&quot;)
 headers &lt;- nrcs.csm %&gt;% html_elements(&quot;h3, h4, p&quot;)
 
 # Load the web page
-webpage &lt;- read_html(nrcs.url)
+webpage &lt;- read_html(url(nrcs.url))
 
 # Extract all headers (h3, h4) and paragraphs (p)
 elements &lt;- webpage %&gt;% html_elements(&quot;h3, h4, p&quot;)
@@ -749,6 +750,10 @@ hicsa.db[hicsa.db[, &quot;Mitigation&quot;] == &quot;Energy, Combustion, and Ele
 ## H4 is NA
 hicsa.db[is.na(hicsa.db[, &quot;Practice&quot;]), &quot;Mitigation&quot;] &lt;- &quot;Conservation Efforts&quot; 
 hicsa.db[is.na(hicsa.db[, &quot;Practice&quot;]), &quot;Practice&quot;] &lt;- &quot;Support Pollinators&quot; 
+
+## Wetland not Energy Efficient Building Envelope
+hicsa.db[hicsa.db[, &quot;Mitigation&quot;] == &quot;Wetlands&quot;, &quot;Practice&quot;] &lt;- &quot;Wetland Restoration&quot;
+
 
 ## Export
 saveRDS(hicsa.db, file = &quot;./data/hi-csa-db.rds&quot;)</code></pre>

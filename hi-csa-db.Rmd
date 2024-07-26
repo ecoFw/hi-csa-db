@@ -129,7 +129,8 @@ Mitigation Strategies webpage. It is then exported to the
 ## From the remaining search,
 ## 1. Get a list of other resources
 
-nrcs.csm <- read_html(nrcs.url)
+
+nrcs.csm <- rvest::read_html(url(nrcs.url))
 
 h2 <- nrcs.csm %>% html_elements("h2")
 h3 <- nrcs.csm %>% html_elements("h3")
@@ -146,7 +147,7 @@ nrcs.csm %>% html_elements(".title")
 headers <- nrcs.csm %>% html_elements("h3, h4, p")
 
 # Load the web page
-webpage <- read_html(nrcs.url)
+webpage <- read_html(url(nrcs.url))
 
 # Extract all headers (h3, h4) and paragraphs (p)
 elements <- webpage %>% html_elements("h3, h4, p")
