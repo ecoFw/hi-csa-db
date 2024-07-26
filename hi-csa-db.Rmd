@@ -470,21 +470,15 @@ colnames(nrc.tab)[colnames(nrc.tab) == "Sub-Category 1"] <- "Sub-Category"
 
 ```{r merge-policy}
 
-## hicsa.db <- db_merge(db.og, nrc.tab)
+hicsa.db <- readRDS("data/hi-csa-db.rds")
 
 policy <- read_sheet("https://docs.google.com/spreadsheets/d/1cWG_SH_gmi-S7E-59qLODGC82QOEIxI_QVRTu24sNzU/", sheet = 1)
+policy <- as.data.frame(policy)
 
-description <- paste0(policy[, "Guiding Policy"], ": ", 
-                     policy[, "Description"])
-resource <- policy["URL"]
 csa <- policy[, "CSA Goals"]
 
 practice <- unique(hicsa.db[, "Practice"])
-practice
-
 csa <- as.data.frame(policy)[, "CSA Goals"]
-
-x <- csa[[3]]
 
 practice <- cbind(c("Pollinators", "Cover", "Rotation", "Crop", 
               "Filter", "Mulching", "Nutrient", "Digester", 
@@ -500,23 +494,56 @@ practice <- cbind(c("Pollinators", "Cover", "Rotation", "Crop",
                 "Irrigation System, Microirrigation", "Sprinkler System", "Pumping Plant", 
                 "Energy Efficient Lighting System", "Wetland Restoration", "Irrigation Water Management"))
 
-detect.csa <- function(x, practice){
+prac.miti <- hicsa.db[!(duplicated(hicsa.db[, "Practice"])), 
+                      c("Practice", "Mitigation")]
 
+
+detect.csa <- function(x, practice){
     x <- gsub('[[:punct:] ]+',' ', x)
     x <- strsplit(x, " ")[[1]]
     match.prac <- logical()
     for (i in seq_along(practice[, 1])){
         match.prac[i] <- any(grepl(practice[i, 1], x, ign = TRUE))
     }
-    out <- practice[match.prac, 2]
+    if (any(match.prac)){
+        out <- practice[match.prac, 2]        
+    }else{
+        out <- NA
+    }
     return(out)
 }
 
 pol.csa <- lapply(csa, function(x) sapply(x, detect.csa, practice = practice))
 
-## Create repeated entries matching policy to CSA practice
-## Then bind to hicsa.db
+out <- list()
+for (i in seq(1, nrow(policy))){
+    x <- list()
+    desc <- paste0(policy[i, "Guiding Policy"], ": ",
+                   policy[i, "Description"])
+    resc <- policy[i, "URL"]
+    if (!(any(is.na(pol.csa[[i]])))){
+        for (j in seq_along(pol.csa[[i]])){
+            x[[j]] <- c(Practice = pol.csa[[i]][[j]], 
+                        Description = desc,
+                        Resource = resc
+                        )
+        }
+    }else{
+        x <- list(c(Practice = pol.csa[[i]][[1]], 
+               Description = desc,
+               Resource = resc
+               ))
+    }
+    out[[i]] <- x
+}
 
+out <- lapply(out, function(x) do.call(rbind, x))
+out <- do.call(rbind, out)
+
+
+pol.db <- data.frame(Mitigation = prac.miti[match(out[, "Practice"], 
+                                                  prac.miti[, "Practice"]), 
+                                            "Mitigation"], out)
 
 ```
 
