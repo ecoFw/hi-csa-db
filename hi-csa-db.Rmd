@@ -540,7 +540,6 @@ for (i in seq(1, nrow(policy))){
 out <- lapply(out, function(x) do.call(rbind, x))
 out <- do.call(rbind, out)
 
-
 pol.db <- data.frame(Mitigation = prac.miti[match(out[, "Practice"], 
                                                   prac.miti[, "Practice"]), 
                                             "Mitigation"], out)
@@ -548,29 +547,19 @@ pol.db <- data.frame(Mitigation = prac.miti[match(out[, "Practice"],
 ```
 
 
-### Grants
+### Supporting Resources
 
-```{r merge-grants}
+```{r merge-support}
 
-grants <- read_sheet("https://docs.google.com/spreadsheets/d/1ljbwFQuHo0Xn0u0ZD60YKZk8SdglJl5tpOgjSWbY9gA/",
-                     sheet = 1)
-grants <- as.data.frame(grants[, c("Mitigation", "Practice", "Category", "Resources (Links)")])
+support <- read_sheet("https://docs.google.com/spreadsheets/d/1ljbwFQuHo0Xn0u0ZD60YKZk8SdglJl5tpOgjSWbY9gA/", sheet = 1)
+supp <- as.data.frame(support)
+supp <- supp[!(is.na(supp[, "Example"])), ]
 
-## Create Description
-## Append to hicsa.db
-
-
-```
-
-
-```{r db-merge, eval = FALSE, echo = TRUE}
-
-
+supp.db <- data.frame(supp[, c("Mitigation", "Practice")], 
+                      Description = supp[, "Example"],
+                      Resource = supp[, "Resources (Links)"])
 
 ```
-
-
-
 
 # Saving Database
 
@@ -593,6 +582,9 @@ hicsa.db[is.na(hicsa.db[, "Practice"]), "Practice"] <- "Support Pollinators"
 
 ## Wetland not Energy Efficient Building Envelope
 hicsa.db[hicsa.db[, "Mitigation"] == "Wetlands", "Practice"] <- "Wetland Restoration"
+
+## Merge NRCS, Policy and Support
+hicsa.db <- rbind(hicsa.db, pol.db, supp.db)
 
 
 ## Export
