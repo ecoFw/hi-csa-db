@@ -543,6 +543,8 @@ out <- do.call(rbind, out)
 pol.db <- data.frame(Mitigation = prac.miti[match(out[, "Practice"], 
                                                   prac.miti[, "Practice"]), 
                                             "Mitigation"], out)
+pol.db <- data.frame(Type = rep("Policy", nrow(pol.db)), 
+                     pol.db)
 
 ```
 
@@ -558,6 +560,8 @@ supp <- supp[!(is.na(supp[, "Example"])), ]
 supp.db <- data.frame(supp[, c("Mitigation", "Practice")], 
                       Description = supp[, "Example"],
                       Resource = supp[, "Resources (Links)"])
+supp.db <- data.frame(Type = rep("Support", nrow(supp.db)), 
+                      supp.db)
 
 ```
 
@@ -579,13 +583,13 @@ hicsa.db[hicsa.db[, "Mitigation"] == "Energy, Combustion, and Electricity Effici
 ## H4 is NA
 hicsa.db[is.na(hicsa.db[, "Practice"]), "Mitigation"] <- "Conservation Efforts" 
 hicsa.db[is.na(hicsa.db[, "Practice"]), "Practice"] <- "Support Pollinators" 
-
 ## Wetland not Energy Efficient Building Envelope
 hicsa.db[hicsa.db[, "Mitigation"] == "Wetlands", "Practice"] <- "Wetland Restoration"
-
+## Add Type
+hicsa.db <- data.frame(Type = rep("Technical", nrow(hicsa.db)), hicsa.db)
 ## Merge NRCS, Policy and Support
 hicsa.db <- rbind(hicsa.db, pol.db, supp.db)
-
+hicsa.db <- hicsa.db[!(is.na(hicsa.db[, "Mitigation"])),]
 
 ## Export
 saveRDS(hicsa.db, file = "./data/hi-csa-db.rds")
