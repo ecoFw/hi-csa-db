@@ -8,10 +8,14 @@ author: MK Lau
 ```{r render, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
 
 ## Run the following to render the notebook and generate the database
-
 library(pacman)
-p_load(rmarkdown, tictoc, curl)
+p_load(rmarkdown, tictoc, curl, gargle)
 
+## Setup google auth
+token <- token_fetch(scopes = "https://www.googleapis.com/auth/spreadsheets")
+googlesheets4::gs4_auth(token = token)
+
+## Render
 tic()
 rmarkdown::render("hi-csa-db.Rmd", 
                   output_format = c("html_document"))
@@ -48,8 +52,8 @@ deliverable to HC&C.
 ```{r deps, echo = FALSE}
 
 library(pacman)
-p_load(RColorBrewer, ggplot2, rvest, Rcrawler, readtext, knitr, googlesheets4, dplyr,
-       igraph, tictoc)
+p_load(RColorBrewer, ggplot2, rvest, Rcrawler, readtext, 
+       knitr, googlesheets4, dplyr, igraph, tictoc)
 
 db_merge <- function(x, y){
     cn.x <- colnames(x)
@@ -68,6 +72,20 @@ db_merge <- function(x, y){
     return(out)
 }
 
+detect.csa <- function(x, practice){
+    x <- gsub('[[:punct:] ]+',' ', x)
+    x <- strsplit(x, " ")[[1]]
+    match.prac <- logical()
+    for (i in seq_along(practice[, 1])){
+        match.prac[i] <- any(grepl(practice[i, 1], x, ign = TRUE))
+    }
+    if (any(match.prac)){
+        out <- practice[match.prac, 2]        
+    }else{
+        out <- NA
+    }
+    return(out)
+}
 
 ```
 
@@ -129,7 +147,8 @@ Mitigation Strategies webpage. It is then exported to the
 ## From the remaining search,
 ## 1. Get a list of other resources
 
-nrcs.csm <- read_html(nrcs.url)
+
+nrcs.csm <- rvest::read_html(url(nrcs.url))
 
 h2 <- nrcs.csm %>% html_elements("h2")
 h3 <- nrcs.csm %>% html_elements("h3")
@@ -146,7 +165,7 @@ nrcs.csm %>% html_elements(".title")
 headers <- nrcs.csm %>% html_elements("h3, h4, p")
 
 # Load the web page
-webpage <- read_html(nrcs.url)
+webpage <- read_html(url(nrcs.url))
 
 # Extract all headers (h3, h4) and paragraphs (p)
 elements <- webpage %>% html_elements("h3, h4, p")
@@ -464,19 +483,86 @@ colnames(nrc.tab)[colnames(nrc.tab) == "Sub-Category 1"] <- "Sub-Category"
 
 ## Merge Data Streams
 
-```{r merge-dbs}
 
+### Policy
+
+```{r merge-policy, eval = TRUE, echo = TRUE}
+
+policy <- read_sheet("https://docs.google.com/spreadsheets/d/1cWG_SH_gmi-S7E-59qLODGC82QOEIxI_QVRTu24sNzU/", sheet = 1)
+policy <- as.data.frame(policy)
+csa <- policy[, "CSA Goals"]
+
+practice <- unique(nrcs.db[, "Practice"])
+csa <- as.data.frame(policy)[, "CSA Goals"]
+
+practice <- cbind(c("Pollinators", "Cover", "Rotation", "Crop", 
+              "Filter", "Mulching", "Nutrient", "Digester", 
+              "Critical", "Windbreak", "Silvopasture", "Buffer", 
+              "Establishment", "Forest", "Pipeline", "Microirrigation", 
+              "Sprinkler", "Pumping", "Lighting", "Wetland", 
+              "Irrigation"), 
+              c("Support Pollinators", "Conservation Cover", "Conservation Crop Rotation", 
+                "Cover Crop", "Filter Strips", "Mulching", 
+                "Nutrient Management", "Anaerobic Digester", "Critical Area Planting", 
+                "Windbreak and Shelterbelt Establishment and Renovation", "Silvopasture", "Riparian Forest Buffer", 
+                "Tree and Shrub Establishment", "Forest Stand Improvement", "Irrigation Pipeline", 
+                "Irrigation System, Microirrigation", "Sprinkler System", "Pumping Plant", 
+                "Energy Efficient Lighting System", "Wetland Restoration", "Irrigation Water Management"))
+
+prac.miti <- nrcs.db[!(duplicated(nrcs.db[, "Practice"])), c("Practice", "Mitigation")]
+
+pol.csa <- lapply(csa, function(x) sapply(x, detect.csa, practice = practice))
+
+out <- list()
+for (i in seq(1, nrow(policy))){
+    x <- list()
+    desc <- paste0(policy[i, "Guiding Policy"], ": ",
+                   policy[i, "Description"], " See ", 
+                   policy[i, "Verbiage (Location)"], ".")
+    resc <- policy[i, "URL"]
+    if (!(any(is.na(pol.csa[[i]])))){
+        for (j in seq_along(pol.csa[[i]])){
+            x[[j]] <- c(Practice = pol.csa[[i]][[j]], 
+                        Description = desc,
+                        Resource = resc
+                        )
+        }
+    }else{
+        x <- list(c(Practice = pol.csa[[i]][[1]], 
+               Description = desc,
+               Resource = resc
+               ))
+    }
+    out[[i]] <- x
+}
+
+out <- lapply(out, function(x) do.call(rbind, x))
+out <- do.call(rbind, out)
+
+pol.db <- data.frame(Mitigation = prac.miti[match(out[, "Practice"], 
+                                                  prac.miti[, "Practice"]), 
+                                            "Mitigation"], out)
+pol.db <- data.frame(Type = rep("Policy", nrow(pol.db)), pol.db)
 
 ```
 
-```{r db-merge, eval = FALSE, echo = TRUE}
 
-hicsa.db <- db_merge(db.og, nrc.tab)
+### Supporting Resources
+
+
+```{r merge-support, eval = TRUE, echo = TRUE}
+
+support <- read_sheet("https://docs.google.com/spreadsheets/d/1ljbwFQuHo0Xn0u0ZD60YKZk8SdglJl5tpOgjSWbY9gA/", sheet = 1)
+supp <- as.data.frame(support)
+supp <- supp[!(is.na(supp[, "Example"])), ]
+
+supp.db <- data.frame(supp[, c("Mitigation", "Practice")], 
+                      Description = supp[, "Example"],
+                      Resource = supp[, "Resources (Links)"])
+supp.db <- data.frame(Type = rep("Support", nrow(supp.db)), 
+                      supp.db)
 
 ```
-
-
-
 
 # Saving Database
 
@@ -496,10 +582,13 @@ hicsa.db[hicsa.db[, "Mitigation"] == "Energy, Combustion, and Electricity Effici
 ## H4 is NA
 hicsa.db[is.na(hicsa.db[, "Practice"]), "Mitigation"] <- "Conservation Efforts" 
 hicsa.db[is.na(hicsa.db[, "Practice"]), "Practice"] <- "Support Pollinators" 
-
 ## Wetland not Energy Efficient Building Envelope
 hicsa.db[hicsa.db[, "Mitigation"] == "Wetlands", "Practice"] <- "Wetland Restoration"
-
+## Add Type
+hicsa.db <- data.frame(Type = rep("Technical", nrow(hicsa.db)), hicsa.db)
+## Merge NRCS, Policy and Support
+hicsa.db <- rbind(hicsa.db, pol.db, supp.db)
+hicsa.db <- hicsa.db[!(is.na(hicsa.db[, "Mitigation"])),]
 
 ## Export
 saveRDS(hicsa.db, file = "./data/hi-csa-db.rds")

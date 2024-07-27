@@ -437,7 +437,8 @@ Mitigation Strategies webpage. It is then exported to the
 ## From the remaining search,
 ## 1. Get a list of other resources
 
-nrcs.csm &lt;- read_html(nrcs.url)
+
+nrcs.csm &lt;- rvest::read_html(url(nrcs.url))
 
 h2 &lt;- nrcs.csm %&gt;% html_elements(&quot;h2&quot;)
 h3 &lt;- nrcs.csm %&gt;% html_elements(&quot;h3&quot;)
@@ -454,7 +455,7 @@ nrcs.csm %&gt;% html_elements(&quot;.title&quot;)
 headers &lt;- nrcs.csm %&gt;% html_elements(&quot;h3, h4, p&quot;)
 
 # Load the web page
-webpage &lt;- read_html(nrcs.url)
+webpage &lt;- read_html(url(nrcs.url))
 
 # Extract all headers (h3, h4) and paragraphs (p)
 elements &lt;- webpage %&gt;% html_elements(&quot;h3, h4, p&quot;)
@@ -730,7 +731,83 @@ colnames(nrc.tab)[colnames(nrc.tab) == &quot;Sub-Category 1&quot;] &lt;- &quot;S
 </div>
 <div id="merge-data-streams" class="section level2">
 <h2>Merge Data Streams</h2>
-<pre class="r"><code>hicsa.db &lt;- db_merge(db.og, nrc.tab)</code></pre>
+<div id="policy" class="section level3">
+<h3>Policy</h3>
+<pre class="r"><code>policy &lt;- read_sheet(&quot;https://docs.google.com/spreadsheets/d/1cWG_SH_gmi-S7E-59qLODGC82QOEIxI_QVRTu24sNzU/&quot;, sheet = 1)</code></pre>
+<pre><code>## ✖ Request failed [429]. Retry 1 happens in 4.8 seconds ...</code></pre>
+<pre><code>## ✖ Request failed [429]. Retry 2 happens in 8.7 seconds ...</code></pre>
+<pre><code>## ✖ Request failed [429]. Retry 3 happens in 1.3 seconds ...</code></pre>
+<pre><code>## ✔ Reading from &quot;CSA Policy and Legislation&quot;.</code></pre>
+<pre><code>## ✔ Range &#39;&#39;Sheet1&#39;&#39;.</code></pre>
+<pre class="r"><code>policy &lt;- as.data.frame(policy)
+csa &lt;- policy[, &quot;CSA Goals&quot;]
+
+practice &lt;- unique(nrcs.db[, &quot;Practice&quot;])
+csa &lt;- as.data.frame(policy)[, &quot;CSA Goals&quot;]
+
+practice &lt;- cbind(c(&quot;Pollinators&quot;, &quot;Cover&quot;, &quot;Rotation&quot;, &quot;Crop&quot;, 
+              &quot;Filter&quot;, &quot;Mulching&quot;, &quot;Nutrient&quot;, &quot;Digester&quot;, 
+              &quot;Critical&quot;, &quot;Windbreak&quot;, &quot;Silvopasture&quot;, &quot;Buffer&quot;, 
+              &quot;Establishment&quot;, &quot;Forest&quot;, &quot;Pipeline&quot;, &quot;Microirrigation&quot;, 
+              &quot;Sprinkler&quot;, &quot;Pumping&quot;, &quot;Lighting&quot;, &quot;Wetland&quot;, 
+              &quot;Irrigation&quot;), 
+              c(&quot;Support Pollinators&quot;, &quot;Conservation Cover&quot;, &quot;Conservation Crop Rotation&quot;, 
+                &quot;Cover Crop&quot;, &quot;Filter Strips&quot;, &quot;Mulching&quot;, 
+                &quot;Nutrient Management&quot;, &quot;Anaerobic Digester&quot;, &quot;Critical Area Planting&quot;, 
+                &quot;Windbreak and Shelterbelt Establishment and Renovation&quot;, &quot;Silvopasture&quot;, &quot;Riparian Forest Buffer&quot;, 
+                &quot;Tree and Shrub Establishment&quot;, &quot;Forest Stand Improvement&quot;, &quot;Irrigation Pipeline&quot;, 
+                &quot;Irrigation System, Microirrigation&quot;, &quot;Sprinkler System&quot;, &quot;Pumping Plant&quot;, 
+                &quot;Energy Efficient Lighting System&quot;, &quot;Wetland Restoration&quot;, &quot;Irrigation Water Management&quot;))
+
+prac.miti &lt;- nrcs.db[!(duplicated(nrcs.db[, &quot;Practice&quot;])), c(&quot;Practice&quot;, &quot;Mitigation&quot;)]
+
+pol.csa &lt;- lapply(csa, function(x) sapply(x, detect.csa, practice = practice))
+
+out &lt;- list()
+for (i in seq(1, nrow(policy))){
+    x &lt;- list()
+    desc &lt;- paste0(policy[i, &quot;Guiding Policy&quot;], &quot;: &quot;,
+                   policy[i, &quot;Description&quot;], &quot; See &quot;, 
+                   policy[i, &quot;Verbiage (Location)&quot;], &quot;.&quot;)
+    resc &lt;- policy[i, &quot;URL&quot;]
+    if (!(any(is.na(pol.csa[[i]])))){
+        for (j in seq_along(pol.csa[[i]])){
+            x[[j]] &lt;- c(Practice = pol.csa[[i]][[j]], 
+                        Description = desc,
+                        Resource = resc
+                        )
+        }
+    }else{
+        x &lt;- list(c(Practice = pol.csa[[i]][[1]], 
+               Description = desc,
+               Resource = resc
+               ))
+    }
+    out[[i]] &lt;- x
+}
+
+out &lt;- lapply(out, function(x) do.call(rbind, x))
+out &lt;- do.call(rbind, out)
+
+pol.db &lt;- data.frame(Mitigation = prac.miti[match(out[, &quot;Practice&quot;], 
+                                                  prac.miti[, &quot;Practice&quot;]), 
+                                            &quot;Mitigation&quot;], out)
+pol.db &lt;- data.frame(Type = rep(&quot;Policy&quot;, nrow(pol.db)), pol.db)</code></pre>
+</div>
+<div id="supporting-resources" class="section level3">
+<h3>Supporting Resources</h3>
+<pre class="r"><code>support &lt;- read_sheet(&quot;https://docs.google.com/spreadsheets/d/1ljbwFQuHo0Xn0u0ZD60YKZk8SdglJl5tpOgjSWbY9gA/&quot;, sheet = 1)</code></pre>
+<pre><code>## ✔ Reading from &quot;Keli&#39;i&#39;s Copy of Climate Smart Agriculture Resource Database&quot;.</code></pre>
+<pre><code>## ✔ Range &#39;&#39;Original&#39;&#39;.</code></pre>
+<pre class="r"><code>supp &lt;- as.data.frame(support)
+supp &lt;- supp[!(is.na(supp[, &quot;Example&quot;])), ]
+
+supp.db &lt;- data.frame(supp[, c(&quot;Mitigation&quot;, &quot;Practice&quot;)], 
+                      Description = supp[, &quot;Example&quot;],
+                      Resource = supp[, &quot;Resources (Links)&quot;])
+supp.db &lt;- data.frame(Type = rep(&quot;Support&quot;, nrow(supp.db)), 
+                      supp.db)</code></pre>
+</div>
 </div>
 </div>
 <div id="saving-database" class="section level1">
@@ -749,6 +826,13 @@ hicsa.db[hicsa.db[, &quot;Mitigation&quot;] == &quot;Energy, Combustion, and Ele
 ## H4 is NA
 hicsa.db[is.na(hicsa.db[, &quot;Practice&quot;]), &quot;Mitigation&quot;] &lt;- &quot;Conservation Efforts&quot; 
 hicsa.db[is.na(hicsa.db[, &quot;Practice&quot;]), &quot;Practice&quot;] &lt;- &quot;Support Pollinators&quot; 
+## Wetland not Energy Efficient Building Envelope
+hicsa.db[hicsa.db[, &quot;Mitigation&quot;] == &quot;Wetlands&quot;, &quot;Practice&quot;] &lt;- &quot;Wetland Restoration&quot;
+## Add Type
+hicsa.db &lt;- data.frame(Type = rep(&quot;Technical&quot;, nrow(hicsa.db)), hicsa.db)
+## Merge NRCS, Policy and Support
+hicsa.db &lt;- rbind(hicsa.db, pol.db, supp.db)
+hicsa.db &lt;- hicsa.db[!(is.na(hicsa.db[, &quot;Mitigation&quot;])),]
 
 ## Export
 saveRDS(hicsa.db, file = &quot;./data/hi-csa-db.rds&quot;)</code></pre>
@@ -757,13 +841,15 @@ saveRDS(hicsa.db, file = &quot;./data/hi-csa-db.rds&quot;)</code></pre>
 <h1>Preview</h1>
 <table>
 <colgroup>
-<col width="8%" />
-<col width="7%" />
-<col width="75%" />
-<col width="8%" />
+<col width="1%" />
+<col width="9%" />
+<col width="4%" />
+<col width="69%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
+<th align="left">Type</th>
 <th align="left">Mitigation</th>
 <th align="left">Practice</th>
 <th align="left">Description</th>
@@ -772,6 +858,7 @@ saveRDS(hicsa.db, file = &quot;./data/hi-csa-db.rds&quot;)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
+<td align="left">Technical</td>
 <td align="left">Additional Resources: Climate-Smart Agriculture and
 Forestry</td>
 <td align="left">Irrigation Water Management</td>
@@ -783,6 +870,7 @@ Visit farmers.gov/service-locator to find your local office.</td>
 <td align="left"><a href="https://www.farmers.gov/working-with-us/service-center-locator" class="uri">https://www.farmers.gov/working-with-us/service-center-locator</a></td>
 </tr>
 <tr class="even">
+<td align="left">Technical</td>
 <td align="left">Additional Resources: Climate-Smart Agriculture and
 Forestry</td>
 <td align="left">Irrigation Water Management</td>
@@ -793,6 +881,7 @@ ranking dates for NRCS conservation programs here.</td>
 <td align="left"><a href="https://www.farmers.gov/conservation/climate-smart" class="uri">https://www.farmers.gov/conservation/climate-smart</a></td>
 </tr>
 <tr class="odd">
+<td align="left">Technical</td>
 <td align="left">Additional Resources: Climate-Smart Agriculture and
 Forestry</td>
 <td align="left">Irrigation Water Management</td>
@@ -803,6 +892,7 @@ ranking dates for NRCS conservation programs here.</td>
 <td align="left"><a href="https://www.nrcs.usda.gov/ranking-dates" class="uri">https://www.nrcs.usda.gov/ranking-dates</a></td>
 </tr>
 <tr class="even">
+<td align="left">Technical</td>
 <td align="left">Additional Resources: Climate-Smart Agriculture and
 Forestry</td>
 <td align="left">Irrigation Water Management</td>
@@ -814,32 +904,42 @@ climate resilience.</td>
 <td align="left"><a href="https://www.usda.gov/topics/climate-solutions" class="uri">https://www.usda.gov/topics/climate-solutions</a></td>
 </tr>
 <tr class="odd">
-<td align="left">Agroforestry, Forestry and Wildlife Habitat</td>
-<td align="left">Critical Area Planting</td>
-<td align="left">Critical area planting is establishing permanent
-vegetation on sites that have, or are expected to have, high erosion
-rates, and on sites that have physical, chemical, or biological
-conditions that prevent the establishment of vegetation with normal
-practices. Producers who practice critical area planting may increase
-soil carbon sequestration in perennial biomass and soils while
-delivering the co-benefits of reducing soil erosion, building soil
-health, providing wildlife habitat, and increasing plant productivity
-and health. Watch the video</td>
-<td align="left"><a href="https://youtu.be/aRNOLSrr6Ok" class="uri">https://youtu.be/aRNOLSrr6Ok</a></td>
+<td align="left">Policy</td>
+<td align="left">Additional Resources: Climate-Smart Agriculture and
+Forestry</td>
+<td align="left">Irrigation Water Management</td>
+<td align="left">Hawaii’s Increased Food Security and Food
+Self-Sufficiency Strategy: A strategy aimed at increasing Hawaii’s food
+security and self-sufficiency through various initiatives, including
+supporting local agriculture, reducing food waste, and strengthening
+community resilience to disruptions in the food supply chain. See
+Irrigation water management - pg 24, policy: maintain and repair state
+agriculture irrigation systems</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left">Agroforestry, Forestry and Wildlife Habitat</td>
-<td align="left">Windbreak and Shelterbelt Establishment and
-Renovation</td>
-<td align="left">This practice establishes, enhances or renovates
-windbreaks, which are single or multiple rows of trees or shrubs planted
-in linear or curvilinear configurations. Producers who establish
-windbreaks may increase carbon sequestration in perennial biomass and
-soils while delivering the co-benefits of reducing erosion, protecting
-crops, livestock and buildings from wind-related damage, enhancing
-moisture management and improving ambient air quality. Watch the
-video</td>
-<td align="left"><a href="https://youtu.be/EUoMCc3J4dA" class="uri">https://youtu.be/EUoMCc3J4dA</a></td>
+<td align="left">Soil health - pg 32, para 1.</td>
+<td align="left"><a href="https://files.hawaii.gov/dbedt/op/spb/INCREASED_FOOD_SECURITY_AND_FOOD_SELF_SUFFICIENCY_STRATEGY.pdf" class="uri">https://files.hawaii.gov/dbedt/op/spb/INCREASED_FOOD_SECURITY_AND_FOOD_SELF_SUFFICIENCY_STRATEGY.pdf</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Policy</td>
+<td align="left">Additional Resources: Climate-Smart Agriculture and
+Forestry</td>
+<td align="left">Irrigation Water Management</td>
+<td align="left">Hawaii Agribusiness Plan: Overview of ADC Strategic
+Plan See crop rotation - Pg. 7 bullet point 3 and 7</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Irrigation - pg 8, para 1; pg 9 bullet point 3 and
+4.</td>
+<td align="left"><a href="https://dbedt.hawaii.gov/adc/files/2023/06/2023-ADC-Strategic-Plan.pdf" class="uri">https://dbedt.hawaii.gov/adc/files/2023/06/2023-ADC-Strategic-Plan.pdf</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table>

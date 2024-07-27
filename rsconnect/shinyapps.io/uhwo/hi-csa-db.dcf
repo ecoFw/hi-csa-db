@@ -1,0 +1,10 @@
+name: hi-csa-db
+title:
+username: uhwo
+account: uhwo
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 12371384
+bundleId: 8913290
+url: https://uhwo.shinyapps.io/hi-csa-db/
+version: 1
