@@ -8,10 +8,14 @@ author: MK Lau
 ```{r render, eval = FALSE, echo = FALSE, message=FALSE, warnings=FALSE}
 
 ## Run the following to render the notebook and generate the database
-
 library(pacman)
-p_load(rmarkdown, tictoc, curl)
+p_load(rmarkdown, tictoc, curl, gargle)
 
+## Setup google auth
+token <- token_fetch(scopes = "https://www.googleapis.com/auth/spreadsheets")
+googlesheets4::gs4_auth(token = token)
+
+## Render
 tic()
 rmarkdown::render("hi-csa-db.Rmd", 
                   output_format = c("html_document"))
@@ -68,6 +72,20 @@ db_merge <- function(x, y){
     return(out)
 }
 
+detect.csa <- function(x, practice){
+    x <- gsub('[[:punct:] ]+',' ', x)
+    x <- strsplit(x, " ")[[1]]
+    match.prac <- logical()
+    for (i in seq_along(practice[, 1])){
+        match.prac[i] <- any(grepl(practice[i, 1], x, ign = TRUE))
+    }
+    if (any(match.prac)){
+        out <- practice[match.prac, 2]        
+    }else{
+        out <- NA
+    }
+    return(out)
+}
 
 ```
 
@@ -468,16 +486,13 @@ colnames(nrc.tab)[colnames(nrc.tab) == "Sub-Category 1"] <- "Sub-Category"
 
 ### Policy
 
-```{r merge-policy}
-
-hicsa.db <- readRDS("data/hi-csa-db.rds")
+```{r merge-policy, eval = TRUE, echo = TRUE}
 
 policy <- read_sheet("https://docs.google.com/spreadsheets/d/1cWG_SH_gmi-S7E-59qLODGC82QOEIxI_QVRTu24sNzU/", sheet = 1)
 policy <- as.data.frame(policy)
-
 csa <- policy[, "CSA Goals"]
 
-practice <- unique(hicsa.db[, "Practice"])
+practice <- unique(nrcs.db[, "Practice"])
 csa <- as.data.frame(policy)[, "CSA Goals"]
 
 practice <- cbind(c("Pollinators", "Cover", "Rotation", "Crop", 
@@ -494,24 +509,7 @@ practice <- cbind(c("Pollinators", "Cover", "Rotation", "Crop",
                 "Irrigation System, Microirrigation", "Sprinkler System", "Pumping Plant", 
                 "Energy Efficient Lighting System", "Wetland Restoration", "Irrigation Water Management"))
 
-prac.miti <- hicsa.db[!(duplicated(hicsa.db[, "Practice"])), 
-                      c("Practice", "Mitigation")]
-
-
-detect.csa <- function(x, practice){
-    x <- gsub('[[:punct:] ]+',' ', x)
-    x <- strsplit(x, " ")[[1]]
-    match.prac <- logical()
-    for (i in seq_along(practice[, 1])){
-        match.prac[i] <- any(grepl(practice[i, 1], x, ign = TRUE))
-    }
-    if (any(match.prac)){
-        out <- practice[match.prac, 2]        
-    }else{
-        out <- NA
-    }
-    return(out)
-}
+prac.miti <- nrcs.db[!(duplicated(nrcs.db[, "Practice"])), c("Practice", "Mitigation")]
 
 pol.csa <- lapply(csa, function(x) sapply(x, detect.csa, practice = practice))
 
@@ -519,7 +517,8 @@ out <- list()
 for (i in seq(1, nrow(policy))){
     x <- list()
     desc <- paste0(policy[i, "Guiding Policy"], ": ",
-                   policy[i, "Description"])
+                   policy[i, "Description"], " See ", 
+                   policy[i, "Verbiage (Location)"], ".")
     resc <- policy[i, "URL"]
     if (!(any(is.na(pol.csa[[i]])))){
         for (j in seq_along(pol.csa[[i]])){
@@ -543,15 +542,15 @@ out <- do.call(rbind, out)
 pol.db <- data.frame(Mitigation = prac.miti[match(out[, "Practice"], 
                                                   prac.miti[, "Practice"]), 
                                             "Mitigation"], out)
-pol.db <- data.frame(Type = rep("Policy", nrow(pol.db)), 
-                     pol.db)
+pol.db <- data.frame(Type = rep("Policy", nrow(pol.db)), pol.db)
 
 ```
 
 
 ### Supporting Resources
 
-```{r merge-support}
+
+```{r merge-support, eval = TRUE, echo = TRUE}
 
 support <- read_sheet("https://docs.google.com/spreadsheets/d/1ljbwFQuHo0Xn0u0ZD60YKZk8SdglJl5tpOgjSWbY9gA/", sheet = 1)
 supp <- as.data.frame(support)
