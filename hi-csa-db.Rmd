@@ -399,8 +399,7 @@ if ("ams.rds" %in% dir("data")){
 
 ```{r nrcs-cw, eval = FALSE, echo = TRUE}
 
-nrc.wc[nrc.wc[, "Level"] == 2, "Url"]
-nrc.url <- 
+nrc.url <- nrc.wc[nrc.wc[, "Level"] == 2, "Url"]
 nrc.url <- nrc.url[grepl("natural-resource-concerns/", nrc.url)]
 nrc.cat <- strsplit(nrc.url, "natural-resource-concerns/")
 nrc.url <- nrc.url[lapply(nrc.cat, length) == 2]
@@ -554,10 +553,10 @@ pol.db <- data.frame(Type = rep("Policy", nrow(pol.db)), pol.db)
 
 support <- read_sheet("https://docs.google.com/spreadsheets/d/1ljbwFQuHo0Xn0u0ZD60YKZk8SdglJl5tpOgjSWbY9gA/", sheet = 1)
 supp <- as.data.frame(support)
-supp <- supp[!(is.na(supp[, "Example"])), ]
+supp <- supp[!(is.na(supp[, "Description"])), ]
 
 supp.db <- data.frame(supp[, c("Mitigation", "Practice")], 
-                      Description = supp[, "Example"],
+                      Description = supp[, "Description"],
                       Resource = supp[, "Resources (Links)"])
 supp.db <- data.frame(Type = rep("Support", nrow(supp.db)), 
                       supp.db)
